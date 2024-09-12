@@ -6,6 +6,7 @@ import IndexPage from './pages/IndexPage';
 import LoginPage from './pages/LoginPage';
 import Layout from './Layout';
 import BookingPage from './pages/BookingPage';
+import RegisterPage from './pages/RegisterPage';
 
 
 function App() {

@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-
-export default function LoginPage(){
+export default function RegisterPage(){
     return(
         <div className="px-4">Login page here
         <div className="container min-vh-50 d-flex justify-content-center align-items-center ">
@@ -14,8 +12,7 @@ export default function LoginPage(){
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1"/>
-                    <div className=""><Link to={"/register"}>Don't have an account?</Link></div>
-                    <div className=""><Link>Forgot Password</Link></div>
+                    <div><a>Don't have an account?</a></div>
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
