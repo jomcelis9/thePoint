@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <nav class="max-w-[85rem] w-full mx-auto px- sm:flex sm:items-center sm:justify-between">
       <div class="flex items-center justify-between">
-        <img src="/images/THE POINT LOGO tp 2.png" className="w-75"></img>
+        <img src="/images/THE POINT LOGO tp 2.png" className="w-36"></img>
         <div class="sm:hidden">
           <button
             type="button"
@@ -55,7 +55,7 @@ export default function Header() {
         class=" inline-block align-middle"
         aria-labelledby="hs-navbar-example-collapse"
       >
-        <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+        <div class="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
           <a
             class="font-medium bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent focus:outline-none"
             href="#"
@@ -64,25 +64,26 @@ export default function Header() {
             Home
           </a>
           <a
-            class="hover:text-gray-400 focus:outline-none focus:text-gray-400"
+            class="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400"
             href="#"
           >
-            Account
+            About Us
           </a>
           <a
             class="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400"
             href="#"
           >
-            Work
+            Contact
           </a>
-          <button
-            type="button"
-            class="bg-gradient-to-r from-red-500 to-orange-500 text-white bg-blue-700 
-              focus:outline-none focus:ring- focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 
-              text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Login
-          </button>
+          <Link to={"/login"}>
+            <button
+              type="button"
+              class="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 shadow-md bg-gradient-to-r from-red-500 to-orange-500 text-white bg-blue-700 font-medium rounded-full text-sm px-4 py-2 
+              text-center me-2"
+            >
+              Login
+            </button>
+          </Link>
         </div>
       </div>
     </nav>
