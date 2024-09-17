@@ -6,7 +6,7 @@ export default function LoginPage() {
       <div class="min-h-screen flex flex-col items-center justify-center">
         <div class="grid md:grid-cols-2 items-center gap-4 max-md:gap-8 max-w-6xl max-md:max-w-lg w-full p-4 m-4 shadow-thePointRed60 shadow-2xl rounded-md">
           <div class="md:max-w-md w-full px-4 py-4">
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center ">
                         <img src="/src/images/THE POINT LOGO tp 2.png" className="w-44 bg-transparent drop-shadow-2xl " alt="" />
             </div>
                 <form>

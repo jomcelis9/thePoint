@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <nav class="max-w-[85rem] w-full mx-auto px- sm:flex sm:items-center sm:justify-between bg-slate-500">
+    <nav class="max-w-[95rem] w-full mx-auto sm:flex sm:items-center sm:justify-between">
       <div class="flex items-center justify-between">
-        <img src="src/images/THE POINT LOGO tp 2.png" className="w-36"></img>
+        <div className="-ml-6">
+          <img src="src/images/THE POINT LOGO tp 2.png" className="w-36"></img>
+        </div>
         <div class="sm:hidden">
           <button
             type="button"
