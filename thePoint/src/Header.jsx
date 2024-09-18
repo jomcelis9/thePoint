@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 export default function Header() {
   return (
     <div className="border-thePointPink">
-      <nav class="max-w-[95rem] w-full mx-auto sm:flex sm:items-center sm:justify-between ">
+      <nav class="sticky max-w-[95rem] w-full mx-auto sm:flex sm:items-center sm:justify-between">
       <div class="flex items-center justify-between">
-        <div className="-ml-6">
-          <img src="src/images/THE POINT LOGO tp 2.png" className="w-36"></img>
+        <div className="ml-6">
+          <Link to={"/index"}>
+            <img src="src/images/THE POINT LOGO tp 2.png" className="w-36"></img>
+          </Link>
         </div>
         <div class="sm:hidden">
           <button
@@ -93,7 +95,7 @@ export default function Header() {
               type="button"
               class="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 
               shadow-md bg-gradient-to-r from-thePointRed to-thePointPink text-white bg-blue-700 font-medium rounded-full text-sm px-4 py-2 
-              text-center me-2"
+              text-center mr-7"
             >
               Login
             </button>
