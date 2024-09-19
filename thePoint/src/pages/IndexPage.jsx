@@ -10,7 +10,7 @@ export default function IndexPage(){
                 transform active:scale-x-100 transition-transform transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300 "> JOM'S BRANCH </button>
             </Link>
             </div>
-            <div>sdsdsdsdsds</div>
+            <div>Jap is so gwapo</div>
         </div>
     )
 }
