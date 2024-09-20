@@ -3,7 +3,7 @@ import Header from "../Header.jsx"
 
 export default function IndexPage(){
     return(
-        <div className="px-4">Index page here NEW HI JMAR
+        <div className="bg-indigo-950 px-4">Index page here NEW HI JMAR
             <div className="flex justify-center">
             <Link to={'/booking'}>
                 <button type="button" className="bg-gradient-to-r from-thePointRed to-thePointPink text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-3xl text-sm px-5 py-2.5 text-center 
