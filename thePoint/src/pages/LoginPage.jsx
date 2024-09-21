@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   return (
-<div className="bg-gradient-to-r from-thePointRed to-thePointPink">
+<div className="bg-gradient-to-r from-thePointRed to-thePointPink ">
       <div class="min-h-screen flex flex-col items-center justify-center ">
         <div class=" grid md:grid-cols-2 items-center gap-4 max-md:gap-8 max-w-6xl max-md:max-w-lg w-full p-4 m-4 shadow-2xl rounded-md bg-white">
           <div class="md:max-w-md w-full px-4 py-4 bg-gray-100">

@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <div className="border-thePointPink">
-      <nav class="sticky max-w-[95rem] w-full mx-auto sm:flex sm:items-center sm:justify-between">
+    <div className="border-thePointRed ">
+      <nav class="flex-no-wrap fixed max-w-[95rem] w-full mx-auto sm:flex sm:items-center sm:justify-between bg-white border-x-0 border-b	 ">
       <div class="flex items-center justify-between">
         <div className="ml-6">
           <Link to={"/index"}>

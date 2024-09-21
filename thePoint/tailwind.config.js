@@ -5,12 +5,21 @@ export default {
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {  
+    letterSpacing:{
+      widest:'0.25em'
+    },
+    fontFamily: {
+      sans: ['"Montserrat"', 'sans-serif']
+
+
+    },
     extend: {
       colors:{
         thePointRed:"#F91F1F",
         thePointPink:"#FF0085",
         thePointRed60:"#F91F1F60"
       }
+
     },
   },
   plugins: [

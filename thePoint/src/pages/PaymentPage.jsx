@@ -4,23 +4,21 @@ import { Link } from "react-router-dom"
 export default function PaymentPage(){
 
     return(
-        <div className="px-4 bg-gradient-to-r from-thePointRed to-thePointPink ">
+        <div className="relative">
         Booking Page
 
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-36">
             <div className="mx-auto px-6 ">
 
                 <div className="text-center">
-                <h1 className="text-3xl text-white"> Prioritize Your Health, Begin Healing </h1>
+                <h1 className="text-3xl font-medium text-thePointRed bg-transparent"> Prioritize Your Health, Begin Healing </h1>
                 </div>
                 <div className=" mx-auto w-96 ">
-                            <div className="flex justify-center items-center drop-shadow-2xl pt-7">
+                            <div className="flex justify-center items-center drop-shadow-2xl pt-7 mb-7">
                                     <ol class="flex items-center w-full">
-                                        <li class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
-                                            <span class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
-                                                <svg class="w-3.5 h-3.5 text-blue-600 lg:w-4 lg:h-4 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                                                </svg>
+                                        <li class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-thePointRed60 after:border-4 after:inline-block dark:after:border-blue-800">
+                                            <span class="flex items-center justify-center w-10 h-10 bg-thePointRed rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><path fill="#ffffff" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>                                            
                                             </span>
                                         </li>
                                         <li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-700">
@@ -42,8 +40,8 @@ export default function PaymentPage(){
                         </div>
                 {/* Form */}
 
-                    <div className="grid grid-cols-2 gap-1">
-                        <div className="my-10 mx-5 my-10 p-6 bg-white rounded-xl shadow-lg shadow-white">
+                    <div className="grid grid-cols-2 gap-1 border-2 rounded-xl">
+                        <div className="border rounded-xl my-10 mx-5 my-10 p-6 bg-white rounded-xl shadow-lg shadow-white">
                             QR CODE:
                             <img src="/src/images/QR CODE.png" className="w-full rounded-lg">
                             </img>
@@ -64,7 +62,7 @@ export default function PaymentPage(){
                             </div>
                         </div>
                     <form className="p-6 mx-5 my-10 border rounded-xl shadow-md shadow-white bg-white ">
-                            <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md font-semibold"> Enter Downpayment Details </h1>
+                            <h1 className="flex justify-center gap-5 text-xl mb-4 text-thePointRed bg-transparent drop-shadow-md"> Enter Downpayment Details </h1>
 
                                 <div className="w-full">
                                     <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Account Name:</label>

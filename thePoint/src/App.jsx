@@ -8,6 +8,10 @@ import BookingPage from './pages/BookingPage';
 import RegisterPage from './pages/RegisterPage';
 import PaymentPage from './pages/PaymentPage';
 import ConfirmPage from './pages/ConfirmPage';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:4000";
+
 function App() {
 
   return (
