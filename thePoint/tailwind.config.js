@@ -9,7 +9,9 @@ export default {
       widest:'0.25em'
     },
     fontFamily: {
-      sans: ['"Montserrat"', 'sans-serif']
+      sans: ['"Montserrat"', 'sans-serif'],
+      mono: ['"Inter"','monospace']
+
 
 
     },
