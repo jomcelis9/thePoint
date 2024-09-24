@@ -9,6 +9,7 @@ import RegisterPage from './pages/RegisterPage';
 import PaymentPage from './pages/PaymentPage';
 import ConfirmPage from './pages/ConfirmPage';
 import axios from 'axios';
+import AdminLayout from './AdminLayout';
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -22,6 +23,9 @@ function App() {
         <Route path="/booking" element={<BookingPage />}/>
         <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/confirm" element={<ConfirmPage/>}/>
+      </Route>
+
+      <Route path='/admin' element={<AdminLayout/>}>
       </Route>
 
       <Route path="/login" element={<LoginPage />} />
