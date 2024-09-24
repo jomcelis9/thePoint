@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import {Route, Routes} from "react-router-dom";
 import IndexPage from './pages/IndexPage';
@@ -9,7 +8,12 @@ import RegisterPage from './pages/RegisterPage';
 import PaymentPage from './pages/PaymentPage';
 import ConfirmPage from './pages/ConfirmPage';
 import axios from 'axios';
-import AdminLayout from './AdminLayout';
+import AdminLayout from './adminLayout';
+import ViewAppointments from './pages/admin/ViewAppointments';
+import Dashboard from './pages/admin/Dashboard';
+import ReportsAndData from './pages/admin/ReportsAndData';
+import ClientManagement from './pages/admin/ClientManagement';
+import Settings from './pages/admin/Settings';
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -25,9 +29,18 @@ function App() {
         <Route path="/confirm" element={<ConfirmPage/>}/>
       </Route>
 
-      <Route path='/admin' element={<AdminLayout/>}>
-      </Route>
+      <Route path="admin" element={<AdminLayout/>}>
+        <Route index element={<Dashboard />} />
+        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='view' element={<ViewAppointments />} />
+        <Route path='report' element={<ReportsAndData />} />
+        <Route path='clientManagement' element={<ClientManagement />} />
+        <Route path='settings' element={<Settings />} />
 
+
+
+      </Route>
+      
       <Route path="/login" element={<LoginPage />} />
       <Route path ="/register" element ={<RegisterPage/>}/>
     </Routes>

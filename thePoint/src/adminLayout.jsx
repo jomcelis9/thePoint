@@ -1,22 +1,23 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 
 export default function AdminLayout(){
 
 const [open,setOpen] = useState(true);
 const Menus = [
-    {title: "Home", src: "house-solid"},
-    {title: "View Appointments", src: "appointment"},
-    {title: "Reports and Data", src: "chart-simple-solid-white"},
-    {title: "Client Management", src: "person-solid-white"},
-    {title: "Settings", src: "gear-solid-white"},
-]
+    { title: "Home", src: "house-solid", onClick: "dashboard" },
+    { title: "View Appointments", src: "appointment", onClick: "view" },
+    { title: "Reports and Data", src: "chart-simple-solid-white", onClick:"report" },
+    { title: "Client Management", src: "person-solid-white", onClick:"clientManagement"  },
+    { title: "Settings", src: "gear-solid-white", onClick:"settings"  },
+];
+
 
     return(
         <div className="flex">
             <aside className="fixed top-0 left-0 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-                <div className={` ${open ? "w-60" : "w-24"} flex-shrink-0 duration-300 h-screen bg-gradient-to-r from-thePointRed to-thePointPink relative p-5 pt-7`} >
+                <div className={`${open ? "w-60" : "w-24"} flex-shrink-0 duration-300 h-screen bg-gradient-to-r from-thePointRed to-thePointPink relative p-5 pt-7`} >
                     
                 <svg id="foldmenu" className={`absolute cursor-pointer ${!open && "rotate-[180deg]"}`} 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -34,13 +35,21 @@ const Menus = [
 
                     <ul className="pt-6">
                         {Menus.map((menu, index)=>(
-                            <li key={index} 
-                                className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 m-3 hover:drop-shadow-white ${menu.gap ? "mt-9" : "mt-2"} flex-shrink-0`}>
+                            
+                            <li key={index}
+                                className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 my-10 relative flex-shrink-0 hover:drop-shadow-white ${menu.gap ? "mt-9" : "mt-2"} flex-shrink-0`}>
                                 <img className="w-8 h-8 flex-shrink-0" src={`./src/images/admin/${menu.src}.svg`} alt={menu.title} />
                                 <span className={`${!open && "hidden"} origin-left duration-200`}>
                                     {menu.title}
                                 </span>
+                                <Link to={`${menu.onClick}`} className="absolute inset-0">
+                                <button type="button" className="w-full h-full focus:border">
+                                    
+                                </button>
+                                </Link>
+
                             </li>
+
                         ))}
                     </ul>
                 </div>
