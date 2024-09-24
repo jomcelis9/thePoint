@@ -21,7 +21,7 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label class="text-gray-800 text-xs block mb-2">Email</label>
+                <label htmlFor="email" class="text-gray-800 text-xs block mb-2">Email</label>
                 <div class="relative flex items-center">
                   <input name="email" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Enter email" />
                   <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2" viewBox="0 0 682.667 682.667">
@@ -39,7 +39,7 @@ export default function LoginPage() {
               </div>
 
               <div class="mt-8">
-                <label class="text-gray-800 text-xs block mb-2">Password</label>
+                <label htmlFor="password" class="text-gray-800 text-xs block mb-2">Password</label>
                 <div class="relative flex items-center">
                   <input name="password" type="password" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Enter password" />
                   <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">

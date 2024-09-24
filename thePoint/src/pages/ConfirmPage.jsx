@@ -75,7 +75,7 @@ export default function ConfirmPage(){
 
                         <div className="flex flex-col my-5 p-3 rounded-lg bg-gradient-to-r from-thePointRed to-thePointPink " >
                             <h3 className="text-sm text-white">Patient #1</h3>
-                                        <label htmlFor="time" class=" font-semibold text-white">Happy Bday Jmar</label>
+                                        <label htmlFor="time" className=" font-semibold text-white">Happy Bday Jmar</label>
                                         
                                         <div className="flex justify-items-stretch gap-5">
 

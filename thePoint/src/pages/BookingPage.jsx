@@ -51,18 +51,18 @@ export default function BookingPage(){
                                     
                                     <div className="relative z-0 w-full group">
                                     <label htmlFor="lastName">Last Name</label>
-                                    <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Jap-mar " />
+                                    <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Luengas" />
                                     </div>
                                 </div>
 
                                 <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2 mb-3">    
                                     <div className="relative z-0 w-full group">
                                     <label htmlFor="contactNumber">Contact Number</label>
-                                    <input id="contactNumber" name="contactNumber" type="text" required className=" shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Jap-mar " />
+                                    <input id="contactNumber" name="contactNumber" type="text" required className=" shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 123456789" />
                                     </div>
                                     <div className="relative z-0 w-full group">
                                     <label htmlFor="age">Age</label>
-                                    <input id="age" name="age" type="text" required className=" shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Jap-mar " />
+                                    <input id="age" name="age" type="text" required className=" shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" />
                                     </div>
                                 </div>
                                     <div className="w-full">
