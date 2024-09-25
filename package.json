@@ -1,10 +1,14 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "google-maps-react": "^2.0.6",
     "mongoose": "^8.6.3"
+=======
+    "mongodb": "^6.9.0"
+>>>>>>> 915c65d82d0aac1ad267c11bb5cddda4eab13c37
   }
 }
