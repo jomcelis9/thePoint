@@ -63,12 +63,16 @@ export default function Header() {
           aria-labelledby="hs-navbar-example-collapse"
         >
           <div className="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-            <a
+          <a
               className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
               href="#"
-              aria-current="page"
             >
+              <Link
+              to="/"
+              className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
+              >
               Home
+              </Link>        
             </a>
             <a
               className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
@@ -80,13 +84,24 @@ export default function Header() {
               className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
               href="#"
             >
+              <Link
+              to="/contact"
+              className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
+              >
               Contact
+              </Link>        
             </a>
 
             <a
               className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
               href="#"
             >
+               <Link
+              to="/contact"
+              className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
+            >
+
+            </Link>
               Book
             </a>
 

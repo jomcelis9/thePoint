@@ -7,6 +7,7 @@ import BookingPage from './pages/client/BookingPage';
 import RegisterPage from './pages/client/RegisterPage';
 import PaymentPage from './pages/client/PaymentPage';
 import ConfirmPage from './pages/client/ConfirmPage';
+import ContactPage from './pages/client/ContactPage';
 import axios from 'axios';
 import AdminLayout from './adminLayout';
 import ViewAppointments from './pages/admin/ViewAppointments';
@@ -27,6 +28,7 @@ function App() {
         <Route path="/booking" element={<BookingPage />}/>
         <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/confirm" element={<ConfirmPage/>}/>
+        <Route path="/contact" element={<ContactPage/>}/>
       </Route>
 
       <Route path="admin" element={<AdminLayout/>}>
