@@ -1,12 +1,12 @@
 import './App.css'
 import {Route, Routes} from "react-router-dom";
-import IndexPage from './pages/IndexPage';
-import LoginPage from './pages/LoginPage';
+import IndexPage from './pages/client/IndexPage';
+import LoginPage from './pages/client/LoginPage';
 import Layout from './Layout';
-import BookingPage from './pages/BookingPage';
-import RegisterPage from './pages/RegisterPage';
-import PaymentPage from './pages/PaymentPage';
-import ConfirmPage from './pages/ConfirmPage';
+import BookingPage from './pages/client/BookingPage';
+import RegisterPage from './pages/client/RegisterPage';
+import PaymentPage from './pages/client/PaymentPage';
+import ConfirmPage from './pages/client/ConfirmPage';
 import axios from 'axios';
 import AdminLayout from './adminLayout';
 import ViewAppointments from './pages/admin/ViewAppointments';
