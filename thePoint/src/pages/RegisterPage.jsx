@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function RegisterPage(){
   const[name, setName] = useState('');
+  const[lastName, setLastName] = useState('');
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
 
@@ -11,6 +12,7 @@ function registerUser(ev){
   ev.preventDefault();
   axios.post('/register',{
     name, 
+    lastName,
     email,
     password,
   });
@@ -57,8 +59,8 @@ function registerUser(ev){
                 <label class="text-gray-800 text-xs block mb-2">Last Name</label>
                 <div class="relative flex items-center">
                   <input 
-                  value={name} onChange={ev => setName(ev.target.value)}
-                  name="registerFirstName" type="text"  class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Last name" />
+                  value={lastName} onChange={ev => setLastName(ev.target.value)}
+                  name="registerLastName" type="text"  class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Last name" />
                   <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2" viewBox="0 0 682.667 682.667">
                     <defs>
                       <clipPath id="a" clipPathUnits="userSpaceOnUse">

@@ -14,8 +14,8 @@ app.get('/test' , (req,res) => {
 });
 
 app.post('/register',(req,res) => {
-    const {name, email, password} = req.body;
-    res.json({name, email, password});
+    const {name, lastName ,email, password} = req.body;
+    res.json({name, lastName ,email, password});
 });
 
 app.listen(4000);
