@@ -1,6 +1,46 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function LoginPage() {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/users/login' , {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password}),
+      });
+
+      const data = await response.json();
+
+      if(response.ok) {
+        localStorage.setItem('token', data.token);
+        window.location.href = '/admin/BookingPage.jsx';
+      } else {
+        setError(data.message || 'Login failed. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error during login:', err);
+      setError('Server error. Please try again later.');
+    }
+
+    setLoading(false);
+  };
+
   return (
 <div className="bg-gradient-to-r from-thePointRed to-thePointPink ">
       <div class="min-h-screen flex flex-col items-center justify-center ">
