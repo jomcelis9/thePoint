@@ -10,6 +10,27 @@ return(
                         <label for="checkbox-all-search" className="sr-only">checkbox</label>
                     </div>
                 </th>
+                <th scope="col" class="px-6 py-3">
+                    FIRST NAME
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    LAST NAME 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    CONTACT #
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    APPOINTMENT #
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Preferred Date
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Preferred Time
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
             </tr>
 
         </thead>
