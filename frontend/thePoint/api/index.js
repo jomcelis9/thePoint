@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const { default: mongoose } = require('mongoose');
 const app = express();
+const AppointmentModel = require('./Appointments.js')
 
 app.use(express.json());
 
@@ -18,5 +20,15 @@ app.post('/register',(req,res) => {
     res.json({name, lastName ,email, password});
 });
 
-app.listen(4000);
+app.get('/getAppointment', (req,res) => {
+    AppointmentModel.find()
+    .then(appointments => res.json(appointments))
+    .catch(err => res.json(err))
+})
+
+mongoose.connect("mongodb://localhost:27017/testAppointment")
+
+app.listen(4000, () =>{
+    console.log("Server is running")
+});
  

@@ -1,9 +1,46 @@
+import { useEffect, useState } from "react"
+import axios from 'axios'
 
 export default function Table(){
+
+    const[appointments, setAppointments] = useState([])
+
+    useEffect(()=>{
+        axios.get('http://localhost:4000/getAppointment')
+        .then(appointments => setAppointments(appointments.data))
+        .catch(err => console.log(err))
+    },[])
+
 return(
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <thead>
+        <tr>
+            <th>
+                FIRST NAME
+            </th>
+            <th>
+                LAST NAME
+            </th>
+            <th>
+                CONTACT #
+            </th>
+            <th>
+                APPOINTMENT #
+            </th>
+            <th>
+                Preferred Date
+            </th>
+            <th>
+                Preferred Time
+            </th>
+            <th >
+                Action
+            </th>
+        </tr>
+    </thead>
+
+        {/* <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" className="p-4">
                     <div className="flex items-center">
@@ -34,11 +71,28 @@ return(
                 </th>
             </tr>
 
-        </thead>
+        </thead> */}
 
         
         {/* records */}
+
         <tbody>
+            {
+                appointments.map(appointment => {
+                return <tr>
+                        <td>{appointment.firstName}</td>
+                        <td>{appointment.lastName}</td>
+                        <td>{appointment.contactNumber}</td>
+                        <td>{appointment.appointmentNumber}</td>
+                        <td>{appointment.appointmentDate}</td>
+                        <td>{appointment.appointmentTime}</td>
+                        <td>{appointment.appointmentStatus}</td>
+                    </tr>
+
+                })
+            }
+        </tbody>
+        {/* <tbody>
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer ">
                 <td class="w-4 p-4">
                     <div class="flex items-center">
@@ -89,7 +143,7 @@ return(
                     </div>
                 </th>
             </tr>
-        </tbody>
+        </tbody> */}
 
     </table>
 
