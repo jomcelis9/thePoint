@@ -57,7 +57,7 @@ export default function AdminLayout() {
       </aside>
 
       {/* Main content */}
-      <div className={`ml-0 ${open ? "ml-64" : "ml-24"} transition-all duration-300 w-full`}>
+      <div className={`ml-0 mr-4 ${open ? "ml-64" : "ml-24"} transition-all duration-300 w-full`}>
         <Outlet context={{ open }} />
       </div>
     </div>
