@@ -2,33 +2,41 @@ const express = require('express');
 const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 const app = express();
-const AppointmentModel = require('./Appointments.js')
+const port = 4000;
+const AppointmentModel = require('./models/appointments.js')
 
 app.use(express.json());
-
 app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:5173',
-}));
+    origin: '*' // Ensure it matches the React app's port
+  }));
 
-app.get('/test' , (req,res) => {
-    res.json('test ok');
-});
+// app.get('/test' , (req,res) => {
+//     res.json('test ok');
+// });
 
-app.post('/register',(req,res) => {
-    const {name, lastName ,email, password} = req.body;
-    res.json({name, lastName ,email, password});
-});
+// app.post('/register',(req,res) => {
+//     const {name, lastName ,email, password} = req.body;
+//     res.json({name, lastName ,email, password});
+// });
 
-app.get('/getAppointment', (req,res) => {
-    AppointmentModel.find()
-    .then(appointments => res.json(appointments))
-    .catch(err => res.json(err))
+mongoose.set("strictQuery", false)
+mongoose.connect('mongodb+srv://admin:123@testthepoint.tzguy.mongodb.net/?retryWrites=true&w=majority&appName=testThePoint')
+.then(() =>{
+    console.log('connected to mongoDb')
+    app.listen(port, () =>{
+        console.log("Server is running on port:", port)
+    });
+})
+.catch((error) =>{
+    console.log(error)
 })
 
-mongoose.connect("mongodb://localhost:27017/testAppointment")
-
-app.listen(4000, () =>{
-    console.log("Server is running")
+app.get('/getAppointments', async(req,res) =>{
+    try{
+        const appointments = await AppointmentModel.find({});
+        console.log('Fetched appointments:', appointments); 
+        res.status(200).json(appointments);
+    } catch(error){
+        res.status(500).json({message: error.message});
+    }
 });
- 

@@ -5,12 +5,12 @@ export default function Table(){
 
     const[appointments, setAppointments] = useState([])
 
-    useEffect(()=>{
-        axios.get('http://localhost:4000/getAppointment')
-        .then(appointments => setAppointments(appointments.data))
-        .catch(err => console.log(err))
-    },[])
-
+    useEffect(() => {
+        axios.get('http://127.0.0.1:4000/getAppointments')
+            .then(appointments => setAppointments(appointments.data))
+            .catch(err => console.log(err))
+    }, []);
+    
 return(
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
