@@ -17,11 +17,11 @@ router.get('/:table', async (req, res) =>{
     const {table} = req.params;
 
     const query = `SELECT * FROM ${table}`;
-    console.log("table used: ", table)
+    // console.log("table used: ", table)
 
     try{
         const  result = await pool.query(query);
-        console.log("Query: ", query)
+        // console.log("Query: ", "'" + query + "'" )
         res.json(result.rows)
     }catch{
     }

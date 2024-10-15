@@ -31,6 +31,7 @@ const pool = new Pool({
 pool.connect();
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}`)
 })
@@ -63,6 +64,7 @@ const performQuery = async (query, values) => {
         throw err;
     }
 };
+
 
 module.exports = {performQuery};    
 

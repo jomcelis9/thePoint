@@ -8,13 +8,23 @@ export default function Table(){
     const fetchData = async (table) =>{
         try{
             const response = await axios.get(`http://127.0.0.1:5000/${table}`)
-            setData('Data: ', response.data);
+            setData(response.data);
+            Array.isArray("Is array: " + data)
+            console.log( "Data:", response.data);
+
             
 
         }catch(error){
             console.log('Error fetching data: ', error);
         }
     }
+
+    {Array.isArray(data) ? (console.log("data is array")) : console.log("data is not an array")
+
+    }
+    
+
+
 
     useEffect(() => {
         fetchData('appointments');
@@ -59,6 +69,28 @@ return(
         </thead>
 
         <tbody>
+            
+          {/* Map through the data and generate rows */}
+          {data.map((row, index) => (
+            <tr key={index}>
+                <tr>
+                    <th scope="col" className="p-4">
+                        <div className="flex items-center">
+                            <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                            <label for="checkbox-all-search" className="sr-only">checkbox</label>
+                        </div>
+                    </th>
+                </tr>
+              {Object.values(row).map((val, i) => (
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={i}>{val}</th>
+              ))}
+            </tr>
+          ))}
+
+        </tbody>
+
+
+
 
 
                     {/* <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -103,7 +135,6 @@ return(
     
                         </div>
                     </th> */}      
-        </tbody>
 
     </table>
 
