@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function IndexPage() {
     return (
-        <div className="px-0"> 
+        <div className="px-0 overflow-x-hidden"> 
             {/* Main Background Section */}
             <div className="relative flex justify-center items-center h-screen w-screen overflow-x-hidden" 
                 style={{
@@ -27,8 +27,6 @@ export default function IndexPage() {
                         Embrace a Healthier, Happier You with Our Personalized Therapy Services, Designed to Support Your Unique Needs Every Step of the Way.
                     </p>
 
-                    {/* Call to Action Button */}
-                    {/* Call to Action Button */}
                         <Link to={'/booking'}>
                         <button
                         type="button"
@@ -43,7 +41,7 @@ export default function IndexPage() {
             {/* About Section */}
             <main>
                 <section className="about max-w-6xl mx-auto py-16 px-4">
-                    <h2 className="text-5xl font-bold italic text-center mb-8">About The Point</h2>
+                    <h2 className="text-5xl font-bold text-center mb-8">About The Point</h2>
                     <div className="md:flex md:items-center md:space-x-8">
                         <div className="md:w-1/2 mb-8 md:mb-0">
                             <p>
@@ -61,7 +59,7 @@ export default function IndexPage() {
 
                 {/* History Section */}
                 <section className="history max-w-6xl mx-auto py-16 px-4">
-                    <h2 className="text-3xl font-bold italic text-center mb-8">History</h2>
+                    <h2 className="text-5xl font-bold text-center mb-8">History</h2>
                     <div className="md:flex md:items-center md:space-x-8">
                         {/* First Image with Text */}
                         <div className="md:w-1/2 flex flex-col items-center">
@@ -107,7 +105,7 @@ export default function IndexPage() {
 
                 {/* Location Section */}
                 <section className="location max-w-6xl mx-auto py-16 px-3">
-                    <h2 className="text-3xl font-bold italic text-center mb-8">Our Location</h2>
+                    <h2 className="text-5xl font-bold text-center mb-8">Our Location</h2>
                     <div className="md:flex md:items-center md:space-x-8">
                         {/* Google Map iframe on the left */}
                         <div className="md:w-1/2 flex justify-center mb-8 md:mb-0">

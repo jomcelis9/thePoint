@@ -22,21 +22,21 @@ export default function ContactPage() {
                     
                     <div className="space-y-8 mb-8 md:mb-0 md:mr-16">
                         <div className="flex items-center space-x-4">
-                            <img src="/path-to-location-icon.png" alt="Address" className="w-12 h-12" />
+                            <img src="/src/images/location2.jpg" alt="Address" className="w-16 h-16" />
                             <div>
                                 <h3 className="text-pink-500 font-bold text-xl">Address</h3>
                                 <p className="text-gray-700">11023 Street, Barangay Uno Kidapawan City</p>
                             </div>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <img src="/path-to-phone-icon.png" alt="Phone" className="w-12 h-12" />
+                            <img src="/src/images/phone-removebg-preview.jpg" alt="Phone" className="w-16 h-16" />
                             <div>
                                 <h3 className="text-pink-500 font-bold text-xl">Phone</h3>
                                 <p className="text-gray-700">(63+) 9918272387</p>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-4">
-                            <img src="/path-to-email-icon.png" alt="Email" className="w-12 h-12" />
+                        <div className="flex items-center space-x-2">
+                            <img src="/src/images/email.png" alt="Email" className="w-17 h-20" />
                             <div>
                                 <h3 className="text-pink-500 font-bold text-xl">Email</h3>
                                 <p className="text-gray-700">info@pointneedsclinic.ph</p>
@@ -44,15 +44,15 @@ export default function ContactPage() {
                         </div>
                     </div>
 
-                   
-                    <div className="bg-pink-500 text-white shadow-md rounded-lg p-8 w-full max-w-md">
-                        <h3 className="text-2xl font-bold mb-6">Send Message</h3>
+                    {/* Form */}
+                    <div className="bg-transparent mx-auto p-8 w-full max-w-md border rounded-xl shadow-lg">
+                        <h3 className="text-2xl font-bold mb-6 text-black">Send Message</h3>
                         <form>
                             <div className="mb-4">
                                 <input
                                     type="text"
                                     id="name"
-                                    className="w-full px-4 py-2 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-white text-gray-800"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-gray-800"
                                     placeholder="Full name"
                                 />
                             </div>
@@ -60,21 +60,21 @@ export default function ContactPage() {
                                 <input
                                     type="email"
                                     id="email"
-                                    className="w-full px-4 py-2 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-white text-gray-800"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-gray-800"
                                     placeholder="Email"
                                 />
                             </div>
                             <div className="mb-4">
                                 <textarea
                                     id="message"
-                                    className="w-full px-4 py-2 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-white text-gray-800"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-gray-800"
                                     placeholder="Type your Message.."
                                     rows="4"
                                 ></textarea>
                             </div>
                             <button
                                 type="submit"
-                                className="bg-white text-pink-500 px-4 py-2 rounded-md w-full font-bold hover:bg-gray-100"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-gray-800"
                             >
                                 SEND
                             </button>
