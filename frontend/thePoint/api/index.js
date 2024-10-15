@@ -1,14 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const { default: mongoose } = require('mongoose');
 const app = express();
-const port = 4000;
-const AppointmentModel = require('./models/appointments.js')
+const { Pool } = require('pg')
+const routes = require('./routes/routes.js')
 
 app.use(express.json());
 app.use(cors({
     origin: '*' // Ensure it matches the React app's port
   }));
+app.use(routes);
 
 // app.get('/test' , (req,res) => {
 //     res.json('test ok');
@@ -19,24 +19,50 @@ app.use(cors({
 //     res.json({name, lastName ,email, password});
 // });
 
-mongoose.set("strictQuery", false)
-mongoose.connect('mongodb+srv://admin:123@testthepoint.tzguy.mongodb.net/?retryWrites=true&w=majority&appName=testThePoint')
-.then(() =>{
-    console.log('connected to mongoDb')
-    app.listen(port, () =>{
-        console.log("Server is running on port:", port)
-    });
-})
-.catch((error) =>{
-    console.log(error)
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'postgres',
+    password: '123',
+    port: 5432,
+
+});
+
+pool.connect();
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT,()=>{
+    console.log(`Server running on port ${PORT}`)
 })
 
-app.get('/getAppointments', async(req,res) =>{
-    try{
-        const appointments = await AppointmentModel.find({});
-        console.log('Fetched appointments:', appointments); 
-        res.status(200).json(appointments);
-    } catch(error){
-        res.status(500).json({message: error.message});
+pool.query(`select * from appointments`,(err,res)=>{
+    if(!err){
+        console.log(res.rows);
+    }else{
+        console.log(err.message);
     }
-});
+    pool.end;
+})
+
+// app.get('/getAppointments', async(req,res)=>{
+//     try{
+//         const readAppointments = await pool.query('SELECT * FROM appointments')
+//         res.json(readAppointments.rows)
+//     }catch (err){
+//         console.error("Error Fetching data: ", + err.message)
+//     }
+// })
+
+
+const performQuery = async (query, values) => {
+    try{
+        const result = await pool.query(query, values);
+        return result.rows;
+    }catch{
+        console.error("Database Error: " + err);
+        throw err;
+    }
+};
+
+module.exports = {performQuery};    
+
