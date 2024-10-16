@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
 import HeaderRow from '../components/ui/HeaderRow'
-import TableBody from "./ui/TableBody"
 
 export default function Table(){
 
     const[data, setData] = useState([]) // updates data from any requests
-    // const[input, setInput] =useState('')
+    const[input, setInput] =useState('')
     
     const fetchData = async (table) =>{ //retrieves data from table
         try{
@@ -27,6 +26,7 @@ export default function Table(){
         try {
             await updateData(table, appointmentNumber, values); // Call updateData with params
             console.log('Button is working...');
+            fetchData('viewsappointments');
         } catch (error) {
             console.log('Error:', error);
             console.log('Button is not working...');
@@ -87,18 +87,18 @@ return(
                           <div className="flex justify-center items-center" >
                                     
                                     <button
-                                    onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, "Confirmed")}
+                                    onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, input)}
                                     type="button"
                                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 shadow-md bg-gradient-to-r from-thePointRed to-thePointPink text-white font-bold rounded-full text-sm px-2 py-1 text-center mr-7">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
                                         <path d="M19.2803 6.76264C19.5732 7.05553 19.5732 7.53041 19.2803 7.8233L9.86348 17.2402C9.57058 17.533 9.09571 17.533 8.80282 17.2402L4.71967 13.157C4.42678 12.8641 4.42678 12.3892 4.71967 12.0963C5.01256 11.8035 5.48744 11.8035 5.78033 12.0963L9.33315 15.6492L18.2197 6.76264C18.5126 6.46975 18.9874 6.46975 19.2803 6.76264Z" fill="#ffffff"/>
                                     </svg>
                                     </button>
-{/*                                 
+                                
                                     TEST IF DYNAMIC
                                     <input
                                     value={input} onChange={ev => setInput(ev.target.value)}
-                                    id="testInput" name="testInput" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Luengas" /> */}
+                                    id="testInput" name="testInput" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Luengas" />
 
                                   <button
                                   type="button"
