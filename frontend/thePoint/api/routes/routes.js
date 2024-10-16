@@ -28,4 +28,24 @@ router.get('/:table', async (req, res) =>{
 
 });
 
+// update table
+
+router.put('/:table/:appointmentNumber/:values', async (req, res) => {
+  const values = req.params.values
+  const table = req.params.table;
+  const appointmentNumber = req.params.appointmentNumber;
+  const col = "first_name";  // Column to update
+  // const name = "Creepers";  // New value to set
+  const query = `UPDATE ${table} SET ${col} = '${values}' WHERE appointment_number = ${appointmentNumber}`;
+  
+      try {
+        const result = await pool.query(query);
+        res.json({ message: 'Update successful', data: result });
+    } catch (err) {
+        console.log('Error:', err);
+        res.status(500).send('Server Error');
+    }
+  });
+
+
 module.exports = router;

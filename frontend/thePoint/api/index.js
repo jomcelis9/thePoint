@@ -45,16 +45,6 @@ pool.query(`select * from appointments`,(err,res)=>{
     pool.end;
 })
 
-// app.get('/getAppointments', async(req,res)=>{
-//     try{
-//         const readAppointments = await pool.query('SELECT * FROM appointments')
-//         res.json(readAppointments.rows)
-//     }catch (err){
-//         console.error("Error Fetching data: ", + err.message)
-//     }
-// })
-
-
 const performQuery = async (query, values) => {
     try{
         const result = await pool.query(query, values);
