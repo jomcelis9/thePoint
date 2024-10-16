@@ -15,6 +15,7 @@ export default function BookingPage() {
 
     const [isFormValid, setIsFormValid] = useState(false);
     const [minDate, setMinDate] = useState('');
+   
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -78,10 +79,12 @@ export default function BookingPage() {
                                         </ol>
                                 </div>  
                             </div>
-                    {/* Form */}
+                    {/* Form 1*/}
                     <form className="mx-auto p-6 border rounded-xl shadow-md bg-white m-10">
                         <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md"> Enter Patient Details </h1>
-
+                        <div className="font- italic text-sm">
+                        <p> Client Number 1</p>
+                        </div>
                         <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
                             <div className="relative z-0 w-full group">
                                 <label htmlFor="firstName">First Name</label>
@@ -134,6 +137,22 @@ export default function BookingPage() {
                                 <input type="checkbox" name="accompanied" value="no" onChange={handleChange} />
                                 No
                             </label>
+                        </div>
+
+                        {/* Add Button */}
+                        <div className="flex mt-7 justify-center">
+                             <button
+                                 id="Add Form"
+                                 type="button"
+                                 className="bg-thePointRed rounded-full w-10 h-10 text-white focus:ring-2 focus:outline-none focus:ring-amber-200 
+                                 flex items-center justify-center transform active:scale-x-100 transition-transform transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300"
+                             >
+                                <img
+                                    src="/src/images/Addicon.png" 
+                                    alt="Add"
+                                    className="w-6 h-6" 
+                                />
+                             </button>
                         </div>
 
                         {/* Continue Button */}
