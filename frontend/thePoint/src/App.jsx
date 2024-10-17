@@ -1,0 +1,53 @@
+import './App.css'
+import {Route, Routes} from "react-router-dom";
+import IndexPage from './pages/client/IndexPage';
+import LoginPage from './pages/client/LoginPage';
+import Layout from './Layout';
+import BookingPage from './pages/client/BookingPage';
+import RegisterPage from './pages/client/RegisterPage';
+import PaymentPage from './pages/client/PaymentPage';
+import ConfirmPage from './pages/client/ConfirmPage';
+import ContactPage from './pages/client/ContactPage';
+import axios from 'axios';
+import AdminLayout from './adminLayout';
+import ViewAppointments from './pages/admin/ViewAppointments';
+import Dashboard from './pages/admin/Dashboard';
+import ReportsAndData from './pages/admin/ReportsAndData';
+import ClientManagement from './pages/admin/ClientManagement';
+import Settings from './pages/admin/Settings';
+
+axios.defaults.baseURL = "http://localhost:4000";
+
+function App() {
+
+  return (
+    <Routes>
+
+      <Route path="/" element={<Layout />}>
+        <Route index element={<IndexPage />} />
+        <Route path="/booking" element={<BookingPage />}/>
+        <Route path="/payment" element={<PaymentPage/>}/>
+        <Route path="/confirm" element={<ConfirmPage/>}/>
+        <Route path="/contact" element={<ContactPage/>}/>
+      </Route>
+
+      <Route path="admin" element={<AdminLayout/>}>
+        <Route index element={<Dashboard />} />
+        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='view' element={<ViewAppointments />} />
+        <Route path='report' element={<ReportsAndData />} />
+        <Route path='clientManagement' element={<ClientManagement />} />
+        <Route path='settings' element={<Settings />} />
+
+
+
+      </Route>
+      
+      <Route path="/login" element={<LoginPage />} />
+      <Route path ="/register" element ={<RegisterPage/>}/>
+    </Routes>
+  );
+}
+
+export default App
+
