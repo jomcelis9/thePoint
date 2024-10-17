@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function IndexPage() {
     return (
-        <div className="px-0 overflow-x-hidden"> 
+        <div id="Home" className="px-0 overflow-x-hidden"> 
             {/* Main Background Section */}
             <div className="relative flex justify-center items-center h-screen w-screen overflow-x-hidden" 
                 style={{
@@ -40,7 +40,7 @@ export default function IndexPage() {
 
             {/* About Section */}
             <main>
-                <section className="about max-w-6xl mx-auto py-16 px-4">
+                <section id="about" className="about max-w-6xl mx-auto py-16 px-4">
                     <h2 className="text-5xl font-bold text-center mb-8">About The Point</h2>
                     <div className="md:flex md:items-center md:space-x-8">
                         <div className="md:w-1/2 mb-8 md:mb-0">

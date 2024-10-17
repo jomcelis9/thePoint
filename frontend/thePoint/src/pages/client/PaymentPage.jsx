@@ -30,10 +30,10 @@ export default function PaymentPage(){
                                         </li>
                                         <li className="flex items-center ">
                                             <span className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0">
-                                                <svg className="w-4 h-4 text-gray-500 lg:w-5 lg:h-5 dark:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                                                    <path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2ZM7 2h4v3H7V2Zm5.7 8.289-3.975 3.857a1 1 0 0 1-1.393 0L5.3 12.182a1.002 1.002 0 1 1 1.4-1.436l1.328 1.289 3.28-3.181a1 1 0 1 1 1.392 1.435Z"/>
-                                                </svg>
-                                            </span>
+                                                    <svg className="w-4 h-4 text-gray-500 lg:w-5 lg:h-5 dark:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                                        <path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2ZM7 2h4v3H7V2Zm5.7 8.289-3.975 3.857a1 1 0 0 1-1.393 0L5.3 12.182a1.002 1.002 0 1 1 1.4-1.436l1.328 1.289 3.28-3.181a1 1 0 1 1 1.392 1.435Z"/>
+                                                    </svg>
+                                                </span>
                                         </li>
                                     </ol>
                             </div>  
@@ -47,12 +47,12 @@ export default function PaymentPage(){
                             </img>
 
                             <div className="grid gap-2 text-center">
-                                <h3 className="font-medium text-2xl">Account Number: 09999999</h3>
-                                <h3 className="font-medium text-2xl">Account Name: 09999999</h3>
+                                <h3 className="font-medium text-2xl">Account Number: 0914xxx-xxx-x</h3>
+                                <h3 className="font-medium text-2xl">Account Name: Juan D DelaCruz</h3>
                                 <div className="mx-auto max-w-96">
                                     <p className="text-justify text-xs">
-                                        <i>The clinic asks htmlFor a downpayment htmlFor your booking to be approved. 
-                                        This is also to ensure commitment from clients and to secure the time slot htmlFor your appointment. 
+                                        <i>The clinic asks for a downpayment for your booking to be approved. 
+                                        This is also to ensure commitment from clients and to secure the time slot for your appointment. 
                                         The downpayment will be deducted from your total bill during your visit. 
                                         The downpayment is non refundable upon cancelling.
                                         </i>

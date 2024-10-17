@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function ContactPage() {
+export default function ContactPage() {  
     return (
         <div className="px-0 overflow-x-hidden">
 

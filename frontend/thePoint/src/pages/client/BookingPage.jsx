@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -100,12 +101,23 @@ export default function BookingPage() {
                         <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2 mb-3">
                             <div className="relative z-0 w-full group">
                                 <label htmlFor="contactNumber">Contact Number</label>
-                                <input id="contactNumber" name="contactNumber" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onChange={handleChange} />
+                                <input id="contactNumber" name="contactNumber" type="text" required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onChange={handleChange} onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                                 }
+                                            }}
+                                        />
                             </div>
                             <div className="relative z-0 w-full group">
                                 <label htmlFor="age">Age</label>
-                                <input id="age" name="age" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" onChange={handleChange} />
+                                <input id="age" name="age" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" maxLength="3" onChange={handleChange} onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                                 }
+                                            }}
+                                        />
                             </div>
+
                         </div>
 
                         {/* Date and Time */}
@@ -138,9 +150,11 @@ export default function BookingPage() {
                                 No
                             </label>
                         </div>
-
-                        {/* Add Button */}
-                        <div className="flex mt-7 justify-center">
+                    </form>
+                </div>
+            </div>
+             {/* Add Button */}
+             <div className="flex justify-center">
                              <button
                                  id="Add Form"
                                  type="button"
@@ -168,9 +182,7 @@ export default function BookingPage() {
                                 </button>
                             </Link>
                         </div>
-                    </form>
-                </div>
-            </div>
         </div>
+        
     );
 }
