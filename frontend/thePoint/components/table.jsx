@@ -5,7 +5,7 @@ import HeaderRow from '../components/ui/HeaderRow'
 export default function Table(){
 
     const[data, setData] = useState([]) // updates data from any requests
-    const[input, setInput] =useState('')
+    // const[input, setInput] =useState('')
     
     const fetchData = async (table) =>{ //retrieves data from table
         try{
@@ -50,7 +50,7 @@ export default function Table(){
     // }
 
     useEffect(() => {
-        fetchData('viewsappointments');
+        fetchData('views_pending_appointments');
     }, []);
 
 return(
@@ -62,8 +62,11 @@ return(
             {/* Map through the data and generate rows */}
             {data.map((row, index) => {
     
-              const appointmentNumber = Object.values(row)[3]; //  get the appointment number from each row
-                
+              const appointmentNumber = Object.values(row)[3];
+              const statusConfirmed = "Confirmed"
+              const statusReject = "Rejected"
+              //  get the appointment number from each row
+            
             return (
               <tr key={index}>
                   <tr>
@@ -87,7 +90,7 @@ return(
                           <div className="flex justify-center items-center" >
                                     
                                     <button
-                                    onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, input)}
+                                    onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, statusConfirmed)}
                                     type="button"
                                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 shadow-md bg-gradient-to-r from-thePointRed to-thePointPink text-white font-bold rounded-full text-sm px-2 py-1 text-center mr-7">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
@@ -95,12 +98,13 @@ return(
                                     </svg>
                                     </button>
                                 
-                                    TEST IF DYNAMIC
-                                    <input
+                                    {/* TEST IF DYNAMIC */}
+                                    {/* <input
                                     value={input} onChange={ev => setInput(ev.target.value)}
-                                    id="testInput" name="testInput" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Luengas" />
+                                    id="testInput" name="testInput" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Luengas" /> */}
 
                                   <button
+                                  onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, statusReject)}
                                   type="button"
                                   className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 
                                   bg-transparent text-white font-bold rounded-full text-sm
@@ -109,7 +113,7 @@ return(
                                       <path d="M6.21967 7.28033C5.92678 6.98744 5.92678 6.51256 6.21967 6.21967C6.51256 5.92678 6.98744 5.92678 7.28033 6.21967L11.999 10.9384L16.7176 6.2198C17.0105 5.92691 17.4854 5.92691 17.7782 6.2198C18.0711 6.51269 18.0711 6.98757 17.7782 7.28046L13.0597 11.999L17.7782 16.7176C18.0711 17.0105 18.0711 17.4854 17.7782 17.7782C17.4854 18.0711 17.0105 18.0711 16.7176 17.7782L11.999 13.0597L7.28033 17.7784C6.98744 18.0713 6.51256 18.0713 6.21967 17.7784C5.92678 17.4855 5.92678 17.0106 6.21967 16.7177L10.9384 11.999L6.21967 7.28033Z" fill="#343C54"/>
                                       </svg>
                                   </button> 
-      
+
                           </div>
                       </th>
               </tr>
