@@ -1,49 +1,58 @@
 import { useEffect, useState } from "react"
 import HeaderRow from "./ui/HeaderRow";
 import axios from 'axios'
-
+// import { refreshApi } from "../api";
 
 export default function ViewConfirmedAppointments(){
     const[data, setData] = useState([]) // updates data from any requests
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const fetchData = async (table) =>{ //retrieves data from table
-        try{
-            const response = await axios.get(`http://127.0.0.1:5000/${table}`)
-            setData(response.data); // gina set ang data based from the get request
-            Array.isArray("Is array: " + data)
-            console.log( "Data:", response.data);
-
-        }catch(error){
-            console.log('Error fetching data: ', error);
-        }   
-    }
-
-    const updateOnClick = async (e, table, appointmentNumber, values) => {
+    const fetchData = async (table) => {
         try {
-            await updateData(table, appointmentNumber, values); // Call updateData with params
-            console.log('Button is working...');
-            fetchData('viewsappointments');
+            setLoading(true); // set loading state to true before fetching data
+            const response = await axios.get(`http://127.0.0.1:5000/${table}`);
+            setData(response.data); // update data state
+            console.log("Data:", response.data);
+            setLoading(false); // set loading state to false after data is fetched
         } catch (error) {
-            console.log('Error:', error);
-            console.log('Button is not working...');
+            console.log('Error fetching data: ', error);
+            setError('Error fetching data');
+            setLoading(false); // stop loading if there's an error
         }
     };
 
-
-    // GPT code
-    const updateData = async (table, appointmentNumber, values) => {
+    const updateOnClick = async (e, table, appointmentNumber, status) => {
         try {
-            const body = { data };  // from use state, naga return ug array(from useState)
-            const response = await axios.put(`http://127.0.0.1:5000/${table}/${appointmentNumber}/${values}`, body);
-            console.log('Data table', response.data);
+            console.log('Button is working...');
+            await updateData(table, appointmentNumber, status); // update the data
+            fetchData('views_confirmed_appointments'); // re-fetch the data to update the table
+        } catch (error) {
+            console.log('Error updating data: ', error);
+            setError('Error updating data');
+        }
+    };
+
+    const updateData = async (table, appointmentNumber, status) => {
+        try {
+            const response = await axios.put(`http://127.0.0.1:5000/${table}/${appointmentNumber}/${status}`, { status });
+            console.log('Data updated:', response.data);
         } catch (error) {
             console.log('Error updating data', error);
         }
     };
 
     useEffect(()=> {
-        fetchData('views_Confirmed_Appointments')
+        fetchData('views_confirmed_appointments');
     },[]);
+
+    if (loading) {
+        return <div>Loading...</div>; // show loading spinner or message
+    }
+
+    if (error) {
+        return <div>{error}</div>; // show error message
+    }
     
     return(
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -55,7 +64,6 @@ export default function ViewConfirmedAppointments(){
                 {data.map((row, index) => {
         
                   const appointmentNumber = Object.values(row)[3];
-                  const statusConfirmed = "Confirmed"
                   const statusReject = "Rejected"
                   const statusPending = "Pending"
                   //  get the appointment number from each row
@@ -115,5 +123,5 @@ export default function ViewConfirmedAppointments(){
               </tbody>
         </table>
         </div>
-    )
+    );
 }
