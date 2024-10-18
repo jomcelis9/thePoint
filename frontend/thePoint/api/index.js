@@ -1,34 +1,60 @@
 const express = require('express');
 const cors = require('cors');
-const { default: mongoose } = require('mongoose');
 const app = express();
-const AppointmentModel = require('./Appointments.js')
+const { Pool } = require('pg')
+const routes = require('./routes/routes.js')
 
 app.use(express.json());
-
 app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:5173',
-}));
+    origin: '*' // Ensure it matches the React app's port
+  }));
+app.use(routes);
 
-app.get('/test' , (req,res) => {
-    res.json('test ok');
+// app.get('/test' , (req,res) => {
+//     res.json('test ok');
+// });
+
+// app.post('/register',(req,res) => {
+//     const {name, lastName ,email, password} = req.body;
+//     res.json({name, lastName ,email, password});
+// });
+
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'postgres',
+    password: '123',
+    port: 5432,
+
 });
 
-app.post('/register',(req,res) => {
-    const {name, lastName ,email, password} = req.body;
-    res.json({name, lastName ,email, password});
-});
+pool.connect();
 
-app.get('/getAppointment', (req,res) => {
-    AppointmentModel.find()
-    .then(appointments => res.json(appointments))
-    .catch(err => res.json(err))
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT,()=>{
+    console.log(`Server running on port ${PORT}`)
 })
 
-mongoose.connect("mongodb://localhost:27017/testAppointment")
+pool.query(`select * from appointments`,(err,res)=>{
+    if(!err){
+        console.log(res.rows);
+    }else{
+        console.log(err.message);
+    }
+    pool.end;
+})
 
-app.listen(4000, () =>{
-    console.log("Server is running")
-});
- 
+const performQuery = async (query, values) => {
+    try{
+        const result = await pool.query(query, values);
+        return result.rows;
+    }catch{
+        console.error("Database Error: " + err);
+        throw err;
+    }
+};
+
+
+module.exports = {performQuery};    
+

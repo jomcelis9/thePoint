@@ -1,15 +1,12 @@
 const mongoose = require('mongoose')
 
-
 const AppointmentSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
-    contactNumber:  String,
-    appointmentNum: Number,
-    prefDate: Date,
-    prefTime: Date,
+    contactNumber: String,
+    appointmentNumber: Number,
     appointmentStatus: String
 })
 
-const AppointmentModel = mongoose.model("testAppointment", AppointmentSchema)
+const AppointmentModel = mongoose.model("appointments", AppointmentSchema) //collection
 module.exports = AppointmentModel
