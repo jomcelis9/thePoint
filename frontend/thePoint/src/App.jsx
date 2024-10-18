@@ -15,6 +15,8 @@ import Dashboard from './pages/admin/Dashboard';
 import ReportsAndData from './pages/admin/ReportsAndData';
 import ClientManagement from './pages/admin/ClientManagement';
 import Settings from './pages/admin/Settings';
+import ForgotPassword from './pages/client/ForgotPasswordPage';
+import ResetPasswordPage from './pages/client/ResetPasswordPage';
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -43,9 +45,11 @@ function App() {
 
       </Route>
       
-      <Route path="/login" element={<LoginPage />} />
-      <Route path ="/register" element ={<RegisterPage/>}/>
-    </Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path ="/register" element ={<RegisterPage/>}/>
+        <Route path="/forgot-password" element = {<ForgotPassword/>}/>
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+      </Routes>
   );
 }
 

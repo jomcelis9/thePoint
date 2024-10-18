@@ -74,12 +74,11 @@ export default function Header() {
               Home
               </Link>        
             </a>
-            <a
-              className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
-              href="#"
-            >
-              About Us
+            <a className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
+            href="#about">
+             About Us
             </a>
+
             <a
               className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
               href="#"
@@ -94,15 +93,14 @@ export default function Header() {
 
             <a
               className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
-              href="#"
             >
                <Link
-              to="/contact"
+              to="/booking"
               className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
             >
 
-            </Link>
               Book
+            </Link>
             </a>
 
             <Link to={"/login"}>
