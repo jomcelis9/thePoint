@@ -1,20 +1,33 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { response } from "express";
 
 export default function RegisterPage(){
   const[name, setName] = useState('');
-  const[lastName, setLastName] = useState('');
+  const[lastname, setLastName] = useState('');
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
 
 function registerUser(ev){
   ev.preventDefault();
-  axios.post('/register',{
+
+  if(!name || !lastname || !email || !password) {
+    alert("Please fill in all the fields");
+    return;
+  }
+  
+  axios.post('http://localhost:4000/register',{
     name, 
-    lastName,
+    lastname,
     email,
     password,
+  })
+  .then(response => {
+    console.log("User registered successfully:", response.data);
+  })
+  .catch(error => {
+    console.error("There was an error registering the user", error);
   });
 
 }  

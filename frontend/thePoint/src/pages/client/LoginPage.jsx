@@ -1,3 +1,48 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
+
+const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const history = useHistory();
+
+  // Check if user is already logged in on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      history.push('/dashboard');
+    }
+  }, [history]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:5001/api/auth/login', {
+        email,
+        password,
+      });
+
+      if (response.data) {
+        const token = response.data.token;
+        localStorage.setItem('token', token);
+
+        
+        const userResponse = await axios.get('http://localhost:5001/api/user-data', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        
+        history.push('/booking');
+      }
+    } catch (error) {
+      setError(error.response ? error.response.data.message : 'An unexpected error occurred. Please try again.');
+    }
+  };
 
   return (
     <div className="bg-gradient-to-r from-thePointRed to-thePointPink ">
@@ -25,7 +70,7 @@
                 <div className="relative flex items-center">
                   <input
                     name="email"
-                    type="text"
+                    type="email"
                     required
                     className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                     placeholder="Enter email"
@@ -86,4 +131,6 @@
       </div>
     </div>
   );
+};
 
+export default LoginPage;
