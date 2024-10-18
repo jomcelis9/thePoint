@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useOutletContext } from "react-router-dom";
 import Table from "../../../components/table";
-import ViewConfirmedAppointments from "../../../components/ViewConfirmedAppointments";
-import ViewRejectedAppointments from "../../../components/ViewRejectedAppointments";
 import HeaderRow from '../../../components/ui/HeaderRow';
 import TableBody from "../../../components/ui/TableBody";
 
