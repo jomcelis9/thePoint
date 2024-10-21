@@ -1,7 +1,22 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export default function BookingPage(){
+export default function BookingPage() {
+    // State to hold today's date
+    const [minDate, setMinDate] = useState("");
 
+    // Function to get today's date in YYYY-MM-DD format
+    const getTodayDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    useEffect(() => {
+        setMinDate(getTodayDate());
+    }, []);
     return(
                 <div className="relative">
                 Booking Page
@@ -45,12 +60,12 @@ export default function BookingPage(){
                                 <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">    
                                     <div className="relative z-0 w-full group">
                                     <label htmlFor="firstName">First Name</label>
-                                    <input id="firstName" name="firstName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Jap-mar " />
+                                    <input id="firstName" name="firstName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" />
                                     </div>
                                     
                                     <div className="relative z-0 w-full group">
                                     <label htmlFor="lastName">Last Name</label>
-                                    <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Luengas" />
+                                    <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="DelaCruz" />
                                     </div>
                                 </div>
 
@@ -61,7 +76,11 @@ export default function BookingPage(){
                                     onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} />
                                 </div>
 
-                                
+                                <div className="relative z-0 w-full group">
+                                    <label >Age</label>
+                                    <input  name="age" type="text" required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" 
+                                    onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} />
+                                </div>
 
 
                                     <div className="relative z-0 w-full group">
@@ -74,10 +93,19 @@ export default function BookingPage(){
                                 </select>
                             </div>
                                 </div>
-                                    <div className="w-full">
-                                        <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preffered Date:</label>
-                                        <input id="date" name="date" type="date" className=" shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" />
-                                    </div>
+                                <div className="w-full">
+            <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Preferred Date:
+            </label>
+            <input
+                id="date"
+                name="date"
+                type="date"
+                min={minDate} // Set the min attribute to today's date
+                className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Select date"
+            />
+        </div>
 
                                     <label htmlFor="time" className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Preffered time:</label>
                                     <div className="relative">
