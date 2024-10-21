@@ -45,12 +45,12 @@ export default function BookingPage(){
                                 <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">    
                                     <div className="relative z-0 w-full group">
                                     <label htmlFor="firstName">First Name</label>
-                                    <input id="firstName" name="firstName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" />
+                                    <input id="firstName" name="firstName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Jap-mar " />
                                     </div>
                                     
                                     <div className="relative z-0 w-full group">
                                     <label htmlFor="lastName">Last Name</label>
-                                    <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="DelaCruz" />
+                                    <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Luengas" />
                                     </div>
                                 </div>
 
@@ -61,11 +61,7 @@ export default function BookingPage(){
                                     onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} />
                                 </div>
 
-                                <div className="relative z-0 w-full group">
-                                    <label >Age</label>
-                                    <input  name="age" type="text" required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" 
-                                    onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} />
-                                </div>
+                                
 
 
                                     <div className="relative z-0 w-full group">

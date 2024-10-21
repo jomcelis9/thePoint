@@ -104,7 +104,7 @@ export default function PaymentPage(){
                                 </div>
 
                                 <div className=" flex mt-7 justify-center">
-                                    <Link to={"/confirm"}>
+                                    <Link to={""}>
                                         <button type="button" className="bg-gradient-to-r from-thePointRed to-thePointPink w-25 text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center 
                                         transform active:scale-x-100 transition-transform transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300 ">
                                         Submit

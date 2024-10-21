@@ -16,7 +16,6 @@ import ReportsAndData from './pages/admin/ReportsAndData';
 import ClientManagement from './pages/admin/ClientManagement';
 import Settings from './pages/admin/Settings';
 
-
 axios.defaults.baseURL = "http://localhost:4000";
 
 function App() {
