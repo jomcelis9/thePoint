@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import  {useState } from 'react';
+import { Link} from 'react-router-dom';
 import axios from 'axios';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const history = useHistory();
-
-  // Check if user is already logged in on component mount
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      history.push('/dashboard');
-    }
-  }, [history]);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,16 +19,6 @@ const LoginPage = () => {
       if (response.data) {
         const token = response.data.token;
         localStorage.setItem('token', token);
-
-        
-        const userResponse = await axios.get('http://localhost:5001/api/user-data', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-
-        
-        history.push('/booking');
       }
     } catch (error) {
       setError(error.response ? error.response.data.message : 'An unexpected error occurred. Please try again.');
@@ -55,7 +36,7 @@ const LoginPage = () => {
             <form onSubmit={handleSubmit}>
               <div className="mb-12">
                 <h3 className="text-gray-800 text-3xl font-bold">Sign in</h3>
-                <p className="text-sm mt-4 text-gray-800">Don't have an account
+                <p className="text-sm mt-4 text-gray-800">
                   <Link to={"/register"}>
                     <span className="text-thePointRed font-semibold hover:underline ml-1 whitespace-nowrap">
                       Register here</span>
