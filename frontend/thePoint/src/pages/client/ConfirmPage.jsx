@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function ConfirmPage() {
+    const location = useLocation();
+    const formData = location.state || {}; // Access the passed data
+    console.log(formData);
+
+    // Extract guardian details
+    const { accompanied, guardianName, guardianContact } = formData;
+
     return (
         <div className="relative">
             Booking Page
@@ -41,66 +49,100 @@ export default function ConfirmPage() {
                     {/* Form */}
                     <div className="gap-1 border-2 rounded-xl p-5 ">
                         <h2>Customer Details</h2>
-                        <div className="flex flex-col my-5 p-3 rounded-lg bg-gradient-to-r from-thePointRed to-thePointPink ">
-                            <h3 className="text-sm text-white">Patient #1</h3>
+                        <div className="flex flex-col my-5 p-3 rounded-lg bg-white">
+                            <h3 className="text-sm text-black">Client #1</h3>
                             <div className="flex justify-items-stretch gap-5">
-                                <div className="text-xs font-mono text-white font-medium">
+                                <div>
+                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={formData.firstName || ""} readOnly
+                                    />
                                     <p>
-                                        <input type="text" className="bg-transparent border-b border-white text-white w-full text-xs font-mono" />
                                         <i>First Name</i>
                                     </p>
                                 </div>
-                                <div className="text-xs font-mono text-white font-medium">
+                                <div>
+                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={formData.lastName || ""} readOnly
+                                    />
                                     <p>
-                                        <input type="text" className="bg-transparent border-b border-white text-white w-full text-xs font-mono" />
                                         <i>Last Name</i>
                                     </p>
                                 </div>
-                                <div className="text-xs font-mono text-white font-medium">
+                                <div>
+                                    <input type="text" className="bshadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={formData.contactNumber || ""} readOnly
+                                    />
                                     <p>
-                                        <input type="text" className="bg-transparent border-b border-white text-white w-full text-xs font-mono" />
                                         <i>Contact Number</i>
                                     </p>
                                 </div>
-
-                                <div className="text-xs font-mono text-white font-medium">
+                                <div>
+                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={formData.age || ""} readOnly
+                                    />
                                     <p>
-                                        <input type="text" className="bg-transparent border-b border-white text-white w-full text-xs font-mono" />
-                                        <i>Age</i>
+                                        <i>Age:</i>
                                     </p>
                                 </div>
-
-                                <div className="text-xs font-mono text-white font-medium">
+                                <div>
+                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={formData.therapyType || ""} readOnly
+                                    />
                                     <p>
-                                        <input type="text" className="bg-transparent border-b border-white text-white w-full text-xs font-mono" />
-                                        <i>Type of Therapy</i>
+                                        <i>Therapy Type</i>
                                     </p>
                                 </div>
-
-                                <div className="text-xs font-mono text-white font-medium">
+                                <div>
+                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={formData.date || ""} readOnly
+                                    />
                                     <p>
-                                        <input type="text" className="bg-transparent border-b border-white text-white w-full text-xs font-mono" />
                                         <i>Preferred Date</i>
                                     </p>
                                 </div>
-
-                                <div className="text-xs font-mono text-white font-medium">
+                                <div>
+                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={formData.time || ""} readOnly
+                                    />
                                     <p>
-                                        <input type="text" className="bg-transparent border-b border-white text-white w-full text-xs font-mono" />
                                         <i>Preferred Time</i>
                                     </p>
                                 </div>
                             </div>
+
+
+                            {accompanied ==="no" && (
+                                <div className="mt-5">
+                                    <h3 className="text-sm text-white">Guardian Information</h3>
+                                    <div className="flex justify-items-stretch gap-5">
+                                        <div>
+                                            <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                                value={guardianName || ""} readOnly
+                                            />
+                                            <p>
+                                                <i>Guardian Name</i>
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                                value={guardianContact || ""} readOnly
+                                            />
+                                            <p>
+                                                <i>Guardian Contact</i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="flex mt-7 justify-center">
-                        <Link to={"/payment"}>
-                            <button type="button" className="bg-gradient-to-r from-thePointRed to-thePointPink w-25 text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center 
-                            transform active:scale-x-100 transition-transform transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300 ">
-                                Continue
-                            </button>
-                        </Link>
-                    </div>
+                            <Link to="/payment">
+                                <button className="bg-thePointRed text-white rounded-lg px-4 py-2 hover:bg-thePointPink transition-all duration-300">
+                                    Confirm
+                                </button>
+                            </Link>
+                        </div>
                 </div>
             </div>
         </div>

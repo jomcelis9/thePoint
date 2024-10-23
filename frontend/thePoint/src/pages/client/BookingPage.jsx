@@ -4,12 +4,28 @@ import { useEffect, useState } from "react";
 export default function BookingPage() {
     // State to hold today's date
     const [minDate, setMinDate] = useState("");
+    const [showGuardianForm, setShowGuardianForm] = useState(false); // State for showing Guardian Details
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        contactNumber: "",
+        age: "",
+        therapyType: "",
+        date: "",
+        time: "",
+        accompanied: "", 
+        guardianName: "", 
+        guardianContact: "",
 
-    // Function to get today's date in YYYY-MM-DD format
+    });
+
+    
+
+
     const getTodayDate = () => {
         const today = new Date();
         const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const month = String(today.getMonth() + 1).padStart(2, '0'); 
         const day = String(today.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
@@ -17,6 +33,25 @@ export default function BookingPage() {
     useEffect(() => {
         setMinDate(getTodayDate());
     }, []);
+
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleAccompaniedChange = (e) => {
+        const { value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            accompanied: value,
+        }));
+        setShowGuardianForm(value === "no");
+    };
+
     return(
                 <div className="relative">
                 Booking Page
@@ -53,81 +88,96 @@ export default function BookingPage() {
                                         </ol>
                                 </div>  
                             </div>
-                        {/* Form */}
-                            <form className="mx-auto p-6 border rounded-xl shadow-md shadow-white bg-white m-10">
-                                <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md"> Enter Patient Details </h1>
+                    <form className="mx-auto p-6 border rounded-xl shadow-md shadow-white bg-white m-10">
+                        <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md">Enter Patient Details</h1>
 
-                                <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">    
-                                    <div className="relative z-0 w-full group">
-                                    <label htmlFor="firstName">First Name</label>
-                                    <input id="firstName" name="firstName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" />
-                                    </div>
-                                    
-                                    <div className="relative z-0 w-full group">
-                                    <label htmlFor="lastName">Last Name</label>
-                                    <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="DelaCruz" />
-                                    </div>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2 mb-3">
-                                <div className="relative z-0 w-full group">
-                                    <label>Contact Number</label>
-                                    <input name="contactNumber" type="text" required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" 
-                                    onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} />
-                                </div>
-
-                                <div className="relative z-0 w-full group">
-                                    <label >Age</label>
-                                    <input  name="age" type="text" required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" 
-                                    onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} />
-                                </div>
-
-
-                                    <div className="relative z-0 w-full group">
-                                <label>Type of Therapy</label>
-                                <select name="therapyType" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none">
-                                    <option value="">Select Type of Therapy</option>
-                                    <option value="occupational">Occupational Therapy</option>
-                                    <option value="sped">SPED Program</option>
-                                    <option value="physical">Intensive Physical Therapy</option>
-                                </select>
+                        <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
+                            <div className="relative z-0 w-full group">
+                                <label htmlFor="firstName">First Name</label>
+                                <input id="firstName" name="firstName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" onChange={handleInputChange} />
                             </div>
+                            <div className="relative z-0 w-full group">
+                                <label htmlFor="lastName">Last Name</label>
+                                <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="DelaCruz" onChange={handleInputChange} />
+                            </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2 mb-3">
+                            <div className="relative z-0 w-full group">
+                                <label>Contact Number</label>
+                                <input name="contactNumber" type="text" required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                            </div>
+
+                            <div className="relative z-0 w-full group">
+                                <label>Age</label>
+                                <input name="age" type="text" required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                            </div>
+                        </div>
+
+                        <div className="relative z-0 w-full group">
+                            <label>Type of Therapy</label>
+                            <select name="therapyType" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" onChange={handleInputChange}>
+                                <option value="">Select Type of Therapy</option>
+                                <option value="occupational">Occupational Therapy</option>
+                                <option value="sped">SPED Program</option>
+                                <option value="physical">Intensive Physical Therapy</option>
+                            </select>
+                        </div>
+
+                        <div className="w-full">
+                            <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Date:</label>
+                            <input id="date" name="date" type="date" min={minDate} className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={handleInputChange} />
+                        </div>
+
+                        <div className="w-full mt-4">
+                            <label htmlFor="time" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Time:</label>
+                            <input id="time" name="time" type="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" onChange={handleInputChange} />
+                        </div>
+
+
+                         <div>
+                            <p className="italic text-sm/[20px] pt-4">
+                                For clients aged 18 and below, please select "Yes" if they will be accompanied by a parent or relative. If "No" pls input your emergency contact details.
+                            </p>
+                        </div>
+                        <div className="flex items-center mt-1">
+                            <label className="mr-2">
+                                <input type="radio" name="accompanied" value="yes" onChange={handleAccompaniedChange} />
+                                Yes
+                            </label>
+                            <label className="ml-4">
+                                <input type="radio" name="accompanied" value="no" onChange={handleAccompaniedChange} />
+                                No
+                            </label>
+                        </div>
+
+
+                                                {showGuardianForm && (
+                            <div className="mt-4">
+                                <h2 className="text-lg font-semibold">Emergency Contact Details</h2>
+
+                                <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
+                                    <div className="relative z-0 w-full group">
+                                        <label htmlFor="guardianName">Full Name</label>
+                                        <input id="guardianName" name="guardianName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Maria Dela Cruz" onChange={handleInputChange} />
+                                    </div>
+                                    <div className="relative z-0 w-full group">
+                                        <label htmlFor="guardianContact">Emergency Contact Number</label>
+                                        <input id="guardianContact" name="guardianContact" type="text" required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                                    </div>
                                 </div>
-                                <div className="w-full">
-            <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Preferred Date:
-            </label>
-            <input
-                id="date"
-                name="date"
-                type="date"
-                min={minDate} // Set the min attribute to today's date
-                className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Select date"
-            />
-        </div>
+                            </div>
+                        )}
 
-                                    <label htmlFor="time" className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Preffered time:</label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                                <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clipRule="evenodd"/>
-                                            </svg>
-                                        </div>
-                                        <input type="time" id="time" className="shadow-md bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required />
-                                    </div>
-                            </form>
+                    </form>
 
-                            <div className=" flex mt-7 justify-center">
-                                        <Link to={"/confirm"}>
-                                            <button id="bookingContinue" type="button" className="bg-thePointRed w-25 text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center 
-                                            transform active:scale-x-100 transition-transform transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300 ">
-                                            Continue
-                                            </button>
-                                        </Link>
-
-                                    </div>
-
+                    <div className="flex mt-7 justify-center">
+                        <Link to="/confirm" state={formData}>
+                            <button id="bookingContinue" type="button" className="bg-thePointRed w-25 text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300">
+                                Continue
+                            </button>
+                        </Link>
+                    </div>
                     </div>
                 </div>
                 
