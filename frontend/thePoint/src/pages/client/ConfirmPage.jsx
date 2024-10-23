@@ -113,14 +113,14 @@ export default function ConfirmPage() {
 
                             {accompanied ==="no" && (
                                 <div className="mt-5">
-                                    <h3 className="text-sm text-white">Guardian Information</h3>
+                                    <h3 className="text-sm text-black">Emergency Contact</h3>
                                     <div className="flex justify-items-stretch gap-5">
                                         <div>
                                             <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                                 value={guardianName || ""} readOnly
                                             />
                                             <p>
-                                                <i>Guardian Name</i>
+                                                <i>Full Name</i>
                                             </p>
                                         </div>
                                         <div>
@@ -128,7 +128,7 @@ export default function ConfirmPage() {
                                                 value={guardianContact || ""} readOnly
                                             />
                                             <p>
-                                                <i>Guardian Contact</i>
+                                                <i>Contact</i>
                                             </p>
                                         </div>
                                     </div>

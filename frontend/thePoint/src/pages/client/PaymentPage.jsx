@@ -75,7 +75,13 @@ export default function PaymentPage(){
                                 <div className="relative">
                                     <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
                                     </div>
-                                    <input type="text" id="time" className="shadow-md bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ex. 88888888" required />
+                                    <input type="text" id="time" className="shadow-md bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ex. 88888888"         required 
+                                    onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                            }
+                                        }}
+                                    />
                                 </div>
 
                                 <div className="relative">

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function BookingPage() {
-    // State to hold today's date
+    
     const [minDate, setMinDate] = useState("");
     const [showGuardianForm, setShowGuardianForm] = useState(false); // State for showing Guardian Details
     const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ export default function BookingPage() {
 
     });
 
-    
+
 
 
     const getTodayDate = () => {
@@ -32,27 +32,49 @@ export default function BookingPage() {
 
     useEffect(() => {
         setMinDate(getTodayDate());
-    }, []);
+        const savedFormData = localStorage.getItem("formData");
+        if (savedFormData) {
+            setFormData(JSON.parse(savedFormData));
+            if (JSON.parse(savedFormData).accompanied === "no") {
+                setShowGuardianForm(true); 
+            }
+        }
+    }, []);;
 
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        const updatedFormData = { ...formData, [name]: value };
+        setFormData(updatedFormData);
+        localStorage.setItem("formData", JSON.stringify(updatedFormData)); 
     };
 
     const handleAccompaniedChange = (e) => {
         const { value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            accompanied: value,
-        }));
+        const updatedFormData = { ...formData, accompanied: value };
+        setFormData(updatedFormData);
+        localStorage.setItem("formData", JSON.stringify(updatedFormData)); 
         setShowGuardianForm(value === "no");
     };
 
-    return(
+        // Function to clear the form
+        const handleClearForm = () => {
+            setFormData({
+                firstName: "",
+                lastName: "",
+                contactNumber: "",
+                age: "",
+                therapyType: "",
+                date: "",
+                time: "",
+                accompanied: "", 
+                guardianName: "", 
+                guardianContact: "",
+            });
+            setShowGuardianForm(false); // Reset the guardian form visibility
+            localStorage.removeItem("formData"); // Clear the saved form data in localStorage
+        };
+         return(
                 <div className="relative">
                 Booking Page
 
@@ -94,29 +116,28 @@ export default function BookingPage() {
                         <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
                             <div className="relative z-0 w-full group">
                                 <label htmlFor="firstName">First Name</label>
-                                <input id="firstName" name="firstName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" onChange={handleInputChange} />
+                                <input id="firstName" name="firstName" type="text" value={formData.firstName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" onChange={handleInputChange} />
                             </div>
                             <div className="relative z-0 w-full group">
                                 <label htmlFor="lastName">Last Name</label>
-                                <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="DelaCruz" onChange={handleInputChange} />
+                                <input id="lastName" name="lastName" type="text" value={formData.lastName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="DelaCruz" onChange={handleInputChange} />
                             </div>
                         </div>
 
                         <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2 mb-3">
                             <div className="relative z-0 w-full group">
                                 <label>Contact Number</label>
-                                <input name="contactNumber" type="text" required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                                <input name="contactNumber" type="text" value={formData.contactNumber} required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
                             </div>
-
                             <div className="relative z-0 w-full group">
                                 <label>Age</label>
-                                <input name="age" type="text" required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                                <input name="age" type="text" value={formData.age} required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
                             </div>
                         </div>
 
                         <div className="relative z-0 w-full group">
                             <label>Type of Therapy</label>
-                            <select name="therapyType" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" onChange={handleInputChange}>
+                            <select name="therapyType" value={formData.therapyType} className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" onChange={handleInputChange}>
                                 <option value="">Select Type of Therapy</option>
                                 <option value="occupational">Occupational Therapy</option>
                                 <option value="sped">SPED Program</option>
@@ -126,12 +147,12 @@ export default function BookingPage() {
 
                         <div className="w-full">
                             <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Date:</label>
-                            <input id="date" name="date" type="date" min={minDate} className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={handleInputChange} />
+                            <input id="date" name="date" value={formData.date} type="date" min={minDate} className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={handleInputChange} />
                         </div>
 
                         <div className="w-full mt-4">
                             <label htmlFor="time" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Time:</label>
-                            <input id="time" name="time" type="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" onChange={handleInputChange} />
+                            <input id="time" name="time" value={formData.time}type="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" onChange={handleInputChange} />
                         </div>
 
 
@@ -142,48 +163,61 @@ export default function BookingPage() {
                         </div>
                         <div className="flex items-center mt-1">
                             <label className="mr-2">
-                                <input type="radio" name="accompanied" value="yes" onChange={handleAccompaniedChange} />
+                                <input type="radio" name="accompanied" value="yes" checked={formData.accompanied === "yes"} onChange={handleAccompaniedChange} />
                                 Yes
                             </label>
                             <label className="ml-4">
-                                <input type="radio" name="accompanied" value="no" onChange={handleAccompaniedChange} />
+                                <input type="radio" name="accompanied" value="no" checked={formData.accompanied === "no"} onChange={handleAccompaniedChange} />
                                 No
                             </label>
                         </div>
 
 
-                                                {showGuardianForm && (
+
+                        {showGuardianForm && (
                             <div className="mt-4">
                                 <h2 className="text-lg font-semibold">Emergency Contact Details</h2>
-
                                 <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
                                     <div className="relative z-0 w-full group">
                                         <label htmlFor="guardianName">Full Name</label>
-                                        <input id="guardianName" name="guardianName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Maria Dela Cruz" onChange={handleInputChange} />
+                                        <input id="guardianName" name="guardianName" type="text" value={formData.guardianName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Maria Dela Cruz" onChange={handleInputChange} />
                                     </div>
                                     <div className="relative z-0 w-full group">
                                         <label htmlFor="guardianContact">Emergency Contact Number</label>
-                                        <input id="guardianContact" name="guardianContact" type="text" required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                                        <input id="guardianContact" name="guardianContact" type="text" value={formData.guardianContact} required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
                                     </div>
                                 </div>
                             </div>
                         )}
 
-                    </form>
-
-                    <div className="flex mt-7 justify-center">
-                        <Link to="/confirm" state={formData}>
-                            <button id="bookingContinue" type="button" className="bg-thePointRed w-25 text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300">
-                                Continue
+                        <div className="flex justify-center mb-5 mt-3">
+                            <button
+                                type="button"
+                                onClick={handleClearForm} // Call the clear function on button click
+                                className="bg-white w-25 text-Black border border-gray-500 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300"
+                            >
+                                Clear
                             </button>
-                        </Link>
-                    </div>
-                    </div>
-                </div>
-                
-            </div>
+                        </div>
+                    </form>
+                            <div className="flex justify-center mb-5">
+                                <button
+                                    type="button"
+                                    className="bg-thePointRed rounded-full w-10 h-10 text-white focus:ring-2 focus:outline-none focus:ring-amber-200 flex items-center justify-center transform active:scale-x-100 transition-transform hover:-translate-y-1 hover:drop-shadow-xl duration-300"
+                                    >
+                                    <img src="/src/images/Addicon.png" alt="Add" className="w-6 h-6" />
+                                </button>
+                            </div>
 
-
-        
-    );
+                    <       div className="flex mt-7 justify-center">
+                                <Link to="/confirm" state={formData}>
+                                    <button id="bookingContinue" type="button" className="bg-thePointRed w-25 text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300">
+                                        Continue
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>             
+                </div>       
+            );
 }
