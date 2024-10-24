@@ -52,7 +52,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
         // Function to send a PUT request to update data
     const updateData = async (table, appointmentId, status) => {
         try {
-            const response = await axios.put(`http://127.0.0.1:5000/${table}/${appointmentNumber}/${status}`, { status });
+            const response = await axios.put(`http://127.0.0.1:5001/${table}/${appointmentId}/${status}`, { status });
             console.log('Data updated:', response.data);
         } catch (error) {
             console.log('Error updating data', error);
@@ -73,14 +73,14 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
                 </div>
               </th>
               {Object.values(row).slice(0, -1).map((val) => (
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={appointmentNumber}>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={appointmentId}>
                   {val}
                 </th>
               ))}
               <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
                 <div className="flex justify-center items-center">
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, statusOne)}
+                    onClick={(e) => updateOnClick(e, "appointments", appointmentId, statusOne)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 shadow-md bg-gradient-to-r from-thePointRed to-thePointPink text-white font-bold rounded-full text-sm px-2 py-1 text-center mr-7">
                     {btnName1}
