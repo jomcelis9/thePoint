@@ -1,66 +1,96 @@
-
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function BookingPage() {
     
+    const [minDate, setMinDate] = useState("");
+    const [showGuardianForm, setShowGuardianForm] = useState(false); // State for showing Guardian Details
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        contactNumber: '',
-        age: '',
-        date: '',
-        time: '',
-        accompanied: ''
+        firstName: "",
+        lastName: "",
+        contactNumber: "",
+        age: "",
+        therapyType: "",
+        date: "",
+        time: "",
+        accompanied: "", 
+        guardianName: "", 
+        guardianContact: "",
+
     });
 
-    const [isFormValid, setIsFormValid] = useState(false);
-    const [minDate, setMinDate] = useState('');
-   
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
 
-    
-    useEffect(() => {
+
+    const getTodayDate = () => {
         const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        setMinDate(`${yyyy}-${mm}-${dd}`);
-    }, []);
-
-    useEffect(() => {
-        validateForm();
-    }, [formData]); 
-
-    const validateForm = () => {
-        const { firstName, lastName, contactNumber, age, date, time, accompanied } = formData;
-        const isValid = firstName.trim() && lastName.trim() && contactNumber.trim() && age.trim() && date && time && accompanied !== '';
-        setIsFormValid(isValid);
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); 
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
-    return (
-        <div className="relative">
-            Booking Page
-            <div className="flex justify-center mt-36">
-                <div className="mx-auto px-6">
-                    <div className="text-center">
+    useEffect(() => {
+        setMinDate(getTodayDate());
+        const savedFormData = localStorage.getItem("formData");
+        if (savedFormData) {
+            setFormData(JSON.parse(savedFormData));
+            if (JSON.parse(savedFormData).accompanied === "no") {
+                setShowGuardianForm(true); 
+            }
+        }
+    }, []);;
+
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        const updatedFormData = { ...formData, [name]: value };
+        setFormData(updatedFormData);
+        localStorage.setItem("formData", JSON.stringify(updatedFormData)); 
+    };
+
+    const handleAccompaniedChange = (e) => {
+        const { value } = e.target;
+        const updatedFormData = { ...formData, accompanied: value };
+        setFormData(updatedFormData);
+        localStorage.setItem("formData", JSON.stringify(updatedFormData)); 
+        setShowGuardianForm(value === "no");
+    };
+
+        // Function to clear the form
+        const handleClearForm = () => {
+            setFormData({
+                firstName: "",
+                lastName: "",
+                contactNumber: "",
+                age: "",
+                therapyType: "",
+                date: "",
+                time: "",
+                accompanied: "", 
+                guardianName: "", 
+                guardianContact: "",
+            });
+            setShowGuardianForm(false); // Reset the guardian form visibility
+            localStorage.removeItem("formData"); // Clear the saved form data in localStorage
+        };
+         return(
+                <div className="relative">
+                Booking Page
+
+                <div className="flex justify-center mt-36">
+                    <div className="mx-auto px-6 ">
+
+                        <div className="text-center">
                         <h1 className="text-3xl font-medium text-thePointRed bg-transparent"> Prioritize Your Health, Begin Healing </h1>
-                    </div>
-                    <div className=" mx-auto w-96 ">
+                        </div>
+
+                            <div className=" mx-auto w-96 ">
                                 <div className="flex justify-center items-center drop-shadow-lg pt-7 mb-7">
                                         <ol className="flex items-center w-full">
-                                            <li className="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-thePointRed60 after:border-4 after:inline-block dark:after:border-gray-700">
-                                                 <span className="flex items-center justify-center w-10 h-10 bg-thePointRed rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
-                                                     <svg className="w-4 h-4 text-gray-500 lg:w-5 lg:h-5 dark:text-gray-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                         <path d="M368.4 18.3L312.7 74.1 437.9 199.3l55.7-55.7c21.9-21.9 21.9-57.3 0-79.2L447.6 18.3c-21.9-21.9-57.3-21.9-79.2 0zM288 94.6l-9.2 2.8L134.7 140.6c-19.9 6-35.7 21.2-42.3 41L3.8 445.8c-3.8 11.3-1 23.9 7.3 32.4L164.7 324.7c-3-6.3-4.7-13.3-4.7-20.7c0-26.5 21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48c-7.4 0-14.4-1.7-20.7-4.7L33.7 500.9c8.6 8.3 21.1 11.2 32.4 7.3l264.3-88.6c19.7-6.6 35-22.4 41-42.3l43.2-144.1 2.7-9.2L288 94.6z"/>
-                                                     </svg>
+                                            <li className="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-thePointRed60 after:border-4 after:inline-block dark:after:border-blue-800">
+                                                <span className="flex items-center justify-center w-10 h-10 bg-thePointRed rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><path fill="#ffffff" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>                                            
                                                 </span>
                                             </li>
                                             <li className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-700">
@@ -80,109 +110,114 @@ export default function BookingPage() {
                                         </ol>
                                 </div>  
                             </div>
-                    {/* Form 1*/}
-                    <form className="mx-auto p-6 border rounded-xl shadow-md bg-white m-10">
-                        <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md"> Enter Patient Details </h1>
-                        <div className="font- italic text-sm">
-                        <p> Client Number 1</p>
-                        </div>
+                    <form className="mx-auto p-6 border rounded-xl shadow-md shadow-white bg-white m-10">
+                        <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md">Enter Patient Details</h1>
+
                         <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
                             <div className="relative z-0 w-full group">
                                 <label htmlFor="firstName">First Name</label>
-                                <input id="firstName" name="firstName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" onChange={handleChange} />
+                                <input id="firstName" name="firstName" type="text" value={formData.firstName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" onChange={handleInputChange} />
                             </div>
                             <div className="relative z-0 w-full group">
                                 <label htmlFor="lastName">Last Name</label>
-                                <input id="lastName" name="lastName" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Dela Cruz" onChange={handleChange} />
+                                <input id="lastName" name="lastName" type="text" value={formData.lastName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="DelaCruz" onChange={handleInputChange} />
                             </div>
                         </div>
 
-                        {/* Contact Number and Age */}
                         <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2 mb-3">
                             <div className="relative z-0 w-full group">
-                                <label htmlFor="contactNumber">Contact Number</label>
-                                <input id="contactNumber" name="contactNumber" type="text" required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onChange={handleChange} onKeyPress={(e) => {
-                                    if (!/[0-9]/.test(e.key)) {
-                                    e.preventDefault();
-                                                 }
-                                            }}
-                                        />
+                                <label>Contact Number</label>
+                                <input name="contactNumber" type="text" value={formData.contactNumber} required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
                             </div>
                             <div className="relative z-0 w-full group">
-                                <label htmlFor="age">Age</label>
-                                <input id="age" name="age" type="text" required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" maxLength="3" onChange={handleChange} onKeyPress={(e) => {
-                                    if (!/[0-9]/.test(e.key)) {
-                                    e.preventDefault();
-                                                 }
-                                            }}
-                                        />
+                                <label>Age</label>
+                                <input name="age" type="text" value={formData.age} required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
                             </div>
-
                         </div>
 
-                        {/* Date and Time */}
+                        <div className="relative z-0 w-full group">
+                            <label>Type of Therapy</label>
+                            <select name="therapyType" value={formData.therapyType} className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" onChange={handleInputChange}>
+                                <option value="">Select Type of Therapy</option>
+                                <option value="occupational">Occupational Therapy</option>
+                                <option value="sped">SPED Program</option>
+                                <option value="physical">Intensive Physical Therapy</option>
+                            </select>
+                        </div>
+
                         <div className="w-full">
                             <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Date:</label>
-                            <input id="date" name="date" type="date" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min={minDate} onChange={handleChange}
-                            />
-                        </div>
-                        <label htmlFor="time" className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred time: Sample(10:00 AM/PM)</label>
-                        <div className="relative">
-                            <input type="time" id="time" name="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" required onChange={handleChange} />
+                            <input id="date" name="date" value={formData.date} type="date" min={minDate} className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={handleInputChange} />
                         </div>
 
-                        
-                        <div>
-                        <p className="italic text-sm/[20px] pt-4">
-                                For clients aged 18 and below, please select "Yes" if they will be accompanied by a parent or relative.
-                            </p>
-                            <p className="italic text-sm/[20px]">
-                                If not, select "No" and provide the details of the guardian who will accompany them.
+                        <div className="w-full mt-4">
+                            <label htmlFor="time" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Time:</label>
+                            <input id="time" name="time" value={formData.time}type="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" onChange={handleInputChange} />
+                        </div>
+
+
+                         <div>
+                            <p className="italic text-sm/[20px] pt-4">
+                                For clients aged 18 and below, please select "Yes" if they will be accompanied by a parent or relative. If "No" pls input your emergency contact details.
                             </p>
                         </div>
                         <div className="flex items-center mt-1">
                             <label className="mr-2">
-                                <input type="checkbox" name="accompanied" value="yes" onChange={handleChange} />
+                                <input type="radio" name="accompanied" value="yes" checked={formData.accompanied === "yes"} onChange={handleAccompaniedChange} />
                                 Yes
                             </label>
                             <label className="ml-4">
-                                <input type="checkbox" name="accompanied" value="no" onChange={handleChange} />
+                                <input type="radio" name="accompanied" value="no" checked={formData.accompanied === "no"} onChange={handleAccompaniedChange} />
                                 No
                             </label>
                         </div>
-                    </form>
-                </div>
-            </div>
-             {/* Add Button */}
-             <div className="flex justify-center">
-                             <button
-                                 id="Add Form"
-                                 type="button"
-                                 className="bg-thePointRed rounded-full w-10 h-10 text-white focus:ring-2 focus:outline-none focus:ring-amber-200 
-                                 flex items-center justify-center transform active:scale-x-100 transition-transform transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300"
-                             >
-                                <img
-                                    src="/src/images/Addicon.png" 
-                                    alt="Add"
-                                    className="w-6 h-6" 
-                                />
-                             </button>
-                        </div>
 
-                        {/* Continue Button */}
-                        <div className="flex mt-7 justify-center">
-                            <Link to={isFormValid ? "/payment" : "#"}>
-                                <button
-                                    id="bookingContinue"
-                                    type="button"
-                                    className={`bg-thePointRed w-25 text-white font-medium rounded-2xl text-sm px-5 py-2 text-center transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300 ${!isFormValid ? "opacity-50 cursor-not-allowed" : ""}`}
-                                    disabled={!isFormValid}
-                                >
-                                    Continue
-                                </button>
-                            </Link>
+
+
+                        {showGuardianForm && (
+                            <div className="mt-4">
+                                <h2 className="text-lg font-semibold">Emergency Contact Details</h2>
+                                <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
+                                    <div className="relative z-0 w-full group">
+                                        <label htmlFor="guardianName">Full Name</label>
+                                        <input id="guardianName" name="guardianName" type="text" value={formData.guardianName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Maria Dela Cruz" onChange={handleInputChange} />
+                                    </div>
+                                    <div className="relative z-0 w-full group">
+                                        <label htmlFor="guardianContact">Emergency Contact Number</label>
+                                        <input id="guardianContact" name="guardianContact" type="text" value={formData.guardianContact} required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="flex justify-center mb-5 mt-3">
+                            <button
+                                type="button"
+                                onClick={handleClearForm} // Call the clear function on button click
+                                className="bg-white w-25 text-Black border border-gray-500 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300"
+                            >
+                                Clear
+                            </button>
                         </div>
-        </div>
-        
-    );
+                    </form>
+                            <div className="flex justify-center mb-5">
+                                <button
+                                    type="button"
+                                    className="bg-thePointRed rounded-full w-10 h-10 text-white focus:ring-2 focus:outline-none focus:ring-amber-200 flex items-center justify-center transform active:scale-x-100 transition-transform hover:-translate-y-1 hover:drop-shadow-xl duration-300"
+                                    >
+                                    <img src="/src/images/Addicon.png" alt="Add" className="w-6 h-6" />
+                                </button>
+                            </div>
+
+                    <       div className="flex mt-7 justify-center">
+                                <Link to="/confirm" state={formData}>
+                                    <button id="bookingContinue" type="button" className="bg-thePointRed w-25 text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-2xl text-sm px-5 py-2 text-center transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300">
+                                        Continue
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>             
+                </div>       
+            );
 }

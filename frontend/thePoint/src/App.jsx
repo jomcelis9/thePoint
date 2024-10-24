@@ -31,6 +31,7 @@ function App() {
         <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/confirm" element={<ConfirmPage/>}/>
         <Route path="/contact" element={<ContactPage/>}/>
+        
       </Route>
 
       <Route path="admin" element={<AdminLayout/>}>
