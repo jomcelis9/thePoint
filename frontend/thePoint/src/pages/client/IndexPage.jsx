@@ -119,7 +119,7 @@ export default function IndexPage() {
                     </div>   
                 </div>
             </section>
-                            
+                        
                 <section id="about" className="about max-w-7xl mx-auto py-20 px-4">
                     <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">Our Location</h2>
                     <div className="md:flex md:items-center md:space-x-8">
