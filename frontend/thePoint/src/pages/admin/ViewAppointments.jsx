@@ -30,7 +30,7 @@ export default function ViewAppointments() {
           statusTwo={statusRejected} 
           btnName1 ={"Confirm"} 
           btnName2={"Reject"}
-          fetchDataQuery={"views_pending_appointments"}
+          fetchDataQuery={"pending_appointment_header"}
           />
         </Table>
 
