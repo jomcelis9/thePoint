@@ -25,7 +25,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
     const fetchData = async (table) => {
         try {
             setLoading(true); // set loading state to true before fetching data
-            const response = await axios.get(`http://127.0.0.1:5000/${table}`);
+            const response = await axios.get(`http://127.0.0.1:5001/appointments`);
             setData(response.data); // update data state
             console.log("Data:", response.data);
             setLoading(false); // set loading state to false after data is fetched
@@ -37,10 +37,10 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
     };
 
         // Function to update status on button click
-    const updateOnClick = async (e, table, appointmentNumber, status) => {
+    const updateOnClick = async (e, table, appointmentId, status) => {
         try {
             console.log('Button is working...');
-            await updateData(table, appointmentNumber, status); // update the data
+            await updateData(table, appointmentId, status); // update the data
             fetchData('views_pending_appointments'); // re-fetch the data to update the table
             window.location.reload(false)
         } catch (error) {
@@ -50,7 +50,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
     };
 
         // Function to send a PUT request to update data
-    const updateData = async (table, appointmentNumber, status) => {
+    const updateData = async (table, appointmentId, status) => {
         try {
             const response = await axios.put(`http://127.0.0.1:5000/${table}/${appointmentNumber}/${status}`, { status });
             console.log('Data updated:', response.data);

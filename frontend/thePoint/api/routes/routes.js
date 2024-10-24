@@ -6,8 +6,8 @@ const { Pool } = require('pg')
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'postgres',
-    password: '123',
+    database: 'thePoint',
+    password: 'admin123',
     port: 5432,
 
 });
@@ -32,13 +32,13 @@ router.get('/:table', async (req, res) =>{
 
 // update table
 
-router.put('/:table/:appointmentNumber/:values', async (req, res) => {
+router.put('/:table/:appointmentId/:values', async (req, res) => {
   const values = req.params.values
   const table = req.params.table;
-  const appointmentNumber = req.params.appointmentNumber;
+  const appointmentId = req.params.appointmentId
   const col = "appointment_status";  // Column to update
   // const name = "Creepers";  // New value to set
-  const query = `UPDATE ${table} SET ${col} = '${values}' WHERE appointment_number = ${appointmentNumber}`;
+  const query = `UPDATE ${table} SET ${col} = '${values}' WHERE appointment_id = ${appointmentId}`;
   
       try {
         const result = await pool.query(query);
@@ -57,3 +57,5 @@ router.put('/:table/:appointmentNumber/:values', async (req, res) => {
 
 
 module.exports = router;
+
+
