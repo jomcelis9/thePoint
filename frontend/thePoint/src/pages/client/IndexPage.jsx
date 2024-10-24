@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+
+
 
 export default function IndexPage() {
+    
     return (
         <div id="Home" className="px-0 overflow-x-hidden"> 
             {/* Main Background Section */}
@@ -29,9 +33,9 @@ export default function IndexPage() {
 
                     <Link to={'/booking'}>
                         <button
-                        type="button"
-                        className="bg-thePointRed hover:bg-thePointRedDark text-white focus:ring-2 focus:outline-none focus:ring-purple-300 font-medium rounded-2xl text-lg px-8 py-3 text-center transition-all duration-300">
-                        Book Now
+                            type="button"
+                            className="bg-thePointRed hover:bg-thePointRedDark text-white focus:ring-2 focus:outline-none focus:ring-purple-300 font-medium rounded-2xl text-lg px-8 py-3 text-center transition-all duration-300 animate-pulse">
+                            Book Now
                         </button>
                     </Link>
                 </div>
@@ -56,59 +60,72 @@ export default function IndexPage() {
                     </div>
                 </section>
 
-                {/* History Section */}
-                <section className="history max-w-8xl mx-auto py-16 px-4">
-                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">History</h2>
-                    <div className="md:flex md:items-center md:space-x-8">
-
-                        <div className="md:w-1/2 flex flex-col items-center">
-                            <img src="/src/images/icon.jpg" alt="Image 1" style={{ width: '100%', height: 'auto', maxWidth: '500px' }} className="w-full max-w-sm rounded-lg shadow-md" />
-                            <p className="mt-4 text-center text-2xl">
-                                Point Needs Awareness Clinic was established in 2018 with the vision of providing accessible and high-quality therapy services to children with special needs and persons with disabilities (PWD). What began as a small therapy center with a handful of dedicated therapists quickly grew into a trusted clinic, recognized for its personalized approach to care.
-                            </p>
+            
+            <section className="history max-w-8xl mx-auto py-16 px-4">
+                <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">History</h2>
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 justify-items-center"> 
+                     
+                    <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg"> 
+                        <div className="h-96 w-full">
+                            <img
+                                className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                src="/src/images/icon.jpg"
+                                alt="History Image 1"
+                            />
                         </div>
-
-
-                        <div className="md:w-1/2 flex flex-col items-center">
-                            <img src="/src/images/History.jpg" alt="Image 2" style={{ width: '100%', height: 'auto', maxWidth: '500px' }} className="w-full max-w-sm rounded-lg shadow-md" />
-                            <p className="mt-4 text-center text-2xl">
-                                Over the years, the clinic expanded its services to include occupational therapy, physical therapy, and speech therapy, ensuring that each client received comprehensive and customized care. The clinic’s growth was driven by the increasing demand for specialized therapies in the community and the commitment of its professional staff.
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                        <div className="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+                            <h1 className="font-dmserif text-3xl font-bold text-white">Clinic Establishment</h1>
+                            <p className="mb-3 text-lg italic text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                Point Needs Awareness Clinic was established in 2018 with the vision of providing accessible and high-quality therapy services to children with special needs and persons with disabilities (PWD).
                             </p>
                         </div>
                     </div>
-                </section>
 
-                {/* Special Offer Section */}
-                <section className="special-offer max-w-8xl mx-auto py-9 px-4 relative">
-                    <div className="text-center p-6 rounded-lg shadow-md w-full h-48 md:h-64 lg:h-80 flex justify-center items-center relative overflow-hidden">
-                        {/* Background Image */}
-                        <div className="absolute inset-0"
-                            style={{
-                                backgroundImage: `url('/src/images/sample2.jpg')`,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                backgroundRepeat: 'no-repeat',
-                                opacity: 0.5,
-                            }}>
+                     
+                    <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg"> 
+                         <div className="h-96 w-full">
+                            <img
+                                className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                src="/src/images/History.jpg"
+                                alt="History Image 2"
+                             />
                         </div>
-
-                        {/* Overlay for dimming effect */}
-                        <div className="absolute inset-0 bg-black opacity-50"></div>
-
-                        {/* Text Content */}
-                        <p className="text-3xl md:text-5xl font-bold italic text-white relative z-10">
-                            Special Offer this weekend! Get 50% off for new users
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                        <div className="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+                            <h1 className="font-dmserif text-3xl font-bold text-white">Service Expansion</h1>
+                            <p className="mb-3 text-lg italic text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            Over the years, the clinic expanded its services to include occupational therapy, physical therapy, and speech therapy, ensuring that each client received comprehensive and customized care.
                         </p>
                     </div>
-                </section>
+                    </div>  
 
-                {/* Location Section */}
+                    
+                    <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg">
+                         <div className="h-96 w-full">
+                            <img
+                                className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                src="/src/images/History4.jpg"
+                                alt="History Image 2"
+                             />
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                        <div className="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
+                            <h1 className="font-dmserif text-3xl font-bold text-white">Community Engagement</h1>
+                            <p className="mb-3 text-lg italic text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            The clinic actively engages with the community through workshops and outreach programs, raising awareness about the needs of individuals with disabilities and promoting inclusivity.
+                        </p>
+                    </div>
+                    </div>   
+                </div>
+            </section>
+                            
                 <section id="about" className="about max-w-7xl mx-auto py-20 px-4">
                     <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">Our Location</h2>
                     <div className="md:flex md:items-center md:space-x-8">
-                        {/* Google Map iframe on the left */}
+                       
                         <div className="md:w-1/2 flex justify-center mb-8 md:mb-0">
-                            <div className="rounded-[20px] overflow-hidden"> {/* Added a wrapper div with border radius */}
+                            <div className="rounded-[20px] overflow-hidden"> 
                                 <iframe
                                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.123087121675!2d125.07596397475764!3d6.994781793006338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f8f9d3af1e21bb%3A0xe2e6d0c24cffe138!2sThe%20Point%20Special%20Needs%20Awareness!5e0!3m2!1sen!2sph!4v1727246673645!5m2!1sen!2sph"
                                     width="600"
@@ -121,7 +138,7 @@ export default function IndexPage() {
                             </div>
                         </div>
 
-                        {/* Text content on the right */}
+                       
                         <div className="md:w-1/2">
                             <p className="text-2xl leading-relaxed">
                                 The Point Special Needs Awareness Clinic is conveniently located in Kidapawan City, surrounded by easily accessible landmarks like The Warehauz Gym and Cloud Express Vape Lounge. Situated in a quiet and peaceful area, the clinic provides a comfortable and welcoming environment for clients seeking specialized therapy services.
