@@ -63,7 +63,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
    return (
       <tbody>
         {data.map((row, index) => {
-          const appointmentNumber = Object.values(row)[3];
+          const appointmentId = Object.values(row)[3];
           return (
             <tr key={index}>
               <th scope="col" className="p-4">
@@ -73,7 +73,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
                 </div>
               </th>
               {Object.values(row).slice(0, -1).map((val) => (
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={appointmentNumber}>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={appointmentId}>
                   {val}
                 </th>
               ))}
@@ -86,7 +86,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
                     {btnName1}
                   </button>
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, statusTwo)}
+                    onClick={(e) => updateOnClick(e, "appointments", appointmentId, statusTwo)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center">
                     {btnName2}
