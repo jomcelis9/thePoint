@@ -55,6 +55,18 @@ const performQuery = async (query, values) => {
     }
 };
 
+const refreshApi =  async () => {
 
-module.exports = {performQuery};    
+    try {
+        fetchData('views_rejected_appointments');
+        fetchData('views_confirmed_appointments');
+        fetchData('views_pending_appointments');
+        console.log("Data is refreshed");
+
+    } catch (error) {
+        console.log("Error Fetching Data: ", error);
+    }
+}
+
+module.exports = {refreshApi};
 
