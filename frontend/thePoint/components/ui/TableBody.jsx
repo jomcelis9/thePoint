@@ -73,7 +73,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
                 </div>
               </th>
               {Object.values(row).slice(0, -1).map((val) => (
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={appointmentId}>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={appointmentNumber}>
                   {val}
                 </th>
               ))}
