@@ -25,7 +25,8 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
     const fetchData = async (table) => {
         try {
             setLoading(true); // set loading state to true before fetching data
-            const response = await axios.get(`http://127.0.0.1:5001/appointments`);
+            const response = await axios.get(`http://127.0.0.1:5001/${table}`);
+            console.log({table})
             setData(response.data); // update data state
             console.log("Data:", response.data);
             setLoading(false); // set loading state to false after data is fetched
