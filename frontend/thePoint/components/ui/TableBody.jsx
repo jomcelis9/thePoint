@@ -25,7 +25,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
     const fetchData = async (table) => {
         try {
             setLoading(true); // set loading state to true before fetching data
-            const response = await axios.get(`http://127.0.0.1:5000/${table}`);
+            const response = await axios.get(`http://127.0.0.1:5001/appointments`);
             setData(response.data); // update data state
             console.log("Data:", response.data);
             setLoading(false); // set loading state to false after data is fetched
@@ -37,10 +37,10 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
     };
 
         // Function to update status on button click
-    const updateOnClick = async (e, table, appointmentNumber, status) => {
+    const updateOnClick = async (e, table, appointmentId, status) => {
         try {
             console.log('Button is working...');
-            await updateData(table, appointmentNumber, status); // update the data
+            await updateData(table, appointmentId, status); // update the data
             fetchData('views_pending_appointments'); // re-fetch the data to update the table
             window.location.reload(false)
         } catch (error) {
@@ -50,9 +50,9 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
     };
 
         // Function to send a PUT request to update data
-    const updateData = async (table, appointmentNumber, status) => {
+    const updateData = async (table, appointmentId, status) => {
         try {
-            const response = await axios.put(`http://127.0.0.1:5000/${table}/${appointmentNumber}/${status}`, { status });
+            const response = await axios.put(`http://127.0.0.1:5001/${table}/${appointmentId}/${status}`, { status });
             console.log('Data updated:', response.data);
         } catch (error) {
             console.log('Error updating data', error);
@@ -63,7 +63,7 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
    return (
       <tbody>
         {data.map((row, index) => {
-          const appointmentNumber = Object.values(row)[3];
+          const appointmentId = Object.values(row)[3];
           return (
             <tr key={index}>
               <th scope="col" className="p-4">
@@ -73,20 +73,20 @@ export default function TableBody({statusOne,statusTwo,btnName1,btnName2,fetchDa
                 </div>
               </th>
               {Object.values(row).slice(0, -1).map((val) => (
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={appointmentNumber}>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" key={appointmentId}>
                   {val}
                 </th>
               ))}
               <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
                 <div className="flex justify-center items-center">
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, statusOne)}
+                    onClick={(e) => updateOnClick(e, "appointments", appointmentId, statusOne)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 shadow-md bg-gradient-to-r from-thePointRed to-thePointPink text-white font-bold rounded-full text-sm px-2 py-1 text-center mr-7">
                     {btnName1}
                   </button>
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", appointmentNumber, statusTwo)}
+                    onClick={(e) => updateOnClick(e, "appointments", appointmentId, statusTwo)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center">
                     {btnName2}
