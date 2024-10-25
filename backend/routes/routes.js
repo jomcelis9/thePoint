@@ -28,8 +28,6 @@ router.get('/:table', async (req, res) =>{
 
 });
 
-
-
 // update table
 
 router.put('/:table/:appointmentId/:values', async (req, res) => {
@@ -51,6 +49,8 @@ router.put('/:table/:appointmentId/:values', async (req, res) => {
     }
   });
 
+// ================ NEW: DELETE  ROUTE ================
+
 router.delete('/:table/:appointmentId', async (req,res) => {
     const table = req.params.table;
     const appoint_id = req.params.appointmentId
@@ -67,14 +67,9 @@ router.delete('/:table/:appointmentId', async (req,res) => {
         
     }
 });
+
+// ================ NEW: DELETE  ROUTE ================
   
-// delete table
-//   router.delete('/:table/:appointmentNumber', async (req, res) => {
-//     const {table, appointmentNumber} = req.params;
-//     const query = `DELETE FROM ${table} WHERE APPOINTMENT_NUMBER = 3;`
-// })
-
-
 module.exports = router;
 
 

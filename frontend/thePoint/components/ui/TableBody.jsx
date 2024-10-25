@@ -1,5 +1,6 @@
 import { useEffect,useState} from "react";
 import axios from 'axios';
+import HeaderRow from '../ui/HeaderRow';
 
 export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnName2,fetchDataQuery}){
 
@@ -94,19 +95,31 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
 
    return (
     <>
+    <div>
+    {/* Tools */}
+      <div className="flex">
+        <div className="relative mt-1">
+              <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                  </svg>
+              </div>
+              <input type="text" id="table-search" className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
+              </input>
+        </div>
 
-
-
-      <tbody>
-      <div className="flex justify-end">
-            <button 
+        <button 
                 onClick={deleteSelectedRows} 
                 disabled={selectedRows.length === 0} 
-                className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">"
+                className="">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 30 30">
                     <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"></path>
                 </svg>            
-            </button>
+        </button>
+      </div>
+        <HeaderRow/> 
+      <tbody>
+      <div className="flex justify-end">
         </div>
       {/*accesses individual  elements of the database */}
         {data.map((row, index) => {
@@ -184,6 +197,8 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
           );
         })}
       </tbody>
+      </div>
+
     </>
 );
 }
