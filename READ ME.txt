@@ -12,3 +12,95 @@ CREATE VIEW cancelled_appointment_details AS
 SELECT appoint_id, appoint_date, time, patient_name, customer_number
 FROM appointments
 WHERE appointment_status = 'cancelled';
+
+
+
+DELETE USING CHECKBOX CODE:
+
+import { useEffect, useState } from "react";
+import axios from 'axios';
+
+export default function TableBody({ statusOne, statusTwo, statusThree, btnName1, btnName2, fetchDataQuery }) {
+    const [data, setData] = useState([]); 
+    const [loading, setLoading] = useState(false); 
+    const [error, setError] = useState(null); 
+    const [selectedRows, setSelectedRows] = useState([]); 
+
+    useEffect(() => {
+        fetchData(fetchDataQuery);
+    }, []);
+
+    const fetchData = async (table) => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`http://127.0.0.1:5001/${table}`);
+            setData(response.data);
+            setLoading(false);
+        } catch (error) {
+            setError('Error fetching data');
+            setLoading(false);
+        }
+    };
+
+    const handleCheckboxChange = (appoint_id) => {
+        setSelectedRows((prevSelected) => {
+            if (prevSelected.includes(appoint_id)) {
+                return prevSelected.filter(id => id !== appoint_id);
+            } else {
+                return [...prevSelected, appoint_id];
+            }
+        });
+    };
+
+    const deleteSelectedRows = async () => {
+        try {
+            await Promise.all(selectedRows.map(id => axios.delete(`http://127.0.0.1:5001/appointments/${id}`)));
+            setData(data.filter(row => !selectedRows.includes(row.appoint_id)));
+            setSelectedRows([]); 
+        } catch (error) {
+            setError('Error deleting selected rows');
+        }
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    return (
+        <>
+            <button onClick={deleteSelectedRows} disabled={selectedRows.length === 0} className="delete-button">
+                Delete Selected
+            </button>
+            <tbody>
+                {data.map((row, index) => {
+                    const { appoint_id, appoint_date, time, patient_name, contact_number, appointment_status } = row;
+
+                    return (
+                        <tr key={index}>
+                            <th scope="col" className="p-4">
+                                <div className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        className="checkbox"
+                                        checked={selectedRows.includes(appoint_id)}
+                                        onChange={() => handleCheckboxChange(appoint_id)}
+                                    />
+                                </div>
+                            </th>
+                            <td>{appoint_id}</td>
+                            <td>{patient_name}</td>
+                            <td>{appoint_date}</td>
+                            <td>{time}</td>
+                            <td>{contact_number}</td>
+                            <td>{appointment_status}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </>
+    );
+}
