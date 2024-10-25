@@ -1,0 +1,14 @@
+CREATE VIEW pending_appointment_details AS
+SELECT appoint_id, appoint_date, time, patient_name, customer_number
+FROM appointments
+WHERE appointment_status = 'pending';
+
+CREATE VIEW confirmed_appointment_details AS
+SELECT appoint_id, appoint_date, time, patient_name, customer_number
+FROM appointments
+WHERE appointment_status = 'confirmed';
+
+CREATE VIEW cancelled_appointment_details AS
+SELECT appoint_id, appoint_date, time, patient_name, customer_number
+FROM appointments
+WHERE appointment_status = 'cancelled';
