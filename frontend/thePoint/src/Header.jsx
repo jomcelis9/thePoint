@@ -122,7 +122,7 @@ export default function Header() {
               Contact
             </Link>
             <Link
-              to="/book"
+              to="/booking"
               className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
             >
               Book
