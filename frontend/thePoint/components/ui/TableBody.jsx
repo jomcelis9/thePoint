@@ -1,4 +1,4 @@
-import { useEffect,useState} from "react";
+import { useEffect,useState, useSortBy } from "react";
 import axios from 'axios';
 import HeaderRow from '../ui/HeaderRow';
 
@@ -92,6 +92,22 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
         }
     };
 
+    // converts database format to readable text
+    const convertDate = (appoint_date) => {
+      try {
+        const date = new Date(appoint_date);
+        return date.toLocaleDateString('en-GB', {
+          weekday: 'short',
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+        });
+      } catch (error) {
+        console.log('Error formatting date:', error);
+        
+      }
+    }
+
 
    return (
     <>
@@ -125,6 +141,8 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
         {data.map((row, index) => {
           const { appoint_id, appoint_date, time, patient_name, contact_number, appointment_status } = row;
           
+
+
           return (
             <tr key={index}>
               <th scope="col" className="p-4">
@@ -147,7 +165,7 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
                 {patient_name}
               </th>
               <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {appoint_date}
+                {convertDate(appoint_date)}
               </th>
               <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {time}
