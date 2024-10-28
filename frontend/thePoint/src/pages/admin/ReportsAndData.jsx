@@ -118,6 +118,7 @@ export default function ReportsAndData() {
           </div>
         )}
       </div>
-    </div>
+      {/* About Section */}
+    </div>    
   );
 }
