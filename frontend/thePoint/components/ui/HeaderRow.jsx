@@ -1,6 +1,5 @@
 export default function HeaderRow(){
     return (
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
             <th scope="col" className="p-4">
                 <div className="flex items-center">
@@ -9,28 +8,29 @@ export default function HeaderRow(){
                 </div>
             </th>
             <th scope="col" className="px-6 py-3">
-                FIRST NAME
-            </th>
-            <th scope="col" className="px-6 py-3">
-                LAST NAME 
-            </th>
-            <th scope="col" className="px-6 py-3">
-                CONTACT #
-            </th>
-            <th scope="col" className="px-6 py-3">
                 APPOINTMENT #
             </th>
             <th scope="col" className="px-6 py-3">
-                Preferred Date
+                NAME
             </th>
             <th scope="col" className="px-6 py-3">
-                Preferred Time
+                PREFERRED DATE
             </th>
+            <th scope="col" className="px-6 py-3">
+                PREFERRED TIME
+            </th>
+            <th scope="col" className="px-6 py-3">
+                CONTACT NUMBER
+            </th>
+
+            <th scope="col" className="px-6 py-3">
+                STATUS
+            </th>
+
             <th scope="col" className="px-6 py-3">
                 Action
             </th>
         </tr>
 
-    </thead>
     );
 }
