@@ -1,0 +1,227 @@
+CREATE VIEW pending_appointment_details AS
+SELECT appoint_id, appoint_date, time, patient_name, customer_number
+FROM appointments
+WHERE appointment_status = 'pending';
+
+CREATE VIEW confirmed_appointment_details AS
+SELECT appoint_id, appoint_date, time, patient_name, customer_number
+FROM appointments
+WHERE appointment_status = 'confirmed';
+
+CREATE VIEW cancelled_appointment_details AS
+SELECT appoint_id, appoint_date, time, patient_name, customer_number
+FROM appointments
+WHERE appointment_status = 'cancelled';
+
+
+
+DELETE USING CHECKBOX CODE:
+
+import { useEffect, useState } from "react";
+import axios from 'axios';
+
+export default function TableBody({ statusOne, statusTwo, statusThree, btnName1, btnName2, fetchDataQuery }) {
+    const [data, setData] = useState([]); 
+    const [loading, setLoading] = useState(false); 
+    const [error, setError] = useState(null); 
+    const [selectedRows, setSelectedRows] = useState([]); 
+
+    useEffect(() => {
+        fetchData(fetchDataQuery);
+    }, []);
+
+    const fetchData = async (table) => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`http://127.0.0.1:5001/${table}`);
+            setData(response.data);
+            setLoading(false);
+        } catch (error) {
+            setError('Error fetching data');
+            setLoading(false);
+        }
+    };
+
+    const handleCheckboxChange = (appoint_id) => {
+        setSelectedRows((prevSelected) => {
+            if (prevSelected.includes(appoint_id)) {
+                return prevSelected.filter(id => id !== appoint_id);
+            } else {
+                return [...prevSelected, appoint_id];
+            }
+        });
+    };
+
+    const deleteSelectedRows = async () => {
+        try {
+            await Promise.all(selectedRows.map(id => axios.delete(`http://127.0.0.1:5001/appointments/${id}`)));
+            setData(data.filter(row => !selectedRows.includes(row.appoint_id)));
+            setSelectedRows([]); 
+        } catch (error) {
+            setError('Error deleting selected rows');
+        }
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    return (
+        <>
+            <button onClick={deleteSelectedRows} disabled={selectedRows.length === 0} className="delete-button">
+                Delete Selected
+            </button>
+            <tbody>
+                {data.map((row, index) => {
+                    const { appoint_id, appoint_date, time, patient_name, contact_number, appointment_status } = row;
+
+                    return (
+                        <tr key={index}>
+                            <th scope="col" className="p-4">
+                                <div className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        className="checkbox"
+                                        checked={selectedRows.includes(appoint_id)}
+                                        onChange={() => handleCheckboxChange(appoint_id)}
+                                    />
+                                </div>
+                            </th>
+                            <td>{appoint_id}</td>
+                            <td>{patient_name}</td>
+                            <td>{appoint_date}</td>
+                            <td>{time}</td>
+                            <td>{contact_number}</td>
+                            <td>{appointment_status}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </>
+    );
+}
+
+// with sorting
+
+import { useEffect, useState } from "react";
+import axios from 'axios';
+import HeaderRow from '../ui/HeaderRow';
+
+export default function TableBody({ statusOne, statusTwo, statusThree, btnName1, btnName2, fetchDataQuery }) {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+
+    useEffect(() => {
+        fetchData(fetchDataQuery);
+    }, [fetchDataQuery]);
+
+    const fetchData = async (table) => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`http://127.0.0.1:5001/${table}`);
+            setData(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+            setError('Error fetching data');
+            setLoading(false);
+        }
+    };
+
+    const handleCheckboxChange = (appoint_id) => {
+        setSelectedRows((prevSelected) =>
+            prevSelected.includes(appoint_id)
+                ? prevSelected.filter((id) => id !== appoint_id)
+                : [...prevSelected, appoint_id]
+        );
+    };
+
+    const deleteSelectedRows = async () => {
+        try {
+            await Promise.all(selectedRows.map((id) => axios.delete(`http://127.0.0.1:5001/appointments/${id}`)));
+            setData(data.filter((row) => !selectedRows.includes(row.appoint_id)));
+            setSelectedRows([]);
+        } catch (error) {
+            setError('Error deleting selected rows: ', error);
+        }
+    };
+
+    const sortData = (key) => {
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
+
+        const sortedData = [...data].sort((a, b) => {
+            if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
+            if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
+            return 0;
+        });
+        setData(sortedData);
+    };
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
+
+    return (
+        <>
+            <div>
+                <div className="flex">
+                    <button
+                        onClick={deleteSelectedRows}
+                        disabled={selectedRows.length === 0}
+                    >
+                        {/* Delete Button SVG */}
+                    </button>
+                </div>
+                <HeaderRow />
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th onClick={() => sortData('appoint_id')}>ID</th>
+                            <th onClick={() => sortData('patient_name')}>Name</th>
+                            <th onClick={() => sortData('appoint_date')}>Date</th>
+                            <th onClick={() => sortData('time')}>Time</th>
+                            <th onClick={() => sortData('contact_number')}>Contact</th>
+                            <th onClick={() => sortData('appointment_status')}>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((row, index) => (
+                            <tr key={index}>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedRows.includes(row.appoint_id)}
+                                        onChange={() => handleCheckboxChange(row.appoint_id)}
+                                    />
+                                </td>
+                                <td>{row.appoint_id}</td>
+                                <td>{row.patient_name}</td>
+                                <td>{row.appoint_date}</td>
+                                <td>{row.time}</td>
+                                <td>{row.contact_number}</td>
+                                <td>{row.appointment_status}</td>
+                                <td>
+                                    <button onClick={(e) => updateOnClick(e, "appointments", row.appoint_id, statusOne)}>
+                                        Confirm
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </>
+    );
+}
+
