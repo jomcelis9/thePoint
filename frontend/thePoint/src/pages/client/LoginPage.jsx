@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import videoBg from '../../Videos/videoLogo.mp4'
 
 export default function LoginPage() {
 
