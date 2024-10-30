@@ -1,0 +1,61 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const pool = require('../server');
+const cors = require('cors');
+
+
+const register = async (req, res) => {
+    const { name, lastname, email, password } = req.body;
+    
+    try {
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+   
+        const existingUser = await pool.query('SELECT * FROM users WHERE email = $1', [email.trim()]);
+        if (existingUser.rows.length > 0) {
+            return res.status(400).json({ message: 'User with this email already exists' });
+        }
+
+        const result = await pool.query(
+            'INSERT INTO users (name, lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING *',
+            [name, lastname, email.trim(), hashedPassword]
+        );
+
+        
+        res.status(201).json({ message: 'User registered successfully', user: result.rows[0] });
+    } catch (err) {
+        console.error("Error during registration:", err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+const login = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await pool.query('SELECT * FROM users WHERE email = $1', [email.trim()]);
+
+        if (user.rows.length === 0) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const validPassword = await bcrypt.compare(password, user.rows[0].password);
+        if (!validPassword) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign(
+            { userId: user.rows[0].user_id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        res.json({ message: 'Login successful', token });
+    } catch (err) {
+        console.error("Error during login:", err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+module.exports = { register, login };

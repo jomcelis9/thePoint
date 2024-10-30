@@ -1,4 +1,4 @@
-const express = require('express');
+/*  const express = require('express');
 const cors = require('cors');
 const app = express();
 const { Pool } = require('pg')
@@ -70,3 +70,4 @@ const refreshApi =  async () => {
 
 module.exports = {refreshApi};
 
+ */
