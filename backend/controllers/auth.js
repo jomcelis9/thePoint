@@ -1,34 +1,29 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const pool = require('../server');
-const cors = require('cors');
+const pool = require('../db'); 
 
-
-const register = async (req, res) => {
+async function register(req, res) {
+  console.log(req.body);
     const { name, lastname, email, password } = req.body;
-    
-    try {
-        
-        const hashedPassword = await bcrypt.hash(password, 10);
 
-   
-        const existingUser = await pool.query('SELECT * FROM users WHERE email = $1', [email.trim()]);
-        if (existingUser.rows.length > 0) {
-            return res.status(400).json({ message: 'User with this email already exists' });
+    try {
+        const emailExists = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (emailExists.rows.length > 0) {
+            return res.status(400).json({ error: "Email already in use" });
         }
 
-        const result = await pool.query(
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await pool.query(
             'INSERT INTO users (name, lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING *',
-            [name, lastname, email.trim(), hashedPassword]
+            [name, lastname, email, hashedPassword]
         );
 
-        
-        res.status(201).json({ message: 'User registered successfully', user: result.rows[0] });
+        res.status(201).json({ message: "User registered successfully!", user: newUser.rows[0] });
     } catch (err) {
         console.error("Error during registration:", err);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: "Server error", details: err.message });
     }
-};
+}
 
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -58,4 +53,4 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { register, login };
+module.exports = { register, login }; 

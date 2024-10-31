@@ -1,42 +1,24 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const { Pool } = require('pg');
-const authRoutes = require('./routes/authRoutes'); 
-const appointmentRoutes = require('./routes/appointmentRoutes'); 
+const authRoutes = require('./routes/authRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+const pool = require('./db'); // Import pool for potential future use
 
-dotenv.config(); 
+dotenv.config();
 
 const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: '*' 
+    origin: 'http://localhost:5173',
+    credentials: true
 }));
 
-
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-    port: process.env.DB_PORT,
-});
-
-
-pool.connect()
-    .then(() => console.log('Connected to PostgreSQL database'))
-    .catch(err => {
-        console.error('Database connection error:', err.stack);
-        process.exit(1);
-    });
-
-
-app.use('/api/auth', authRoutes);
-
+app.use('/routes/auth', authRoutes);
 app.use('/api/appointments', appointmentRoutes);
 
-
+// Database query function
 const performQuery = async (query, values) => {
     try {
         const result = await pool.query(query, values);
@@ -47,33 +29,26 @@ const performQuery = async (query, values) => {
     }
 };
 
-
+// Function to refresh data
 const refreshApi = async () => {
     try {
-        
-         await fetchData('views_rejected_appointments');
-         await fetchData('views_confirmed_appointments');
-        await fetchData('views_pending_appointments');
+        await performQuery('SELECT * FROM views_rejected_appointments');
+        await performQuery('SELECT * FROM views_confirmed_appointments');
+        await performQuery('SELECT * FROM views_pending_appointments');
         console.log("Data is refreshed");
     } catch (error) {
         console.log("Error Fetching Data: ", error);
     }
 };
 
+// Optionally, call refreshApi on server start
+refreshApi();
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-
-pool.query(`SELECT * FROM appointments`, (err, res) => {
-    if (!err) {
-        console.log(res.rows);
-    } else {
-        console.log(err.message);
-    }
-    
+app.get('/test', (req, res) => {
+    res.send('API is working');
 });
-
-module.exports = { pool, refreshApi }; 

@@ -1,19 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
 
   async function registerUser(ev) {
     ev.preventDefault();
   
     try {
-      const response = await axios.post("http://localhost:4000/register", {
+      const response = await axios.post("http://localhost:5001/routes/auth/register", {
         name,
         lastname,
         email,
@@ -22,12 +22,21 @@ export default function RegisterPage() {
   
       console.log("User registered successfully:", response.data);
       alert("Registration successful!");
+      
+      // Redirect to login page
+      navigate("/login");
+
+      // Reset form fields
+      setName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
     } catch (error) {
-      console.error("Registration error:", error.response?.data || error.message);
-      alert("An error occurred: " + (error.response?.data || error.message)); // Display detailed error
+      console.error("Registration error:", error);
+      alert("An error occurred: " + JSON.stringify(error.response?.data || error.message));
     }
   }
-  
+
   return (
     <div>
       <div className="min-h-screen flex flex-col items-center justify-center">
@@ -40,9 +49,6 @@ export default function RegisterPage() {
               <div className="mb-12">
                 <h3 className="text-gray-800 text-3xl font-bold">Register your account</h3>
               </div>
-              
-              
-              
               
               <div className="grid grid-cols-2 gap-5 my-4">
                 <div>
@@ -84,14 +90,12 @@ export default function RegisterPage() {
                 />
               </div>
 
-              
               <div className="mt-12">
                 <button type="submit" className="bg-gradient-to-r from-thePointRed to-thePointPink w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center transition ease-in hover:shadow-xl duration-300">
                   Register
                 </button>
               </div>
 
-             
               <div className="mt-6 text-center">
                 <Link to="/login" className="text-thePointPink hover:underline">
                   Already have an account? Log in
