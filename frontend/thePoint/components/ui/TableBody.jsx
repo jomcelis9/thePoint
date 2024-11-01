@@ -20,9 +20,12 @@ export default function TableBody(
     const [isDate, setIsDate ] = useState(false);
     const [isAction, setIsAction ] = useState(false);
 
+    const table = fetchDataQuery;
+
     useEffect(() =>{
-        fetchData(`${fetchDataQuery}`)
+        fetchData(table)
     },[]);
+    
 
     useEffect(() => {
       // Check if columnFour is null or undefined in any of the rows, and update isDate accordingly
@@ -68,25 +71,29 @@ export default function TableBody(
         }
     };
 
-    const handleCheckboxChange = (appoint_id) =>{
+    const handleCheckboxChange = (column1) =>{
+
+      console.log("Column Selected: ", column1)
       setSelectedRows((prevSelected) => {
-        if (prevSelected.includes(appoint_id)) {
-          return prevSelected.filter(id => id !== appoint_id);
+        if (prevSelected.includes(column1)) {
+          return prevSelected.filter(id => id !== column1);
         }else{
-          return [...prevSelected, appoint_id];
+          return [...prevSelected, column1];
         }
       });
     };
 
-    const deleteSelectedRows = async () => {
+    const deleteSelectedRows = async (table) => {
       try {
-          await Promise.all(selectedRows.map(id => axios.delete(`http://127.0.0.1:5001/appointments/${id}`)));
-          setData(data.filter(row => !selectedRows.includes(row.appoint_id)));
+          await Promise.all(selectedRows.map(column_id => axios.delete(`http://127.0.0.1:5001/${table}/${column_id}`)));
+          setData(data.filter(row => !selectedRows.includes(row[column1])));
           setSelectedRows([]);
       } catch (error) {
         setError('Error deleting selected rows: ', error)
         
       }
+
+      console.log("Table: ", table)
     }
 
     if (loading) {
@@ -100,7 +107,6 @@ export default function TableBody(
         // Function to update status on button click
     const updateOnClick = async (e, table, appointmentId, status) => {
         try {
-            console.log('Button is working...');
             console.group(appointmentId)
             await updateData(table, appointmentId, status); // update the data
             fetchData('views_pending_appointments'); // re-fetch the data to update the table
@@ -156,7 +162,7 @@ export default function TableBody(
         </div>
 
         <button 
-                onClick={deleteSelectedRows} 
+                onClick={() => deleteSelectedRows(table)} 
                 disabled={selectedRows.length === 0} 
                 className="">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 30 30">
