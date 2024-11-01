@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 export default function PendingPage() {
     return (
         <div id="Home" className="px-0 overflow-x-hidden"> 
@@ -29,13 +27,6 @@ export default function PendingPage() {
                         We'll review and confirm your booking shortly.
                         Thank you for your patience.
                     </p>
-                    <Link to="/">
-                        <button
-                            type="button"
-                            className="bg-thePointRed hover:bg-thePointPink text-white focus:ring-2 focus:outline-none focus:ring-purple-300 font-medium rounded-2xl text-lg px-8 py-3 text-center relative z-30 mt-8">
-                            Back to Home
-                        </button>
-                    </Link>
                 </div>
             </div>
         </div>

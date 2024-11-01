@@ -19,10 +19,14 @@ export default function TableBody(
     const [selectedRows, setSelectedRows] = useState([]); 
     const [isDate, setIsDate ] = useState(false);
     const [isAction, setIsAction ] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const table = fetchDataQuery;
 
     useEffect(() =>{
-        fetchData(`${fetchDataQuery}`)
+        fetchData(table)
     },[]);
+    
 
     useEffect(() => {
       // Check if columnFour is null or undefined in any of the rows, and update isDate accordingly
@@ -68,25 +72,29 @@ export default function TableBody(
         }
     };
 
-    const handleCheckboxChange = (appoint_id) =>{
+    const handleCheckboxChange = (column1) =>{
+
+      console.log("Column Selected: ", column1)
       setSelectedRows((prevSelected) => {
-        if (prevSelected.includes(appoint_id)) {
-          return prevSelected.filter(id => id !== appoint_id);
+        if (prevSelected.includes(column1)) {
+          return prevSelected.filter(id => id !== column1);
         }else{
-          return [...prevSelected, appoint_id];
+          return [...prevSelected, column1];
         }
       });
     };
 
-    const deleteSelectedRows = async () => {
+    const deleteSelectedRows = async (table) => {
       try {
-          await Promise.all(selectedRows.map(id => axios.delete(`http://127.0.0.1:5001/appointments/${id}`)));
-          setData(data.filter(row => !selectedRows.includes(row.appoint_id)));
+          await Promise.all(selectedRows.map(column_id => axios.delete(`http://127.0.0.1:5001/${table}/${column_id}`)));
+          setData(data.filter(row => !selectedRows.includes(row[column1])));
           setSelectedRows([]);
       } catch (error) {
         setError('Error deleting selected rows: ', error)
         
       }
+
+      console.log("Table: ", table)
     }
 
     if (loading) {
@@ -100,7 +108,6 @@ export default function TableBody(
         // Function to update status on button click
     const updateOnClick = async (e, table, appointmentId, status) => {
         try {
-            console.log('Button is working...');
             console.group(appointmentId)
             await updateData(table, appointmentId, status); // update the data
             fetchData('views_pending_appointments'); // re-fetch the data to update the table
@@ -140,6 +147,12 @@ export default function TableBody(
       }
     };
 
+      // Filtered data based on the search term
+  const filteredData = data.filter(row => {
+    const rowValues = [column1, column2, column3, column4, column5, column6].map(col => row[col]?.toString().toLowerCase() || "");
+    return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
+  });
+    
    return (
     <>
     <div>
@@ -151,12 +164,18 @@ export default function TableBody(
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                   </svg>
               </div>
-              <input type="text" id="table-search" className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
-              </input>
+              <input
+            type="text"
+            id="table-search"
+            value={searchTerm} // Bind search term to input value
+            onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+            className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Search for items"
+          />
         </div>
 
         <button 
-                onClick={deleteSelectedRows} 
+                onClick={() => deleteSelectedRows(table)} 
                 disabled={selectedRows.length === 0} 
                 className="">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 30 30">
@@ -177,7 +196,7 @@ export default function TableBody(
       <div className="flex justify-end">
         </div>
       {/*accesses individual  elements of the database */}
-        {data.map((row, index) => {
+        {filteredData.map((row, index) => {
 
           const columnOne = row[column1]; // Always ID
           const columnTwo = row[column2];
@@ -230,7 +249,7 @@ export default function TableBody(
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", column1, statusOne)}
+                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusOne)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-white font-bold rounded-full text-sm text-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -239,7 +258,7 @@ export default function TableBody(
                     {/* {btnName1} */}
                   </button>
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", column1, statusTwo)}
+                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusTwo)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">

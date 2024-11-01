@@ -4,19 +4,22 @@ import { Link } from "react-router-dom";
 export default function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const sidebarRef = useRef(null);
+  const lastScrollY = useRef(0);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
   const handleLogout = () => {
     console.log("Logged out");
     setIsModalOpen(false);
+  };
+
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   useEffect(() => {
@@ -32,13 +35,22 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSidebarOpen]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsHeaderVisible(currentScrollY < lastScrollY.current);
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="border-thePointRed">
+    <div>
       <style>
         {`
           .sidebar {
@@ -52,29 +64,53 @@ export default function Header() {
             opacity: 1;
             visibility: visible;
           }
+          .header-link {
+             color: rgb(169, 169, 169);
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
+            text-shadow: 2px 2px px rgba(0, 0, 0, 0.5);
+          }
+          .header-link:hover {
+            color: rgb(255, 0, 255); /* Header link hover color */
+            transform: scale(1.2); 
+          }
           .sidebar-link {
             transition: color 0.3s ease, transform 0.3s ease;
-            color: gray; /* Default color */
+            color: black; /* Sidebar link color */
             display: flex;
-            align-items: center; /* Align icons and text */
+            align-items: center;
           }
           .sidebar-link:hover {
-            color: rgb(255, 0, 255); /* Purple with a hint of pink */
-            transform: scale(1.1); /* Scale effect */
+            color: rgb(255, 0, 255); /* Sidebar link hover color */
+            transform: scale(1.1);
           }
-          .sidebar-link img {
-            transition: transform 0.3s ease; /* Scale for icons */
+          .header {
+            height: 60px; /* Reduced height */
+            background-color: rgba(196,196,196, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+            transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition for visibility */
           }
-          .sidebar-link:hover img {
-            transform: scale(1.2); /* Scale effect for icons */
+          .header.hidden {
+            opacity: 0; /* Hide header */
+            transform: translateY(-100%); /* Move header out of view */
+          }
+          .header img.logo {
+            width: 120px; 
+          }
+          .header img.icon {
+            width: 45px; 
+            margin-right: 10px;
           }
         `}
       </style>
-      <nav className="flex-no-wrap fixed max-w-[95rem] w-full mx-auto sm:flex sm:items-center sm:justify-between bg-white border-x-0 border-b">
+      <nav className={`flex-no-wrap fixed max-w-[800rem] w-full mx-auto sm:flex sm:items-center sm:justify-between header ${!isHeaderVisible ? 'hidden' : ''}`}>
         <div className="flex items-center justify-between">
           <div className="ml-6">
             <Link to={"/"}>
-              <img src="src/images/THE POINT LOGO tp 2.png" className="w-36" alt="Logo" />
+              <img src="src/images/THE POINT LOGO tp 2.png" className="w-28 logo" alt="Logo" />
             </Link>
           </div>
           <div className="sm:hidden">
@@ -130,35 +166,23 @@ export default function Header() {
           aria-labelledby="hs-navbar-example-collapse"
         >
           <div className="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-            <Link
-              to="/"
-              className="font-bold sidebar-link hover:text-gray-400 focus:outline-none"
-            >
+            <Link to="/" className="header-link hover:text-gray-400 focus:outline-none">
               Home
             </Link>
-            <Link
-              to="/about"
-              className="font-bold sidebar-link hover:text-gray-400 focus:outline-none"
-            >
+            <Link to="/" onClick={scrollToAbout} className="header-link hover:text-gray-400 focus:outline-none">
               About Us
             </Link>
-            <Link
-              to="/contact"
-              className="font-bold sidebar-link hover:text-gray-400 focus:outline-none"
-            >
+            <Link to="/contact" className="header-link hover:text-gray-400 focus:outline-none">
               Contact
             </Link>
-            <Link
-              to="/booking"
-              className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
-            >
+            <Link to="/booking" className="header-link hover:text-gray-400 focus:outline-none">
               Book
             </Link>
 
             {/* Profile Icon to Toggle Sidebar */}
-            <img 
+            <img
               src="/src/images/icon.png"
-              className="w-11 mr-7 cursor-pointer"
+              className="w-9 mr-5 cursor-pointer icon"
               alt="User Profile"
               onClick={toggleSidebar}
             />
@@ -172,7 +196,7 @@ export default function Header() {
         className={`fixed right-5 w-[300px] h-72 bg-white rounded-lg shadow-lg z-50 sidebar ${
           isSidebarOpen ? "open" : ""
         }`}
-        style={{ top: "115px" }}
+        style={{ top: "80px" }}
       >
         <div className="flex flex-col items-start p-6"> {/* Increased padding for more space */}
           <div className="flex items-center">
@@ -187,7 +211,7 @@ export default function Header() {
           <ul className="mt-4 w-full text-left">
             <li className="flex items-center justify-between text-gray-700 mb-2 sidebar-link">
               <span className="flex items-center">
-                <img 
+              <img 
                   src="/src/images/Faccount.png" 
                   alt="Profile Icon" 
                   className="w-6 h-6 mr-2" // Increased icon size
@@ -233,10 +257,10 @@ export default function Header() {
               <span className="flex items-center">
                 <img 
                   src="/src/images/Fcontacts.png" 
-                  alt="Email Icon" 
+                  alt="History Icon" 
                   className="w-6 h-6 mr-2" // Increased icon size
                 />
-                <Link to="/contacts" className="text-lg">Contacts</Link> {/* Increased font size */}
+                <Link to="/contact" className="text-lg">Contact Us</Link> {/* Increased font size */}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -248,17 +272,17 @@ export default function Header() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <polyline points="9 18 15 12 9 6" />
+                <path d="M9 18l6-6-6-6" />
               </svg>
             </li>
-            <li className="flex items-center justify-between text-gray-700 mb-2 sidebar-link" onClick={toggleModal}>
+            <li className="flex items-center justify-between text-gray-700 mb-2 sidebar-link" onClick={handleLogout}>
               <span className="flex items-center">
                 <img 
                   src="/src/images/Flogout.png" 
                   alt="Logout Icon" 
                   className="w-6 h-6 mr-2" // Increased icon size
                 />
-                <span className="text-lg">Log Out</span> {/* Increased font size */}
+                <Link to="/" className="text-lg">Logout</Link> {/* Increased font size */}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -270,29 +294,12 @@ export default function Header() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <polyline points="9 18 15 12 9 6" />
+                <path d="M9 18l6-6-6-6" />
               </svg>
             </li>
           </ul>
         </div>
       </div>
-
-      {/* Modal for Logout Confirmation */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-60">
-          <div className="bg-white rounded-lg p-5 shadow-lg">
-            <h3 className="text-lg font-semibold">Are you sure you want to log out?</h3>
-            <div className="mt-4 flex justify-between">
-              <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={handleLogout}>
-                Yes
-              </button>
-              <button className="bg-gray-300 text-gray-700 px-4 py-2 rounded" onClick={toggleModal}>
-                No
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
