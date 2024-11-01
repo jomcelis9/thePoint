@@ -2,22 +2,51 @@ import { useEffect,useState, useSortBy } from "react";
 import axios from 'axios';
 import HeaderRow from '../ui/HeaderRow';
 
-export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnName2,fetchDataQuery}){
+export default function TableBody(
+  {statusOne,statusTwo,statusThree,
+    btnName1,btnName2,fetchDataQuery,
+    column1,column2,column3,column4,
+    column5,column6,actionable,
+    headerOne,headerTwo,headerThree,headerFour,
+    headerFive,headerSix,headerSeven
+
+  }){
 
 
     const [data, setData] = useState([]); // updates data from any requests
     const [loading, setLoading] = useState(false); // for handling loading state
     const [error, setError] = useState(null); // to handle errors
     const [selectedRows, setSelectedRows] = useState([]); 
-
+    const [isDate, setIsDate ] = useState(false);
+    const [isAction, setIsAction ] = useState(false);
 
     useEffect(() =>{
         fetchData(`${fetchDataQuery}`)
-    },[])
+    },[]);
+
+    useEffect(() => {
+      // Check if columnFour is null or undefined in any of the rows, and update isDate accordingly
+      if(actionable === true){  
+        setIsAction(true);
+      }else{
+        setIsAction(false)
+      }
+
+    }, [data]);
+
+    useEffect(() => {
+      // Check if columnFour is null or undefined in any of the rows, and update isDate accordingly
+      const hasValidDate = data.some((row) => row[column4] !== null && row[column4] !== undefined);
+      setIsDate(hasValidDate);
+    }, [data]);
+
+
 
     if (loading) {
         return <div>Loading...</div>; // show loading spinner or message
     }
+
+    
   
     if (error) {
         return <div>{error}</div>; // show error message
@@ -95,19 +124,21 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
     // converts database format to readable text
     const convertDate = (appoint_date) => {
       try {
-        const date = new Date(appoint_date);
-        return date.toLocaleDateString('en-GB', {
-          weekday: 'short',
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-        });
+        if (appoint_date) {
+          const date = new Date(appoint_date);
+          return date.toLocaleDateString('en-GB', {
+            weekday: 'short',
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          });
+        } else if (appoint_date === null) {
+          return "giga";
+        }
       } catch (error) {
         console.log('Error formatting date:', error);
-        
       }
-    }
-
+    };
 
    return (
     <>
@@ -133,15 +164,27 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
                 </svg>            
         </button>
       </div>
-        <HeaderRow/> 
+        <HeaderRow
+          header1 = {headerOne}
+          header2 = {headerTwo}
+          header3 = {headerThree}
+          header4 = {headerFour}
+          header5 = {headerFive}
+          header6 = {headerSix}
+          header7 = {headerSeven}
+        /> 
       <tbody>
       <div className="flex justify-end">
         </div>
       {/*accesses individual  elements of the database */}
         {data.map((row, index) => {
-          const { appoint_id, appoint_date, time, patient_name, contact_number, appointment_status } = row;
-          
 
+          const columnOne = row[column1]; // Always ID
+          const columnTwo = row[column2];
+          const columnThree = row[column3];
+          const columnFour  = row[column4];
+          const columnFive = row[column5];
+          const columnSix =row[column6];
 
           return (
             <tr key={index}>
@@ -150,39 +193,44 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
                   <input
                     id={`checkbox`}
                     type="checkbox"
-                    checked={selectedRows.includes(appoint_id)}
+                    checked={selectedRows.includes(columnOne)}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    onChange={() => handleCheckboxChange(appoint_id)}
+                    onChange={() => handleCheckboxChange(columnOne)}
                   />
                   <label htmlFor={`checkbox-${index}`} className="sr-only">checkbox</label>
                 </div>
               </th>
               
               <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {appoint_id}
+                {columnOne}
               </th>
               <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {patient_name}
+                {columnTwo}
               </th>
               <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {convertDate(appoint_date)}
-              </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {time}
-              </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {contact_number} 
+                {columnThree}
               </th>
 
+              {isDate && (
+                <th className="size-0 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {convertDate(columnFour)}
+                </th>
+              )}
+
               <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {appointment_status}
+                {columnFive} 
+              </th>
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {columnSix}
               </th>
 
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
+          {/* Actionable BUttons */}
+                {isAction && (
+                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", appoint_id, statusOne)}
+                    onClick={(e) => updateOnClick(e, "appointments", column1, statusOne)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-white font-bold rounded-full text-sm text-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -191,7 +239,7 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
                     {/* {btnName1} */}
                   </button>
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", appoint_id, statusTwo)}
+                    onClick={(e) => updateOnClick(e, "appointments", column1, statusTwo)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -201,7 +249,7 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
                   </button>
 
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", appoint_id, statusThree)}
+                    onClick={(e) => updateOnClick(e, "appointments", column1, statusThree)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center"
                   >
@@ -211,6 +259,7 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
                   </button>
                 </div>
               </th>
+                )}
             </tr>
           );
         })}
