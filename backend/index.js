@@ -24,7 +24,7 @@ const pool = new Pool({
     host: 'localhost',
     database: 'postgres',
     password: '123',
-    port: 5433,
+    port: 5432,
 
 });
 
