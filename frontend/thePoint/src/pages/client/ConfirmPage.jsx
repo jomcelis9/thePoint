@@ -4,7 +4,24 @@ import { useLocation } from "react-router-dom";
 export default function ConfirmPage() {
     const location = useLocation();
     const formData = location.state || {}; // Access the passed data
-    console.log(formData);
+    console.log( "Passed Data: ", formData);
+
+    const onConfirm = async (e) => {
+        e.preventDefault();
+
+        try {
+            const body = { ...formData }; // Spread the formData into the body
+            const res = await fetch("http://127.0.0.1:5001/appointments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+            const data = await res.json();
+            console.log("Response: ", data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     // Extract guardian details
     const { accompanied, guardianName, guardianContact } = formData;
@@ -53,7 +70,7 @@ export default function ConfirmPage() {
                             <h3 className="text-sm text-black">Client #1</h3>
                             <div className="flex justify-items-stretch gap-5">
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.firstName || ""} readOnly
                                     />
                                     <p>
@@ -61,7 +78,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.lastName || ""} readOnly
                                     />
                                     <p>
@@ -69,7 +86,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="bshadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="bshadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.contactNumber || ""} readOnly
                                     />
                                     <p>
@@ -77,7 +94,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.age || ""} readOnly
                                     />
                                     <p>
@@ -85,7 +102,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.therapyType || ""} readOnly
                                     />
                                     <p>
@@ -93,7 +110,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.date || ""} readOnly
                                     />
                                     <p>
@@ -101,7 +118,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.time || ""} readOnly
                                     />
                                     <p>
@@ -111,7 +128,7 @@ export default function ConfirmPage() {
                             </div>
 
 
-                            {accompanied ==="no" && (
+                            {accompanied === "no" && (
                                 <div className="mt-5">
                                     <h3 className="text-sm text-black">Emergency Contact</h3>
                                     <div className="flex justify-items-stretch gap-5">
@@ -138,7 +155,7 @@ export default function ConfirmPage() {
                     </div>
                     <div className="flex mt-7 justify-center">
                             <Link to="/payment">
-                                <button className="bg-thePointRed text-white rounded-lg px-4 py-2 hover:bg-thePointPink transition-all duration-300">
+                                <button onClick={onConfirm} className="bg-thePointRed text-white rounded-lg px-4 py-2 hover:bg-thePointPink transition-all duration-300">
                                     Confirm
                                 </button>
                             </Link>

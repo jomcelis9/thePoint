@@ -19,9 +19,6 @@ export default function BookingPage() {
 
     });
 
-
-
-
     const getTodayDate = () => {
         const today = new Date();
         const year = today.getFullYear();
@@ -110,6 +107,7 @@ export default function BookingPage() {
                                         </ol>
                                 </div>  
                             </div>
+                            
                     <form className="mx-auto p-6 border rounded-xl shadow-md shadow-white bg-white m-10">
                         <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md">Enter Patient Details</h1>
 
@@ -171,8 +169,6 @@ export default function BookingPage() {
                                 No
                             </label>
                         </div>
-
-
 
                         {showGuardianForm && (
                             <div className="mt-4">

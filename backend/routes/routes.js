@@ -7,15 +7,39 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'postgres',
-    password: 'geraldcool12',
+    password: '123',
     port: 5432,
 
+});
+
+// Insert Data
+
+router.post('/:table', async (req, res) => {
+  const { table } = req.params;
+  const {
+    appoint_id, appoint_date, appoint_type, time,
+    patient_id, patient_name, patient_age,
+    therapist_name, therapist_id, appointment_status, contact_number
+  } = req.body;
+
+  // Define column names and values to insert
+  const columns = "appoint_id, appoint_date, appoint_type, time, patient_id, patient_name, patient_age, therapist_name, therapist_id, appointment_status, contact_number";
+  const values = [appoint_id, appoint_date, appoint_type, time, patient_id, patient_name, patient_age, therapist_name, therapist_id, appointment_status, contact_number];
+
+  try {
+    const query = `INSERT INTO ${table} (${columns}) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`;
+    const result = await pool.query(query, values);
+
+    res.status(201).json(result.rows[0]); // Send the inserted row as response
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
 });
 
 // Read table
 router.get('/:table', async (req, res) =>{
     const {table} = req.params;
-
     const query = `SELECT * FROM ${table}`;
     // console.log("table used: ", table)
 

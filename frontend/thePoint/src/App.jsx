@@ -19,6 +19,7 @@ import ForgotPassword from './pages/client/ForgotPasswordPage';
 import ResetPasswordPage from './pages/client/ResetPasswordPage';
 import AccountDetails from './pages/client/AccountDetails';
 import PendingPage from './pages/client/PendingPage';
+import Booking from './pages/client/Booking';
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -29,7 +30,7 @@ function App() {
 
       <Route path="/" element={<Layout />}>
         <Route index element={<IndexPage />} />
-        <Route path="/booking" element={<BookingPage />}/>
+        <Route path="/booking" element={<Booking />}/>
         <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/confirm" element={<ConfirmPage/>}/>
         <Route path="/contact" element={<ContactPage/>}/>

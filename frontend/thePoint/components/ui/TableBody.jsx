@@ -271,7 +271,7 @@ export default function TableBody(
                   </button>
 
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", column1, statusThree)}
+                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusThree)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center"
                   >
