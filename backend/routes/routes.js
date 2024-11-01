@@ -51,22 +51,23 @@ router.put('/:table/:appointmentId/:values', async (req, res) => {
 
 // ================ NEW: DELETE  ROUTE ================
 
-router.delete('/:table/:columnId', async (req,res) => {
+router.delete('/:table/:columnId/:Id', async (req, res) => {
     const table = req.params.table;
-    const columnId = req.params.columnId
-
+    const columnId = req.params.columnId;
+    const Id = req.params.Id;
+  
+    console.log(`Deleting from ${table}, where ${columnId} = ${Id}`);
     const query = `DELETE FROM ${table} WHERE ${columnId} = $1`;
     
     try {
-        const result = await pool.query(query, [columnId]);
-        res.json({ message: 'Update successful', data: result });
-
+      const result = await pool.query(query, [Id]);
+      res.json({ message: 'Delete successful', data: result });
     } catch (error) {
-
-        console.log(error)
-        
+      console.log(error);
+      res.status(500).json({ message: 'Error deleting row', error });
     }
-});
+  });
+  
 
 // ================ NEW: DELETE  ROUTE ================
   

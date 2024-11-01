@@ -36,14 +36,14 @@ app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}`)
 });
 
-pool.query(`select * from appointments`,(err,res)=>{
-    if(!err){
-        console.log(res.rows);
-    }else{
-        console.log(err.message);
-    }
-    pool.end;
-});
+// pool.query(`select * from appointments`,(err,res)=>{
+//     if(!err){
+//         console.log(res.rows);
+//     }else{
+//         console.log(err.message);
+//     }
+//     pool.end;
+// });
 
 const performQuery = async (query, values) => {
     try{

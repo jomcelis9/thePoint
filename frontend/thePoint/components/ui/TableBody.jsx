@@ -85,16 +85,19 @@ export default function TableBody(
 
     const deleteSelectedRows = async (table) => {
       try {
-          await Promise.all(selectedRows.map(column_id => axios.delete(`http://127.0.0.1:5001/${table}/${column_id}`)));
-          setData(data.filter(row => !selectedRows.includes(row[column1])));
-          setSelectedRows([]);
+        await Promise.all(
+          selectedRows.map(column_id =>
+            axios.delete(`http://127.0.0.1:5001/${table}/${column1}/${column_id}`)
+          )
+        );
+        setData(data.filter(row => !selectedRows.includes(row[column1])));
+        setSelectedRows([]);
       } catch (error) {
-        setError('Error deleting selected rows: ', error)
-        
+        setError('Error deleting selected rows: ' + error.message);
       }
-
-      console.log("Table: ", table)
-    }
+      console.log("Table: ", table);
+    };
+    
 
     if (loading) {
         return <div>Loading...</div>;
