@@ -35,88 +35,27 @@ export default function ReportsAndData() {
   return (
     <div className="p-4 transition-all duration-300 mt-20 border bg-gray-50 rounded-xl shadow-md">
       <div>
-        <h2 className="text-4xl font-bold mb-8 text-gray-900">List of Clients</h2>
+        <h2 className="text-4xl font-bold mb-8 text-gray-900">Clinic Staff</h2>
+        <Table>
 
-        {!selectedPatient ? (
-          <Table>
-            <HeaderRow columns={["CLIENT NAME", "THERAPIST", "DATE OF THERAPY"]} />
-            <TableBody
-              data={patients}
-              fields={["clientName", "therapist", "dateOfTherapy"]}
-              renderRow={(patient) => (
-                <tr
-                  key={patient.clientName}
-                  className="border-t cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleRowClick(patient)}
-                >
-                  <td className="px-6 py-4 text-lg text-gray-800">
-                    <input
-                      type="text"
-                      value={patient.clientName}
-                      readOnly
-                      className="w-full bg-transparent border-none focus:outline-none text-gray-800 cursor-pointer"
-                    />
-                  </td>
-                  <td className="px-6 py-4 text-lg text-gray-800">{patient.therapist}</td>
-                  <td className="px-6 py-4 text-lg text-gray-800">{patient.dateOfTherapy}</td>
-                </tr>
-              )}
-            />
-          </Table>
-        ) : (
-          <div className="p-8 max-w-2xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Medical Report Form</h1>
-            {/* Patient Detail Form */}
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Client's Full Name *</label>
-                  <input
-                    type="text"
-                    value={selectedPatient.clientName}
-                    readOnly
-                    className="shadow-md rounded-lg w-full text-gray-800 text-sm border border-gray-300 focus:border-thePointPink px-4 py-2 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Contact Number</label>
-                  <input
-                    type="text"
-                    value={selectedPatient.contactNumber}
-                    readOnly
-                    className="shadow-md rounded-lg w-full text-gray-800 text-sm border border-gray-300 focus:border-thePointPink px-4 py-2 outline-none"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Therapist</label>
-                  <input
-                    type="text"
-                    value={selectedPatient.therapist}
-                    readOnly
-                    className="shadow-md rounded-lg w-full text-gray-800 text-sm border border-gray-300 focus:border-thePointPink px-4 py-2 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Date of Therapy</label>
-                  <input
-                    type="text"
-                    value={selectedPatient.dateOfTherapy}
-                    readOnly
-                    className="shadow-md rounded-lg w-full text-gray-800 text-sm border border-gray-300 focus:border-thePointPink px-4 py-2 outline-none"
-                  />
-                </div>
-              </div>
-            </form>
-            <button
-              className="mt-8 bg-thePointRed text-white font-bold px-6 py-3 rounded-md shadow-lg hover:bg-red-700 transition duration-300"
-              onClick={handleBackClick}
-            >
-              Back to List
-            </button>
-          </div>
-        )}
+          <TableBody
+          
+          fetchDataQuery={"therapist"}
+          column1={"therapist_id"}
+          column2={"therapist_name"}
+          column3={"therapist_number"}
+          column4={"therapist_age"}
+          headerOne={"ID"}
+          headerTwo={"Name"}
+          headerThree={"Contact"}
+          headerFour={"Hire Date"}
+          actionable={false}
+          id = {'therapist_id'}
+
+          />
+
+          
+        </Table>
       </div>
       {/* About Section sample again*/}
     </div>

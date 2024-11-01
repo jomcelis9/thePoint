@@ -51,14 +51,14 @@ router.put('/:table/:appointmentId/:values', async (req, res) => {
 
 // ================ NEW: DELETE  ROUTE ================
 
-router.delete('/:table/:appointmentId', async (req,res) => {
+router.delete('/:table/:columnId', async (req,res) => {
     const table = req.params.table;
-    const appoint_id = req.params.appointmentId
+    const columnId = req.params.columnId
 
-    const query = `DELETE FROM ${table} WHERE appoint_id = $1`;
+    const query = `DELETE FROM ${table} WHERE ${columnId} = $1`;
     
     try {
-        const result = await pool.query(query, [appoint_id]);
+        const result = await pool.query(query, [columnId]);
         res.json({ message: 'Update successful', data: result });
 
     } catch (error) {
