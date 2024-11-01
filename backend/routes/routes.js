@@ -9,7 +9,6 @@ const pool = new Pool({
     database: 'postgres',
     password: '123',
     port: 5433,
-
 });
 
 // Read table
