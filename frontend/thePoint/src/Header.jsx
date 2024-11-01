@@ -149,8 +149,8 @@ export default function Header() {
               Contact
             </Link>
             <Link
-              to="/book"
-              className="font-bold sidebar-link hover:text-gray-400 focus:outline-none"
+              to="/booking"
+              className="font-bold text-gray-600 hover:text-gray-400 focus:outline-none"
             >
               Book
             </Link>
