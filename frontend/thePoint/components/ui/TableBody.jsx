@@ -2,7 +2,8 @@ import { useEffect,useState, useSortBy } from "react";
 import axios from 'axios';
 import HeaderRow from '../ui/HeaderRow';
 
-export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnName2,fetchDataQuery}){
+export default function TableBody(
+  {statusOne,statusTwo,statusThree,btnName1,btnName2,fetchDataQuery,column1,column2,column3,column4,column5,column6}){
 
 
     const [data, setData] = useState([]); // updates data from any requests
@@ -133,15 +134,19 @@ export default function TableBody({statusOne,statusTwo,statusThree,btnName1,btnN
                 </svg>            
         </button>
       </div>
-        <HeaderRow/> 
+        {/* <HeaderRow/>  */}
       <tbody>
       <div className="flex justify-end">
         </div>
       {/*accesses individual  elements of the database */}
         {data.map((row, index) => {
-          const { appoint_id, appoint_date, time, patient_name, contact_number, appointment_status } = row;
-          
 
+          const appoint_id = row[column1];
+          const appoint_date = row[column2];
+          const time = row[column3];
+          const patient_name  = row[column4];
+          const contact_number = row[column5];
+          const appointment_status =row[column6];
 
           return (
             <tr key={index}>
