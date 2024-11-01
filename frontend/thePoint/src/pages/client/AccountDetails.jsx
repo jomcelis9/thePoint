@@ -14,7 +14,7 @@ export default function AccountDetailsPage() {
 
   const handleEditClick = () => {
     setIsEditing(true);
-  };
+  };    
 
   const handleCancelClick = () => {
     setIsEditing(false);
@@ -127,3 +127,4 @@ export default function AccountDetailsPage() {
     </div>
   );
 }
+
