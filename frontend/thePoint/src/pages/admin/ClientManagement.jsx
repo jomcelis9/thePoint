@@ -53,8 +53,9 @@ export default function ClientManagement() {
             btnName2 = {"Reject"}
             fetchDataQuery = {"clients"}  
             column1 = {"client_id"} 
-            column3 = {"name"}
-            column4 = {"contact"}     
+            column2 = {"name"}
+            column3 = {"contact"}
+            column4={null}     
             />
                 
             </Table>

@@ -28,9 +28,9 @@ export default function ViewAppointments() {
           btnName2 = {"Reject"}
           fetchDataQuery = {"appointments"}
           column1 = {"appoint_id"}  
-          column2 = {"appoint_date"} 
+          column2 = {"patient_name"} 
           column3 = {"time"}
-          column4 = {"patient_name"}     
+          column4 = {"appoint_date"}     
           column5 = {"contact_number"}
           column6 ={"appointment_status"}    
           />
