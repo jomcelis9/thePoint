@@ -21,6 +21,8 @@ export default function TableBody(
     const [isAction, setIsAction ] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOrder, setSortOrder] = useState('asc');
+    const [statusSortOrder, setStatusSortOrder] = useState("normal"); // Possible values: "normal", "confirmed-first", "rejected-first"
+
 
     const table = fetchDataQuery;
 
@@ -177,6 +179,59 @@ export default function TableBody(
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
+  const handleSortByDate = () => {
+    const sortedData = [...data].sort((a, b) => {
+      const dateA = new Date(a[column4]); // Parse date from string
+      const dateB = new Date(b[column4]);
+  
+      if (sortOrder === 'asc') {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
+    });
+  
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByStatus = () => {
+    const customOrder = ["confirmed", "reject", "pending"];
+    
+    const sortedData = [...data].sort((a, b) => {
+      const statusA = a[column6];
+      const statusB = b[column6];
+  
+      if (sortOrder === 'asc') {
+        return customOrder.indexOf(statusA) - customOrder.indexOf(statusB);
+      } else {
+        return customOrder.indexOf(statusB) - customOrder.indexOf(statusA);
+      }
+    });
+  
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByTime = () => {
+    const sortedData = [...data].sort((a, b) => {
+      const timeA = a[column3];
+      const timeB = b[column3];
+  
+      if (sortOrder === 'asc') {
+        return timeA.localeCompare(timeB);
+      } else {
+        return timeB.localeCompare(timeA); 
+      }
+    });
+  
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+  
+  
+  
+
   
    return (
     <>
@@ -211,10 +266,10 @@ export default function TableBody(
 <HeaderRow
   header1={<button onClick={handleSort}> {headerOne} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
   header2={<button onClick={handleSortByName}> {headerTwo} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header3={headerThree}
-  header4={headerFour}
+  header3={<button onClick={handleSortByTime}> {headerThree} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
+  header4={<button onClick={handleSortByDate}> {headerFour} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
   header5={headerFive}
-  header6={headerSix}
+  header6={<button onClick={handleSortByStatus}> {headerSix} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
   header7={headerSeven}
 />
 
