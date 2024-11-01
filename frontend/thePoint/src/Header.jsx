@@ -163,7 +163,7 @@ export default function Header() {
                   alt="Profile Icon" 
                   className="w-6 h-6 mr-3"
                 />
-                <Link to="/account-details">Account Details</Link>
+                <Link to="/accountdetails">Account Details</Link>
               </li>
               <li className="flex items-center text-white hover:text-gray-200 mb-2 ml-0">
                 <img 

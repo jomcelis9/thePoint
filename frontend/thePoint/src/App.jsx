@@ -17,6 +17,7 @@ import ClientManagement from './pages/admin/ClientManagement';
 import Settings from './pages/admin/Settings';
 import ForgotPassword from './pages/client/ForgotPasswordPage';
 import ResetPasswordPage from './pages/client/ResetPasswordPage';
+import AccountDetails from './pages/client/AccountDetails';
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -31,7 +32,7 @@ function App() {
         <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/confirm" element={<ConfirmPage/>}/>
         <Route path="/contact" element={<ContactPage/>}/>
-        
+        <Route path="/accountdetails" element={<AccountDetails/>}/>
       </Route>
 
       <Route path="admin" element={<AdminLayout/>}>
