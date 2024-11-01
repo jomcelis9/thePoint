@@ -1,6 +1,8 @@
 import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import Table from "../../../components/table";
+import HeaderRow from '../../../components/ui/HeaderRow';
+import TableBody from "../../../components/ui/TableBody";
 
 export default function ClientManagement() {
     const { open } = useOutletContext();
@@ -42,7 +44,10 @@ export default function ClientManagement() {
 
     return (
         <div className={`p-4 transition-all duration-300 ${open ? "ml-0" : "ml-20"} mt-20 border`}>
-            <Table onRowSelect={handleRowSelect} />
+            <Table>
+                <HeaderRow /> 
+                <TableBody />
+            </Table>
 
             <div className="absolute bottom-8 right-10">
                 <button
