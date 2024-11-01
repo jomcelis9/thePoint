@@ -9,9 +9,43 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // State variables for error messages
+  const [nameError, setNameError] = useState('');
+  const [lastnameError, setLastNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
   async function registerUser(ev) {
     ev.preventDefault();
-  
+
+    // Reset error messages
+    setNameError('');
+    setLastNameError('');
+    setEmailError('');
+    setPasswordError('');
+
+    let hasError = false;
+
+    // Validation to check if any fields are empty
+    if (!name) {
+      setNameError("Name is required");
+      hasError = true;
+    }
+    if (!lastname) {
+      setLastNameError("Last name is required");
+      hasError = true;
+    }
+    if (!email) {
+      setEmailError("Email is required");
+      hasError = true;
+    }
+    if (!password) {
+      setPasswordError("Password is required");
+      hasError = true;
+    }
+
+    if (hasError) return; // Exit if there are validation errors
+
     try {
       const response = await axios.post("http://localhost:5001/routes/auth/register", {
         name,
@@ -19,11 +53,8 @@ export default function RegisterPage() {
         email,
         password,
       });
-  
+
       console.log("User registered successfully:", response.data);
-      alert("Registration successful!");
-      
-      // Redirect to login page
       navigate("/login");
 
       // Reset form fields
@@ -56,18 +87,20 @@ export default function RegisterPage() {
                   <input 
                     value={name} onChange={ev => setName(ev.target.value)}
                     type="text"
-                    className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" 
+                    className={`w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none ${nameError ? 'border-red-500' : ''}`} 
                     placeholder="First name"
                   />
+                  {nameError && <p className="text-red-500 text-xs">{nameError}</p>} {/* Error message */}
                 </div>
                 <div>
                   <label className="text-gray-800 text-xs block mb-2">Last Name</label>
                   <input 
                     value={lastname} onChange={ev => setLastName(ev.target.value)}
                     type="text"
-                    className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" 
+                    className={`w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none ${lastnameError ? 'border-red-500' : ''}`} 
                     placeholder="Last name"
                   />
+                  {lastnameError && <p className="text-red-500 text-xs">{lastnameError}</p>} {/* Error message */}
                 </div>
               </div>
              
@@ -76,18 +109,20 @@ export default function RegisterPage() {
                 <input 
                   value={email} onChange={ev => setEmail(ev.target.value)}
                   type="email"
-                  className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                  className={`w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none ${emailError ? 'border-red-500' : ''}`}
                   placeholder="Enter email"
                 />
+                {emailError && <p className="text-red-500 text-xs">{emailError}</p>} {/* Error message */}
               </div>
               <div className="mt-4">
                 <label className="text-gray-800 text-xs block mb-2">Password</label>
                 <input 
                   value={password} onChange={ev => setPassword(ev.target.value)}
                   type="password"
-                  className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                  className={`w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none ${passwordError ? 'border-red-500' : ''}`}
                   placeholder="Enter password"
                 />
+                {passwordError && <p className="text-red-500 text-xs">{passwordError}</p>} {/* Error message */}
               </div>
 
               <div className="mt-12">

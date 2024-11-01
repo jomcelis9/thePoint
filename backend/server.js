@@ -3,8 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
-const pool = require('./db'); // Import pool for potential future use
-
+const pool = require('./db'); 
 dotenv.config();
 
 const app = express();
@@ -18,10 +17,10 @@ app.use(cors({
 app.use('/routes/auth', authRoutes);
 app.use('/api/appointments', appointmentRoutes);
 
-// Database query function
+
 const performQuery = async (query, values) => {
     try {
-        const result = await pool.query(query, values);
+        const result = await pool.query(query, values); 
         return result.rows;
     } catch (err) {
         console.error("Database Error: " + err);
@@ -29,7 +28,7 @@ const performQuery = async (query, values) => {
     }
 };
 
-// Function to refresh data
+
 const refreshApi = async () => {
     try {
         await performQuery('SELECT * FROM views_rejected_appointments');
@@ -41,7 +40,7 @@ const refreshApi = async () => {
     }
 };
 
-// Optionally, call refreshApi on server start
+
 refreshApi();
 
 const PORT = process.env.PORT || 5001;

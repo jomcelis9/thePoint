@@ -1,7 +1,7 @@
 const express = require('express');
-const { register, login } = require('../controllers/auth'); // Ensure correct import path
+const { register, login } = require('../controllers/auth'); 
 const router = express.Router();
-const cors = require('cors'); // If not needed, this can be removed
+const cors = require('cors'); 
 
 router.post('/register', register);
 router.post('/login', login);
