@@ -20,14 +20,10 @@ export default function Settings() {
     };
 
     return (
-        <div className="flex items-center p-6">
+        <div className="flex items-center justify-center h-screen p-6">
             <div
-                className="bg-white shadow-lg rounded-lg p-4"
-                style={{
-                    width: '800px',
-                    height: '600px',
-                    position: 'relative'
-                }}
+                className="bg-white shadow-lg rounded-lg p-8 w-full h-full max-w-6xl"
+                style={{ position: 'relative' }}
             >
                 <h1 className="text-4xl font-sans font-bold text-gray-800 mb-8 mt-4">Settings</h1>
 
@@ -69,7 +65,7 @@ export default function Settings() {
                             background: 'linear-gradient(90deg, #F91F1F 34%, #FF0085 89%)',
                             position: 'absolute',
                             bottom: '30px',
-                            left: '650px'
+                            right: '30px'
                         }}
                         onClick={handleEditClick}
                     >
@@ -78,7 +74,7 @@ export default function Settings() {
                 )}
 
                 {isEditing && (
-                    <div style={{ position: 'absolute', bottom: '30px', left: '450px' }}>
+                    <div style={{ position: 'absolute', bottom: '30px', right: '30px' }}>
                         <button
                             className="text-white font-medium rounded-[25px] text-sm px-10 py-2 mr-2"
                             style={{ background: '#728394' }}
