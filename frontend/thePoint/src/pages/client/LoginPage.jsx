@@ -11,12 +11,13 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
 
+    //checking if there are values on email and password textbox
     if (!email || !password) {
       setError('Please enter both email and password');
       setLoading(false);
       return;
     }
-
+//fetching data by direct URL
     try {
       const response = await fetch('http://localhost:5001/routes/auth/login', {
         method: 'POST',
@@ -28,10 +29,11 @@ export default function LoginPage() {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        window.location.href = '/booking';
+        window.location.href = '/booking'; // if login successful, goes to bookingpage
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }
+      //error handling
     } catch (err) {
       console.error('Error during login:', err);
       setError('Server error. Please try again later.');

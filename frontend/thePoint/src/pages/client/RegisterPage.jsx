@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-
+//variables
 export default function RegisterPage() {
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -9,7 +9,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // State variables for error messages
+//state variables for setting error when no value in textbox
   const [nameError, setNameError] = useState('');
   const [lastnameError, setLastNameError] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -18,15 +18,14 @@ export default function RegisterPage() {
   async function registerUser(ev) {
     ev.preventDefault();
 
-    // Reset error messages
+
     setNameError('');
     setLastNameError('');
     setEmailError('');
     setPasswordError('');
 
     let hasError = false;
-
-    // Validation to check if any fields are empty
+    //ensuring there is a value in the textbox
     if (!name) {
       setNameError("Name is required");
       hasError = true;
@@ -44,8 +43,8 @@ export default function RegisterPage() {
       hasError = true;
     }
 
-    if (hasError) return; // Exit if there are validation errors
-
+    if (hasError) return; 
+//posting data using URL to database
     try {
       const response = await axios.post("http://localhost:5001/routes/auth/register", {
         name,
@@ -55,13 +54,15 @@ export default function RegisterPage() {
       });
 
       console.log("User registered successfully:", response.data);
+      //navigate handle when clicking submit goes to loginpage 
       navigate("/login");
 
-      // Reset form fields
+      
       setName('');
       setLastName('');
       setEmail('');
       setPassword('');
+      //error handling
     } catch (error) {
       console.error("Registration error:", error);
       alert("An error occurred: " + JSON.stringify(error.response?.data || error.message));

@@ -15,7 +15,7 @@ app.use(cors({
 }));
 
 app.use('/routes/auth', authRoutes);
-app.use('/api/appointments', appointmentRoutes);
+app.use('/routes/appointments', appointmentRoutes);
 
 
 const performQuery = async (query, values) => {
