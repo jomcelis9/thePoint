@@ -2,6 +2,7 @@ import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import Table from "../../../components/table";
 import TableBody from "../../../components/ui/TableBody";
+import HeaderRow from "../../../components/ui/HeaderRow";
 
 
 export default function ClientManagement() {
@@ -44,6 +45,7 @@ export default function ClientManagement() {
 
     return (
         <div className={`p-4 transition-all duration-300 ${open ? "ml-0" : "ml-20"} mt-20 border`}>
+            <h2 className="text-4xl font-bold mb-8 text-gray-900">List of Clients</h2>
             <Table onRowSelect={handleRowSelect}>
             <TableBody
             statusOne = {"statusConfirmed"} 
@@ -55,7 +57,10 @@ export default function ClientManagement() {
             column1 = {"client_id"} 
             column2 = {"name"}
             column3 = {"contact"}
-            column4={null}     
+            column4={null} 
+            headerOne = {"Client ID"}
+            headerTwo = {"Name"}
+            headerThree = {"Contact Number"}
             />
                 
             </Table>

@@ -3,7 +3,14 @@ import axios from 'axios';
 import HeaderRow from '../ui/HeaderRow';
 
 export default function TableBody(
-  {statusOne,statusTwo,statusThree,btnName1,btnName2,fetchDataQuery,column1,column2,column3,column4,column5,column6,actionable}){
+  {statusOne,statusTwo,statusThree,
+    btnName1,btnName2,fetchDataQuery,
+    column1,column2,column3,column4,
+    column5,column6,actionable,
+    headerOne,headerTwo,headerThree,headerFour,
+    headerFive,headerSix,headerSeven
+
+  }){
 
 
     const [data, setData] = useState([]); // updates data from any requests
@@ -157,7 +164,15 @@ export default function TableBody(
                 </svg>            
         </button>
       </div>
-        {/* <HeaderRow/>  */}
+        <HeaderRow
+          header1 = {headerOne}
+          header2 = {headerTwo}
+          header3 = {headerThree}
+          header4 = {headerFour}
+          header5 = {headerFive}
+          header6 = {headerSix}
+          header7 = {headerSeven}
+        /> 
       <tbody>
       <div className="flex justify-end">
         </div>

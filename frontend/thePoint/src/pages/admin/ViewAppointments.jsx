@@ -33,7 +33,14 @@ export default function ViewAppointments() {
           column4 = {"appoint_date"}     
           column5 = {"contact_number"}
           column6 ={"appointment_status"}  
-          actionable = {true}  
+          actionable = {true}
+          headerOne = {"ID"}
+          headerTwo = {"Name"}
+          headerThree = {"Time"}
+          headerFour = {"Date"}
+          headerFive = {"Contact Number"}
+          headerSix = {"Status"}
+          headerSeven = {"Action"}
           />
         </Table>
 
