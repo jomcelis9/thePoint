@@ -20,6 +20,7 @@ export default function TableBody(
     const [isDate, setIsDate ] = useState(false);
     const [isAction, setIsAction ] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [sortOrder, setSortOrder] = useState('asc');
 
     useEffect(() =>{
         fetchData(`${fetchDataQuery}`)
@@ -141,12 +142,36 @@ export default function TableBody(
       }
     };
 
-      // Filtered data based on the search term
   const filteredData = data.filter(row => {
     const rowValues = [column1, column2, column3, column4, column5, column6].map(col => row[col]?.toString().toLowerCase() || "");
     return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
   });
-    
+
+  const handleSort = () => {
+    const sortedData = [...data].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a[column1] > b[column1] ? 1 : -1;
+      } else {
+        return a[column1] < b[column1] ? 1 : -1;
+      }
+    });
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByName = () => {
+    const sortedData = [...data].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a[column2].localeCompare(b[column2]);
+      } else {
+        return b[column2].localeCompare(a[column2]);
+      }
+    });
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  
    return (
     <>
     <div>
@@ -177,15 +202,16 @@ export default function TableBody(
                 </svg>            
         </button>
       </div>
-        <HeaderRow
-          header1 = {headerOne}
-          header2 = {headerTwo}
-          header3 = {headerThree}
-          header4 = {headerFour}
-          header5 = {headerFive}
-          header6 = {headerSix}
-          header7 = {headerSeven}
-        /> 
+<HeaderRow
+  header1={<button onClick={handleSort}> {headerOne} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
+  header2={<button onClick={handleSortByName}> {headerTwo} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
+  header3={headerThree}
+  header4={headerFour}
+  header5={headerFive}
+  header6={headerSix}
+  header7={headerSeven}
+/>
+
       <tbody>
       <div className="flex justify-end">
         </div>
