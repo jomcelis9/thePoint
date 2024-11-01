@@ -3,7 +3,7 @@ import axios from 'axios';
 import HeaderRow from '../ui/HeaderRow';
 
 export default function TableBody(
-  {statusOne,statusTwo,statusThree,btnName1,btnName2,fetchDataQuery,column1,column2,column3,column4,column5,column6}){
+  {statusOne,statusTwo,statusThree,btnName1,btnName2,fetchDataQuery,column1,column2,column3,column4,column5,column6,actionable}){
 
 
     const [data, setData] = useState([]); // updates data from any requests
@@ -11,6 +11,7 @@ export default function TableBody(
     const [error, setError] = useState(null); // to handle errors
     const [selectedRows, setSelectedRows] = useState([]); 
     const [isDate, setIsDate ] = useState(false);
+    const [isAction, setIsAction ] = useState(false);
 
     useEffect(() =>{
         fetchData(`${fetchDataQuery}`)
@@ -18,9 +19,21 @@ export default function TableBody(
 
     useEffect(() => {
       // Check if columnFour is null or undefined in any of the rows, and update isDate accordingly
+      if(actionable === true){  
+        setIsAction(true);
+      }else{
+        setIsAction(false)
+      }
+
+    }, [data]);
+
+    useEffect(() => {
+      // Check if columnFour is null or undefined in any of the rows, and update isDate accordingly
       const hasValidDate = data.some((row) => row[column4] !== null && row[column4] !== undefined);
       setIsDate(hasValidDate);
     }, [data]);
+
+
 
     if (loading) {
         return <div>Loading...</div>; // show loading spinner or message
@@ -196,7 +209,9 @@ export default function TableBody(
                 {columnSix}
               </th>
 
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
+          {/* Actionable BUttons */}
+                {isAction && (
+                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
@@ -229,6 +244,7 @@ export default function TableBody(
                   </button>
                 </div>
               </th>
+                )}
             </tr>
           );
         })}

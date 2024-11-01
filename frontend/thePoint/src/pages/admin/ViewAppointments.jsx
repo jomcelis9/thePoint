@@ -32,7 +32,8 @@ export default function ViewAppointments() {
           column3 = {"time"}
           column4 = {"appoint_date"}     
           column5 = {"contact_number"}
-          column6 ={"appointment_status"}    
+          column6 ={"appointment_status"}  
+          actionable = {true}  
           />
         </Table>
 
