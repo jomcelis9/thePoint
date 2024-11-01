@@ -19,6 +19,7 @@ export default function TableBody(
     const [selectedRows, setSelectedRows] = useState([]); 
     const [isDate, setIsDate ] = useState(false);
     const [isAction, setIsAction ] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() =>{
         fetchData(`${fetchDataQuery}`)
@@ -140,6 +141,12 @@ export default function TableBody(
       }
     };
 
+      // Filtered data based on the search term
+  const filteredData = data.filter(row => {
+    const rowValues = [column1, column2, column3, column4, column5, column6].map(col => row[col]?.toString().toLowerCase() || "");
+    return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
+  });
+    
    return (
     <>
     <div>
@@ -151,8 +158,14 @@ export default function TableBody(
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                   </svg>
               </div>
-              <input type="text" id="table-search" className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
-              </input>
+              <input
+            type="text"
+            id="table-search"
+            value={searchTerm} // Bind search term to input value
+            onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+            className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Search for items"
+          />
         </div>
 
         <button 
@@ -177,7 +190,7 @@ export default function TableBody(
       <div className="flex justify-end">
         </div>
       {/*accesses individual  elements of the database */}
-        {data.map((row, index) => {
+        {filteredData.map((row, index) => {
 
           const columnOne = row[column1]; // Always ID
           const columnTwo = row[column2];
@@ -230,7 +243,7 @@ export default function TableBody(
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", column1, statusOne)}
+                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusOne)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-white font-bold rounded-full text-sm text-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -239,7 +252,7 @@ export default function TableBody(
                     {/* {btnName1} */}
                   </button>
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", column1, statusTwo)}
+                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusTwo)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
