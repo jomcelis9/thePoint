@@ -230,7 +230,7 @@ export default function TableBody(
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", column1, statusOne)}
+                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusOne)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-white font-bold rounded-full text-sm text-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -239,7 +239,7 @@ export default function TableBody(
                     {/* {btnName1} */}
                   </button>
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", column1, statusTwo)}
+                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusTwo)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
