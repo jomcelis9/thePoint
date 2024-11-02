@@ -22,8 +22,8 @@ app.use(routes);
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'thePoint',
-    password: 'admin123',
+    database: 'postgres',
+    password: 'geraldcool12',
     port: 5432,
 
 });
@@ -34,7 +34,7 @@ const PORT = 5001;
 
 app.listen(PORT,()=>{
     console.log(`Server running on port ${PORT}`)
-})
+});
 
 pool.query(`select * from appointments`,(err,res)=>{
     if(!err){
@@ -43,7 +43,7 @@ pool.query(`select * from appointments`,(err,res)=>{
         console.log(err.message);
     }
     pool.end;
-})
+});
 
 const performQuery = async (query, values) => {
     try{
@@ -66,7 +66,7 @@ const refreshApi =  async () => {
     } catch (error) {
         console.log("Error Fetching Data: ", error);
     }
-}
+};
 
 module.exports = {refreshApi};
 
