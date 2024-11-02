@@ -15,8 +15,8 @@ app.use(routes);
 // });
 
 // app.post('/register',(req,res) => {
-//     const {name, lastName ,email, password} = req.body;
-//     res.json({name, lastName ,email, password});
+//     const {name, lastname ,email, password} = req.body;
+//     res.json({name, lastname ,email, password});
 // });
 
 const pool = new Pool({
@@ -72,4 +72,3 @@ module.exports = {refreshApi};
 
  */
 
-// pwede na dile imind ni nga file

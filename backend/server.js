@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const paymentRoute = require('./routes/payment');
 const pool = require('./db'); 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors({
 
 app.use('/routes/auth', authRoutes);
 app.use('/routes/appointments', appointmentRoutes);
+app.use('/routes/payment', paymentRoute);
 
 
 const performQuery = async (query, values) => {
