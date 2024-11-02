@@ -53,7 +53,7 @@ export default function ConfirmPage() {
                             <h3 className="text-sm text-black">Client #1</h3>
                             <div className="flex justify-items-stretch gap-5">
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.firstName || ""} readOnly
                                     />
                                     <p>
@@ -61,7 +61,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.lastName || ""} readOnly
                                     />
                                     <p>
@@ -69,7 +69,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="bshadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="bshadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.contactNumber || ""} readOnly
                                     />
                                     <p>
@@ -77,7 +77,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.age || ""} readOnly
                                     />
                                     <p>
@@ -85,7 +85,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.therapyType || ""} readOnly
                                     />
                                     <p>
@@ -93,7 +93,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.date || ""} readOnly
                                     />
                                     <p>
@@ -101,7 +101,7 @@ export default function ConfirmPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                         value={formData.time || ""} readOnly
                                     />
                                     <p>
