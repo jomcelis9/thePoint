@@ -20,6 +20,9 @@ export default function TableBody(
     const [isDate, setIsDate ] = useState(false);
     const [isAction, setIsAction ] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [statusSortOrder, setStatusSortOrder] = useState("normal"); // Possible values: "normal", "confirmed-first", "rejected-first"
+
 
     const table = fetchDataQuery;
 
@@ -147,12 +150,89 @@ export default function TableBody(
       }
     };
 
-      // Filtered data based on the search term
   const filteredData = data.filter(row => {
     const rowValues = [column1, column2, column3, column4, column5, column6].map(col => row[col]?.toString().toLowerCase() || "");
     return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
   });
+
+  const handleSort = () => {
+    const sortedData = [...data].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a[column1] > b[column1] ? 1 : -1;
+      } else {
+        return a[column1] < b[column1] ? 1 : -1;
+      }
+    });
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByName = () => {
+    const sortedData = [...data].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a[column2].localeCompare(b[column2]);
+      } else {
+        return b[column2].localeCompare(a[column2]);
+      }
+    });
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByDate = () => {
+    const sortedData = [...data].sort((a, b) => {
+      const dateA = new Date(a[column4]); // Parse date from string
+      const dateB = new Date(b[column4]);
+  
+      if (sortOrder === 'asc') {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
+    });
+  
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByStatus = () => {
+    const customOrder = ["confirmed", "reject", "pending"];
     
+    const sortedData = [...data].sort((a, b) => {
+      const statusA = a[column6];
+      const statusB = b[column6];
+  
+      if (sortOrder === 'asc') {
+        return customOrder.indexOf(statusA) - customOrder.indexOf(statusB);
+      } else {
+        return customOrder.indexOf(statusB) - customOrder.indexOf(statusA);
+      }
+    });
+  
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByTime = () => {
+    const sortedData = [...data].sort((a, b) => {
+      const timeA = a[column3];
+      const timeB = b[column3];
+  
+      if (sortOrder === 'asc') {
+        return timeA.localeCompare(timeB);
+      } else {
+        return timeB.localeCompare(timeA); 
+      }
+    });
+  
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+  
+  
+  
+
+  
    return (
     <>
     <div>
@@ -183,15 +263,16 @@ export default function TableBody(
                 </svg>            
         </button>
       </div>
-        <HeaderRow
-          header1 = {headerOne}
-          header2 = {headerTwo}
-          header3 = {headerThree}
-          header4 = {headerFour}
-          header5 = {headerFive}
-          header6 = {headerSix}
-          header7 = {headerSeven}
-        /> 
+<HeaderRow
+  header1={<button onClick={handleSort}> {headerOne} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
+  header2={<button onClick={handleSortByName}> {headerTwo} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
+  header3={<button onClick={handleSortByTime}> {headerThree} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
+  header4={<button onClick={handleSortByDate}> {headerFour} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
+  header5={headerFive}
+  header6={<button onClick={handleSortByStatus}> {headerSix} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
+  header7={headerSeven}
+/>
+
       <tbody>
       <div className="flex justify-end">
         </div>
@@ -268,7 +349,7 @@ export default function TableBody(
                   </button>
 
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", column1, statusThree)}
+                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusThree)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center"
                   >

@@ -23,27 +23,19 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'postgres',
-    password: 'geraldcool12',
+    password: '123',
     port: 5432,
 
 });
 
 pool.connect();
 
-const PORT = 5001;
+const PORT = 5002;
 
 app.listen(PORT,()=>{
-    console.log(`Server running on port ${PORT}`)
+    console.log(`Server running on port server.js ${PORT}`)
 });
 
-pool.query(`select * from appointments`,(err,res)=>{
-    if(!err){
-        console.log(res.rows);
-    }else{
-        console.log(err.message);
-    }
-    pool.end;
-});
 
 const performQuery = async (query, values) => {
     try{
