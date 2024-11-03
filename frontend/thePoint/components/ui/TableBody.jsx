@@ -8,7 +8,7 @@ export default function TableBody(
     column1,column2,column3,column4,
     column5,column6,actionable,
     headerOne,headerTwo,headerThree,headerFour,
-    headerFive,headerSix,headerSeven
+    headerFive,headerSix,headerSeven,onRowClick
 
   }){
 
@@ -287,7 +287,9 @@ export default function TableBody(
           const columnSix =row[column6];
 
           return (
-            <tr key={index}>
+            <tr key={index}
+            onClick={() => onRowClick(row)}
+            className="cursor-pointer hover:bg-gray-100">
               <th scope="col" className="p-4">
                 <div className="flex items-center">
                   <input
