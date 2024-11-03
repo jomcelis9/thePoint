@@ -6,17 +6,17 @@ export default function BookingPage() {
     const [minDate, setMinDate] = useState("");
     const [showGuardianForm, setShowGuardianForm] = useState(false); // State for showing Guardian Details
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        contactNumber: "",
-        age: "",
-        therapyType: "",
-        date: "",
+        appoint_date: "",
+        appoint_type: "",
         time: "",
-        accompanied: "", 
-        guardianName: "", 
-        guardianContact: "",
-
+        patient_name: "", // This will need to be handled separately
+        patient_age: "",
+        therapist_name: "",
+        appointment_status: "",
+        contact_number: "",
+        accompanied: "",   // Add accompanied here if you want to store it
+        guardianName: "",
+        guardianContact: ""
     });
 
     const getTodayDate = () => {
@@ -40,11 +40,13 @@ export default function BookingPage() {
 
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        const updatedFormData = { ...formData, [name]: value };
+        const { name, value } = e.target; // Destructure the name and value
+        let updatedFormData = { ...formData, [name]: value }; // Use the name to update the correct key
+    
         setFormData(updatedFormData);
-        localStorage.setItem("formData", JSON.stringify(updatedFormData)); 
-    };
+        localStorage.setItem("formData", JSON.stringify(updatedFormData));
+    };    
+    
 
     const handleAccompaniedChange = (e) => {
         const { value } = e.target;
@@ -57,20 +59,23 @@ export default function BookingPage() {
         // Function to clear the form
         const handleClearForm = () => {
             setFormData({
-                firstName: "",
-                lastName: "",
-                contactNumber: "",
-                age: "",
-                therapyType: "",
-                date: "",
+                appoint_date: "",
+                appoint_type: "",
                 time: "",
-                accompanied: "", 
-                guardianName: "", 
-                guardianContact: "",
+                patient_id: "",
+                patient_name: "",
+                patient_age: "",
+                therapist_name: "",
+                appointment_status: "",
+                contact_number: "",
+                accompanied: "",
+                guardianName: "",
+                guardianContact: ""
             });
-            setShowGuardianForm(false); // Reset the guardian form visibility
-            localStorage.removeItem("formData"); // Clear the saved form data in localStorage
+            setShowGuardianForm(false);
+            localStorage.removeItem("formData");
         };
+        
          return(
                 <div className="relative">
                 Booking Page
@@ -112,29 +117,25 @@ export default function BookingPage() {
 
                         <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
                             <div className="relative z-0 w-full group">
-                                <label htmlFor="firstName">First Name</label>
-                                <input id="firstName" name="firstName" type="text" value={formData.firstName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" onChange={handleInputChange} />
-                            </div>
-                            <div className="relative z-0 w-full group">
-                                <label htmlFor="lastName">Last Name</label>
-                                <input id="lastName" name="lastName" type="text" value={formData.lastName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="DelaCruz" onChange={handleInputChange} />
+                                <label htmlFor="patient_name">Full Name</label>
+                                <input id="patient_name" name="patient_name" type="text" value={formData.patient_name} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Juan" onChange={handleInputChange}/>
                             </div>
                         </div>
 
                         <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2 mb-3">
                             <div className="relative z-0 w-full group">
                                 <label>Contact Number</label>
-                                <input name="contactNumber" type="text" value={formData.contactNumber} required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                                <input name="contact_number" type="text" value={formData.contact_number} required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
                             </div>
                             <div className="relative z-0 w-full group">
                                 <label>Age</label>
-                                <input name="age" type="text" value={formData.age} required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                                <input name="patient_age" type="text" value={formData.patient_age} required maxLength="3" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="27" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
                             </div>
                         </div>
 
                         <div className="relative z-0 w-full group">
                             <label>Type of Therapy</label>
-                            <select name="therapyType" value={formData.therapyType} className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" onChange={handleInputChange}>
+                            <select name="appoint_type" value={formData.appoint_type} className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" onChange={handleInputChange}>
                                 <option value="">Select Type of Therapy</option>
                                 <option value="occupational">Occupational Therapy</option>
                                 <option value="sped">SPED Program</option>
@@ -144,7 +145,7 @@ export default function BookingPage() {
 
                         <div className="w-full">
                             <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Date:</label>
-                            <input id="date" name="date" value={formData.date} type="date" min={minDate} className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={handleInputChange} />
+                            <input id="appoint_date" name="appoint_date" value={formData.appoint_date} type="date" min={minDate} className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={handleInputChange} />
                         </div>
 
                         <div className="w-full mt-4">

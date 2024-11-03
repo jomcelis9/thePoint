@@ -48,6 +48,40 @@ router.put('/:table/:appointmentId/:values', async (req, res) => {
     }
   });
 
+// Assuming you already have the necessary imports (express, pool, etc.)
+
+router.post('/appointments', async (req, res) => {
+    const {
+        appoint_date, appoint_type, time,
+        patient_name, patient_age,
+        contact_number
+    } = req.body;
+
+    const query = `
+        INSERT INTO appointments 
+        (appoint_date, appoint_type, time, patient_name, patient_age, contact_number) 
+        VALUES 
+        ($1, $2, $3, $4, $5, $6);
+    `;
+
+    const values = [
+        appoint_date, appoint_type, time,
+        patient_name, patient_age, 
+        contact_number
+    ];
+
+    try {
+        const result = await pool.query(query, values);
+        res.json({ message: 'Insert successful', data: result });
+    } catch (error) {
+        console.log('Error executing query:', error.message);  // Log the specific error message
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+});
+
+
+
+
 // ================ NEW: DELETE  ROUTE ================
 
 router.delete('/:table/:columnId', async (req,res) => {
