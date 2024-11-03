@@ -1,12 +1,22 @@
 import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios"; // Import axios
 import Table from "../../../components/table";
 import TableBody from "../../../components/ui/TableBody";
 
 export default function ClientManagement() {
     const { open } = useOutletContext();
     const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
+    const [isClientModalOpen, setIsClientModalOpen] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const [selectedClient, setSelectedClient] = useState(null);
+    const [clientData, setClientData] = useState({ name: '', contact: '' });
+
+    const handleRowClick = (clientData) => {
+        setSelectedClient(clientData);
+        setClientData({ name: clientData.name, contact: clientData.contact });
+        setIsClientModalOpen(true);
+    };
 
     const handleRowSelect = (appointment) => {
         setSelectedAppointment(appointment);
@@ -20,11 +30,45 @@ export default function ClientManagement() {
 
     const handleConfirmRemove = () => {
         setIsRemoveModalOpen(false);
+        // Add logic to remove the appointment
     };
 
     const handleCancelRemove = () => {
         setIsRemoveModalOpen(false);
     };
+
+    const handleCloseClientModal = () => {
+        setIsClientModalOpen(false);
+        setSelectedClient(null);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setClientData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const handleSaveChanges = async () => {
+        try {
+            const updatedData = {
+                name: clientData.name.trim(),
+                contact: clientData.contact.trim()
+            };
+    
+            console.log("Payload being sent:", updatedData);
+    
+            // Assuming the endpoint for updating with POST is /api/clients/:id/update
+            const response = await axios.put(
+                `http://127.0.0.1:5001/clients/${selectedClient.client_id}`,
+                updatedData
+            );
+    
+            console.log("Response from server:", response.data);
+            setIsClientModalOpen(false); // Close modal on success
+        } catch (error) {
+            console.error("Error updating client data:", error);
+        }
+    };
+    
 
     return (
         <div className={`p-4 transition-all duration-300 ${open ? "ml-0" : "ml-20"} mt-20 mb-10 border`}>
@@ -45,6 +89,7 @@ export default function ClientManagement() {
                         headerOne={"Client ID"}
                         headerTwo={"Name"}
                         headerThree={"Contact Number"}
+                        onRowClick={handleRowClick}
                     />
                 </Table>
             </div>
@@ -61,6 +106,7 @@ export default function ClientManagement() {
                 </button>
             </div>
 
+            {/* Remove Confirmation Modal */}
             {isRemoveModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white rounded-lg p-4 shadow-lg">
@@ -86,7 +132,50 @@ export default function ClientManagement() {
                     </div>
                 </div>
             )}
+
+            {/* Client Details Modal */}
+            {isClientModalOpen && selectedClient && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white rounded-lg p-4 shadow-lg">
+                        <h2 className="text-lg font-semibold mb-4">Client Details</h2>
+                        <p><strong>Client ID:</strong> {selectedClient.client_id}</p>
+                        <div className="mt-2">
+                            <label className="block mb-1">Name:</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={clientData.name}
+                                onChange={handleInputChange}
+                                className="border rounded px-2 py-1 w-full"
+                            />
+                        </div>
+                        <div className="mt-2">
+                            <label className="block mb-1">Contact Number:</label>
+                            <input
+                                type="text"
+                                name="contact"
+                                value={clientData.contact}
+                                onChange={handleInputChange}
+                                className="border rounded px-2 py-1 w-full"
+                            />
+                        </div>
+                        <div className="mt-4 flex space-x-2">
+                            <button
+                                onClick={handleSaveChanges}
+                                className="bg-gradient-to-r from-thePointPink to-thePointRed text-white py-2 px-4 rounded-lg"
+                            >
+                                Save Changes
+                            </button>
+                            <button
+                                onClick={handleCloseClientModal}
+                                className="bg-gray-300 text-black py-2 px-4 rounded-lg"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
-    
