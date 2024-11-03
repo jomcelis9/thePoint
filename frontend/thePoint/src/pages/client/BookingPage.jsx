@@ -17,6 +17,7 @@ export default function BookingPage() {
         accompanied: "",   // Add accompanied here if you want to store it
         guardianName: "",
         guardianContact: ""
+
     });
 
     const getTodayDate = () => {
@@ -69,8 +70,8 @@ export default function BookingPage() {
                 appointment_status: "",
                 contact_number: "",
                 accompanied: "",
-                guardianName: "",
-                guardianContact: ""
+                guradian_name: "",
+                guardian_contact: ""
             });
             setShowGuardianForm(false);
             localStorage.removeItem("formData");
@@ -177,12 +178,12 @@ export default function BookingPage() {
                                 <h2 className="text-lg font-semibold">Emergency Contact Details</h2>
                                 <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
                                     <div className="relative z-0 w-full group">
-                                        <label htmlFor="guardianName">Full Name</label>
-                                        <input id="guardianName" name="guardianName" type="text" value={formData.guardianName} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Maria Dela Cruz" onChange={handleInputChange} />
+                                        <label htmlFor="guardian_name">Full Name</label>
+                                        <input id="guardian_name" name="guardian_name" type="text" value={formData.guardian_name} required className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="Maria Dela Cruz" onChange={handleInputChange} />
                                     </div>
                                     <div className="relative z-0 w-full group">
-                                        <label htmlFor="guardianContact">Emergency Contact Number</label>
-                                        <input id="guardianContact" name="guardianContact" type="text" value={formData.guardianContact} required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
+                                        <label htmlFor="guardian_contact">Emergency Contact Number</label>
+                                        <input id="guardian_contact" name="guardian_contact" type="text" value={formData.guardian_contact} required maxLength="11" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" placeholder="ex. 09123456789" onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }} onChange={handleInputChange} />
                                     </div>
                                 </div>
                             </div>

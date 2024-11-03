@@ -48,26 +48,27 @@ router.put('/:table/:appointmentId/:values', async (req, res) => {
     }
   });
 
-// Assuming you already have the necessary imports (express, pool, etc.)
+// ================ NEW: POST  ROUTE ================ POSTS TO APPOINTMENT TABLE
 
 router.post('/appointments', async (req, res) => {
     const {
         appoint_date, appoint_type, time,
         patient_name, patient_age,
-        contact_number
+        contact_number, guardian_contact, guardian_name,
     } = req.body;
 
     const query = `
         INSERT INTO appointments 
-        (appoint_date, appoint_type, time, patient_name, patient_age, contact_number) 
+        (appoint_date, appoint_type, time, patient_name, 
+        patient_age, contact_number, guardian_contact, guardian_name) 
         VALUES 
-        ($1, $2, $3, $4, $5, $6);
+        ($1, $2, $3, $4, $5, $6, $7, $8);
     `;
 
     const values = [
         appoint_date, appoint_type, time,
         patient_name, patient_age, 
-        contact_number
+        contact_number, guardian_contact, guardian_name,
     ];
 
     try {
@@ -79,7 +80,7 @@ router.post('/appointments', async (req, res) => {
     }
 });
 
-
+// ================ NEW: POST  ROUTE ================ POSTS TO APPOINTMENT TABLE
 
 
 // ================ NEW: DELETE  ROUTE ================
