@@ -37,10 +37,10 @@ export default function ClientManagement() {
                         statusThree={"statusPending"}
                         btnName1={"Confirm"}
                         btnName2={"Reject"}
-                        fetchDataQuery={"clients"}
-                        column1={"client_id"}
+                        fetchDataQuery={"users"}
+                        column1={"user_id"}
                         column2={"name"}
-                        column3={"contact"}
+                        column3={"email"}
                         column4={null}
                         headerOne={"Client ID"}
                         headerTwo={"Name"}

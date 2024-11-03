@@ -19,6 +19,9 @@ import ForgotPassword from './pages/client/ForgotPasswordPage';
 import ResetPasswordPage from './pages/client/ResetPasswordPage';
 import AccountDetails from './pages/client/AccountDetails';
 import PendingPage from './pages/client/PendingPage';
+import TherapistLayout from '../src/therapistLayout'
+import Session from  './pages/therapist/session';
+
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -45,6 +48,10 @@ function App() {
         <Route path='report' element={<ReportsAndData />} />
         <Route path='clientManagement' element={<ClientManagement />} />
         <Route path='settings' element={<Settings />} />
+      </Route>
+
+      <Route path="therapist" element={<TherapistLayout/>}>
+        <Route path = 'session' element={<Session />}/>
       </Route>
       
         <Route path="/login" element={<LoginPage />} />
