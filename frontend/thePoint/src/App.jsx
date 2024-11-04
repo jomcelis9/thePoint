@@ -52,7 +52,8 @@ function App() {
 
       <Route path="therapist" element={<TherapistLayout/>}>
         <Route path = 'session' element={<Session />}/>
-        <Route path = 'session/patientSessions' element = {<PatientSessions/>}/>
+        {/* <Route path = 'session/patientSessions' element = {<PatientSessions/>}/> */}
+        <Route path="/therapist/session/patientSessions/:patient_id" element={<PatientSessions />} />
       </Route>
       
         <Route path="/login" element={<LoginPage />} />

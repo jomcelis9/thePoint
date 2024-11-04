@@ -42,6 +42,7 @@ export default function ViewAppointments() {
           headerFive = {"Contact Number"}
           headerSix = {"Status"}
           headerSeven = {"Action"}
+          id={"appoint_id"}
           />
         </Table>
 

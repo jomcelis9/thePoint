@@ -7,14 +7,14 @@ import {
     Button,
   } from "@material-tailwind/react";
    
-  export function CardDefault() {
+  export function CardDefault({sessionNumber}) {
     return (
       <Card className="mt-6 w-96">
         <CardHeader color="blue-gray" className="relative h-56">
         </CardHeader>
         <CardBody>
           <Typography variant="h5" color="blue-gray" className="mb-2">
-            Session #1
+            Session {sessionNumber}
           </Typography>
           <Typography>
             The place is close to Barceloneta Beach and bus stop just 2 min by

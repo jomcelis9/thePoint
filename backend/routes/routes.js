@@ -103,6 +103,28 @@ router.delete('/:table/:columnId', async (req,res) => {
 });
 
 // ================ NEW: DELETE  ROUTE ================
+
+
+// ================ NEW: FETCH  ROUTE ================ FETCHES PATIENT ID FROM SESSIONS
+router.get("/session/patientSessions/:patient_id", async (req, res) => {
+    const { patient_id } = req.params;
+    const sessionQuery = `SELECT * FROM session WHERE patient_id = $1`
+    const patientQuery = `SELECT patient_name FROM patient WHERE patient_id = $1`
+    try {
+    console.log("Patient Id:  ",patient_id)
+
+      const session = await pool.query(sessionQuery, [patient_id]);
+      const patient = await pool.query(patientQuery, [patient_id]);
+      res.json({ sessions: session.rows, patient_name: patient.rows[0].patient_name });
+      console.log("Sessions: ", session.rows)
+    } catch (error) {
+      console.error("Error fetching sessions:", error);
+      res.status(500).json({ error: "Error fetching sessions" });
+    }
+  });  
+
+// ================ NEW: FETCH  ROUTE ================
+
   
 module.exports = router;
 
