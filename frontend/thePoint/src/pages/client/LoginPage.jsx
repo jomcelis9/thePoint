@@ -11,7 +11,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); 
+    setError('');
     setLoading(true);
 
     
@@ -30,9 +30,13 @@ export default function LoginPage() {
 
       const data = await response.json();
 
+      console.log(data);
+      
+
+      // Check response status
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        navigate('/booking'); 
+        navigate(data.user.redirect); 
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }
@@ -44,6 +48,7 @@ export default function LoginPage() {
     }
   };
 
+  
   return (
     <div className="bg-gradient-to-r from-thePointRed to-thePointPink">
       <div className="min-h-screen flex flex-col items-center justify-center">
