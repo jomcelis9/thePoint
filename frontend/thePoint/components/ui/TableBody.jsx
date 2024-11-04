@@ -2,13 +2,13 @@ import { useEffect,useState, useSortBy } from "react";
 import axios from 'axios';
 import HeaderRow from '../ui/HeaderRow';
 
-export default function TableBodyTherapist(
+export default function TableBody(
   {statusOne,statusTwo,statusThree,
     btnName1,btnName2,fetchDataQuery,
     column1,column2,column3,column4,
     column5,column6,actionable,
     headerOne,headerTwo,headerThree,headerFour,
-    headerFive,headerSix,headerSeven,onRowClick,therapist,id
+    headerFive,headerSix,headerSeven
 
   }){
 
@@ -30,9 +30,6 @@ export default function TableBodyTherapist(
       column5: "",
       column6: "",
     });
-    const [sortOrder, setSortOrder] = useState('asc');
-    const [statusSortOrder, setStatusSortOrder] = useState("normal"); // Possible values: "normal", "confirmed-first", "rejected-first"
-
 
     const table = fetchDataQuery;
 
@@ -160,10 +157,16 @@ export default function TableBodyTherapist(
       }
     };
 
+      // Filtered data based on the search term
   const filteredData = data.filter(row => {
     const rowValues = [column1, column2, column3, column4, column5, column6].map(col => row[col]?.toString().toLowerCase() || "");
     return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
   });
+
+  const onRowClick = (row) => {
+    setSelectedRowData(row);
+    setIsModalOpen(true);
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -205,81 +208,7 @@ export default function TableBodyTherapist(
     setIsModalOpen(false); 
     fetchData(); 
   };
-
-  const handleSort = () => {
-    const sortedData = [...data].sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a[column1] > b[column1] ? 1 : -1;
-      } else {
-        return a[column1] < b[column1] ? 1 : -1;
-      }
-    });
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByName = () => {
-    const sortedData = [...data].sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a[column2].localeCompare(b[column2]);
-      } else {
-        return b[column2].localeCompare(a[column2]);
-      }
-    });
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByDate = () => {
-    const sortedData = [...data].sort((a, b) => {
-      const dateA = new Date(a[column4]); // Parse date from string
-      const dateB = new Date(b[column4]);
-  
-      if (sortOrder === 'asc') {
-        return dateA - dateB;
-      } else {
-        return dateB - dateA;
-      }
-    });
-  
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByStatus = () => {
-    const customOrder = ["confirmed", "reject", "pending"];
     
-    const sortedData = [...data].sort((a, b) => {
-      const statusA = a[column6];
-      const statusB = b[column6];
-  
-      if (sortOrder === 'asc') {
-        return customOrder.indexOf(statusA) - customOrder.indexOf(statusB);
-      } else {
-        return customOrder.indexOf(statusB) - customOrder.indexOf(statusA);
-      }
-    });
-  
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByTime = () => {
-    const sortedData = [...data].sort((a, b) => {
-      const timeA = a[column3];
-      const timeB = b[column3];
-  
-      if (sortOrder === 'asc') {
-        return timeA.localeCompare(timeB);
-      } else {
-        return timeB.localeCompare(timeA); 
-      }
-    });
-  
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-  
    return (
     <>
     <div>
@@ -310,16 +239,15 @@ export default function TableBodyTherapist(
                 </svg>            
         </button>
       </div>
-<HeaderRow
-  header1={<button onClick={handleSort}> {headerOne} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header2={<button onClick={handleSortByName}> {headerTwo} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header3={<button onClick={handleSortByTime}> {headerThree} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header4={<button onClick={handleSortByDate}> {headerFour} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header5={headerFive}
-  header6={<button onClick={handleSortByStatus}> {headerSix} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header7={headerSeven}
-/>
-
+        <HeaderRow
+          header1 = {headerOne}
+          header2 = {headerTwo}
+          header3 = {headerThree}
+          header4 = {headerFour}
+          header5 = {headerFive}
+          header6 = {headerSix}
+          header7 = {headerSeven}
+        /> 
       <tbody>
       <div className="flex justify-end">
         </div>
@@ -334,8 +262,8 @@ export default function TableBodyTherapist(
           const columnSix =row[column6];
 
           return (
-            <tr key={row[id]}
-            onClick={() => onRowClick(row)}
+            <tr key={index}
+            onDoubleClick={() => onRowClick(row)}
             className="cursor-pointer hover:bg-gray-100">
               <th scope="col" className="p-4">
                 <div className="flex items-center">
@@ -398,7 +326,7 @@ export default function TableBodyTherapist(
                   </button>
 
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusThree)}
+                    onClick={(e) => updateOnClick(e, "appointments", column1, statusThree)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center"
                   >

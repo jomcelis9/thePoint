@@ -32,7 +32,7 @@ export default function Session() {
       <div className="relative">
         <h1 className="text-xl mb-3"> Patients </h1> 
         <Table>
-          <TableBody 
+          <TableBodyTherapist
             statusOne={statusConfirmed} 
             statusTwo={statusRejected} 
             statusThree={statusPending}
