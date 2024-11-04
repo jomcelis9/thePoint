@@ -11,18 +11,22 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
+// Middleware to parse JSON requests
 app.use(express.json());
+
+// CORS configuration
 app.use(cors({
-    origin: 'http://localhost:5173', // Ensure it matches the React app's port
+    origin: 'http://localhost:5173', 
     credentials: true
 }));
 
+// Route configurations
 app.use(routes);
 app.use('/routes/auth', authRoutes);
 app.use('/routes/appointments', appointmentRoutes);
+app.use('/routes/payment', paymentRoute);
 
-
+// Perform a database query
 const performQuery = async (query, values) => {
     try {
         const result = await pool.query(query, values);
@@ -33,7 +37,7 @@ const performQuery = async (query, values) => {
     }
 };
 
-// Optional: Refresh API function
+// Refresh API data function
 const refreshApi = async () => {
     try {
         await performQuery('SELECT * FROM views_rejected_appointments');
@@ -45,11 +49,11 @@ const refreshApi = async () => {
     }
 };
 
-// Call refreshApi if needed
-// refreshApi();
-
 // Start the server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+// Exporting the pool for database access
+module.exports = { pool };

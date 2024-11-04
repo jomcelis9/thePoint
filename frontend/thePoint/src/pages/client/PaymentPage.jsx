@@ -6,70 +6,71 @@ export default function PaymentPage({ patientId, patientNumber }) {
     const [accountName, setAccountName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [referenceNumber, setReferenceNumber] = useState('');
-    const [receiptFile, setReceiptFile] = useState(null);
-    const [message, setMessage] = useState(''); // State for feedback message
-    const [isSuccess, setIsSuccess] = useState(false); // State for success/failure indication
+    /* const [downpayAmount] = useState(25000); // Set the downpayment amount in cents */
+    const [message, setMessage] = useState('');
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const formData = new FormData();
-        formData.append('accountName', accountName);
-        formData.append('accountNumber', accountNumber);
-        formData.append('referenceNumber', referenceNumber);
-        if (receiptFile) {
-            formData.append('receipt', receiptFile);
+        
+        if (accountNumber.length !== 9) {
+            alert("Account number must be exactly 9 characters long.");
+            return;
         }
-
-        // Add patient details to form data
-        formData.append('patientId', patientId); // Use patientId prop
-        formData.append('patientNumber', patientNumber); // Use patientNumber prop
-
+        if (referenceNumber.length !== 9) {
+            alert("Reference number must be exactly 9 characters long.");
+            return;
+        }
+    
         try {
             const response = await fetch('http://localhost:5001/routes/payment/create-payment', {
                 method: 'POST',
-                body: formData,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: 25000, // downpayment amount in cents
+                    paymentMethod: 'gcash',
+                    patientId: null,
+                    patientNumber: patientNumber,
+                    accountName: accountName,
+                    accountNumber: accountNumber,
+                    referenceNumber: referenceNumber,
+                }),
             });
-
+    
+            const data = await response.json();
             if (response.ok) {
-                // Handle successful response
-                console.log("Payment details submitted successfully.");
-                setMessage("Payment submitted successfully!");
+                console.log("Payment intent created successfully:", data);
+                setMessage("Payment Completed! Thank you for your downpayment.");
                 setIsSuccess(true);
-                navigate('/pending');
+                setTimeout(() => {
+                    navigate('/pending'); 
+                }, 3000); 
             } else {
-                // Handle error
-                console.error("Failed to submit payment details.");
-                setMessage("Failed to submit payment details.");
+                console.error("Failed to create payment intent:", data);
+                setMessage("Payment initiation failed: " + data.error);
                 setIsSuccess(false);
             }
         } catch (error) {
             console.error("Error:", error);
-            setMessage("An error occurred while submitting payment.");
+            setMessage("An error occurred while initiating payment.");
             setIsSuccess(false);
         }
     };
+    
 
     return (
         <div className="relative">
             Booking Page
             <div className="flex justify-center mt-36">
-                <div className="mx-auto px-6 ">
+                <div className="mx-auto px-6">
                     <div className="text-center">
                         <h1 className="text-3xl font-medium text-thePointRed bg-transparent">Prioritize Your Health, Begin Healing</h1>
                     </div>
 
-                    <div className="mx-auto w-96 ">
-                        <div className="flex justify-center items-center drop-shadow-2xl pt-7 mb-7">
-                            <ol className="flex items-center w-full">
-                            </ol>
-                        </div>
-                    </div>
                     <div className={`mt-4 text-center ${isSuccess ? 'text-green-500' : 'text-red-500'}`}>
                         {message}
                     </div>
 
-                    {/* Form */}
                     <div className="grid grid-cols-2 gap-1 border-2 rounded-xl">
                         <div className="border rounded-xl my-10 mx-5 p-6 bg-white shadow-lg">
                             {/* Additional content can go here */}
@@ -78,6 +79,16 @@ export default function PaymentPage({ patientId, patientNumber }) {
                             <h1 className="flex justify-center gap-5 text-xl mb-4 text-thePointRed bg-transparent drop-shadow-md">Enter Downpayment Details</h1>
 
                             <div className="w-full">
+                                <label className="block mb-2 text-sm font-medium text-gray-900">Fixed Downpayment Amount:</label>
+                                <input
+                                    type="text"
+                                    value="250 PHP"
+                                    readOnly
+                                    className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                />
+                            </div>
+
+                            <div className="w-full mt-4">
                                 <label htmlFor="accountName" className="block mb-2 text-sm font-medium text-gray-900">Account Name:</label>
                                 <input
                                     id="accountName"
@@ -100,7 +111,7 @@ export default function PaymentPage({ patientId, patientNumber }) {
                                 placeholder="ex. 88888888"
                                 required
                                 onKeyPress={(e) => {
-                                    if (!/[0-9]/.test(e.key)) {
+                                    if (!/[0-9]/.test(e.key) || accountNumber.length >= 9) {
                                         e.preventDefault();
                                     }
                                 }}
@@ -115,9 +126,14 @@ export default function PaymentPage({ patientId, patientNumber }) {
                                 className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 placeholder="ex. 88888888"
                                 required
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key) || referenceNumber.length >= 9) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
 
-                            <label htmlFor="receipt" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Payment Receipt:</label>
+                            <label htmlFor="receipt" className="block mt-4 mb-2 text-sm font-medium text-gray-900">Payment Receipt (optional):</label>
                             <input
                                 type="file"
                                 id="receipt"
