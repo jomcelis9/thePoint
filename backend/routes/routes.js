@@ -27,6 +27,44 @@ router.get('/:table', async (req, res) =>{
 
 });
 
+router.put('/session/:id', async (req, res) => {
+    const { id } = req.params;
+    const sessionData = req.body;
+
+    const query = `UPDATE session SET  
+        session_description=?, 
+        patient_id=?, 
+        therapist_id=?, 
+        appoint_id=?, 
+        session_date=?, 
+        session_title=?, 
+        session_time=? 
+        WHERE session_id=?`;
+
+    try {
+        // Assuming you have a database connection method
+        const result = await db.query(query, [
+            sessionData.session_description,
+            sessionData.patient_id,
+            sessionData.therapist_id,
+            sessionData.appoint_id,
+            sessionData.session_date,
+            sessionData.session_title,
+            sessionData.session_time,
+            id // Use id in the query parameters
+        ]);
+
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Session updated successfully.' });
+        } else {
+            res.status(404).json({ message: 'Session not found.' });
+        }
+    } catch (error) {
+        console.error('Error updating session:', error);
+        res.status(500).json({ message: 'An error occurred while updating the session.' });
+    }
+});
+  
 // update table
 
 router.put('/:table/:appointmentId/:values', async (req, res) => {
