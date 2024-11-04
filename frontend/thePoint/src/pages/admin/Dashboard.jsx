@@ -1,16 +1,16 @@
 // src/Dashboard.js
 
 import React from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+// import {
+//   BarChart,
+//   Bar,
+//   XAxis,
+//   YAxis,
+//   Tooltip,
+//   CartesianGrid,
+//   Legend,
+//   ResponsiveContainer,
+// } from 'recharts';
 
 export default function Dashboard() {
   // Sample data for the chart
