@@ -12,7 +12,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:5173', // Ensure it matches the React app's port
+    origin: '*', // Ensure it matches the React app's port
     credentials: true
 }));
 
@@ -22,7 +22,7 @@ const pool = new Pool({
     host: 'localhost',
     database: 'postgres',
     password: '123',
-    port: 5432,
+    port: 5433,
 });
 
 // Test the database connection
