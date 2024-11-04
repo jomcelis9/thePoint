@@ -20,6 +20,16 @@ export default function TableBodyTherapist(
     const [isDate, setIsDate ] = useState(false);
     const [isAction, setIsAction ] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedRowData, setSelectedRowData] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+    const [modalData, setModalData] = useState({
+      column2: "",
+      column3: "",
+      column4: "",
+      column5: "",
+      column6: "",
+    });
     const [sortOrder, setSortOrder] = useState('asc');
     const [statusSortOrder, setStatusSortOrder] = useState("normal"); // Possible values: "normal", "confirmed-first", "rejected-first"
 
@@ -154,81 +164,7 @@ export default function TableBodyTherapist(
     const rowValues = [column1, column2, column3, column4, column5, column6].map(col => row[col]?.toString().toLowerCase() || "");
     return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
   });
-
-  const handleSort = () => {
-    const sortedData = [...data].sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a[column1] > b[column1] ? 1 : -1;
-      } else {
-        return a[column1] < b[column1] ? 1 : -1;
-      }
-    });
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByName = () => {
-    const sortedData = [...data].sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a[column2].localeCompare(b[column2]);
-      } else {
-        return b[column2].localeCompare(a[column2]);
-      }
-    });
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByDate = () => {
-    const sortedData = [...data].sort((a, b) => {
-      const dateA = new Date(a[column4]); // Parse date from string
-      const dateB = new Date(b[column4]);
-  
-      if (sortOrder === 'asc') {
-        return dateA - dateB;
-      } else {
-        return dateB - dateA;
-      }
-    });
-  
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByStatus = () => {
-    const customOrder = ["confirmed", "reject", "pending"];
     
-    const sortedData = [...data].sort((a, b) => {
-      const statusA = a[column6];
-      const statusB = b[column6];
-  
-      if (sortOrder === 'asc') {
-        return customOrder.indexOf(statusA) - customOrder.indexOf(statusB);
-      } else {
-        return customOrder.indexOf(statusB) - customOrder.indexOf(statusA);
-      }
-    });
-  
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByTime = () => {
-    const sortedData = [...data].sort((a, b) => {
-      const timeA = a[column3];
-      const timeB = b[column3];
-  
-      if (sortOrder === 'asc') {
-        return timeA.localeCompare(timeB);
-      } else {
-        return timeB.localeCompare(timeA); 
-      }
-    });
-  
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-  
    return (
     <>
     <div>
@@ -283,7 +219,7 @@ export default function TableBodyTherapist(
           const columnSix =row[column6];
 
           return (
-            <tr key={row[id]}
+            <tr key={index}
             onClick={() => onRowClick(row)}
             className="cursor-pointer hover:bg-gray-100">
               <th scope="col" className="p-4">
@@ -362,8 +298,125 @@ export default function TableBodyTherapist(
           );
         })}
       </tbody>
-      </div>
 
+      {isModalOpen && selectedRowData && (
+        <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <div className="bg-white p-6 rounded shadow-lg w-96">
+            <h2 className="text-3xl font-bold mb-4 text-black">Client Details</h2>
+            <p className="text-black text-lg"><strong>ID:</strong> {selectedRowData.client_id || selectedRowData.appoint_id}</p>
+            <div className="mt-2">
+              <label className="block mb-1 text-lg font-bold text-black">Name:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={selectedRowData.name || selectedRowData.patient_name}
+                    onChange={handleInputChange}
+                    className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                />
+              </div>
+              <div className="mt-2">
+              <label className="block mb-1 text-lg font-bold text-black">Contact:</label>
+                <input
+                    type="text"
+                    name="contact"
+                    value={selectedRowData.contact || selectedRowData.contact_number}
+                    onChange={handleInputChange}
+                    className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                />
+              </div>
+              {fetchDataQuery === 'appointments' && ( 
+                <>
+                  <div className="mt-2">
+                    <label className="block mb-1 text-lg font-bold text-black">Time:</label>
+                    <input
+                      type="text"
+                      name="contact"
+                      value={selectedRowData.time}
+                      onChange={handleInputChange}
+                      className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <label className="block mb-1 text-lg font-bold text-black">Date:</label>
+                    <input
+                      type="text"
+                      name="contact"
+                      value={selectedRowData.appoint_date}
+                      onChange={handleInputChange}
+                      className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <label className="block mb-1 text-lg font-bold text-black">Status:</label>
+                    <input
+                      type="text"
+                      name="contact"
+                      value={selectedRowData.appointment_status}
+                      onChange={handleInputChange}
+                      className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                    />
+                  </div>
+                  {selectedRowData.appointment_status === 'confirmed' && (
+                    <div className="mt-4">
+                      <label className="block mb-1 text-lg font-bold text-black">Select Therapist:</label>
+                      <select
+                        name="option"
+                        onChange={handleInputChange}
+                        className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                      >
+                        <option value="">-- Choose a Therapist --</option>
+                        <option value="option1">Jonathan Rey B. Rebong</option>
+                        <option value="option1">Mitchelle James Advincula</option>
+                        <option value="option1">Jana Joyce T. Castillo</option>
+                        <option value="option1">Paula Salomia</option>
+                        <option value="option1">Aileen (to follow apelido hehehe)</option>
+                        <option value="option1">Christine Gella</option>
+                      </select>
+                    </div>
+                  )}
+                </>
+              )}
+            <div className="flex justify-end mx-8 space-x-4 mt-4">
+              <button
+                onClick={() => setIsConfirmationOpen(true)}
+                className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+              >
+                Save Changes 
+              </button>
+              <button
+                className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {isConfirmationOpen && (
+        <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <div className="bg-white p-6 rounded shadow-lg w-96">
+            <h2 className="text-3xl font-bold mb-1 text-black">Confirm Changes</h2>
+            <p className="text-black text-base mb-4">Are you sure you want to save these changes?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={handleSaveChanges} // Implement this function to save changes
+                className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+              >
+                Yes, Save
+              </button>
+              <button
+                onClick={() => setIsConfirmationOpen(false)} // Close confirmation modal
+                className="bg-gray-300 text-lg text-black font-medium rounded-lg text-sm px-5 py-2.5"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      </div>
     </>
 );
 }
