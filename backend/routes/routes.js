@@ -84,20 +84,20 @@ router.post('/appointments', async (req, res) => {
 
 router.post('/session', async (req, res) => {
     const {
-        session_description, session_title, session_date,
+        patient_id, session_description, session_title, session_date,
         session_time
     } = req.body;
 
     const query = `
         INSERT INTO session 
-        (session_description, session_title, session_date,
+        (patient_id, session_description, session_title, session_date,
         session_time) 
         VALUES 
-        ($1, $2, $3, $4);
+        ($1, $2, $3, $4, $5);
     `;
 
     const values = [
-        session_description, session_title, session_date,
+        patient_id, session_description, session_title, session_date,
         session_time
     ];
 

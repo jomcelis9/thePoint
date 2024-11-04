@@ -2,14 +2,28 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CardDefault } from "../../../components/CardDefault";
 import axios from "axios";
-import TimePicker from 'react-time-picker';
-
 
 export default function PatientSessions() {
   const { patient_id } = useParams(); // Get the patient_id from the URL
   const [sessions, setSessions] = useState([]);
   const [patientName, setPatientName] = useState("");
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false); // New state for details modal
 
+  const handleCardClick = (session) => {
+    setSelectedSession(session);
+    setIsDetailsModalOpen(true); // Open the details modal
+  };
+
+  const handleCloseDetailsModal = () => {
+    setIsDetailsModalOpen(false); // Close the details modal
+    setSelectedSession(null); // Clear selected session
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Close the add session modal
+  };
 
   const [formData, setFormData] = useState({
     session_description: "",
@@ -19,13 +33,9 @@ export default function PatientSessions() {
     patient_id: ""
   });
 
-
-
-
   const uploadDocument = async (e) => {
     e.preventDefault();
     
-    // Use patient_id directly from URL params
     const updatedFormData = { ...formData, patient_id: patient_id };
     
     console.log("FORM DATA: ", updatedFormData); // Log the updated formData
@@ -51,19 +61,6 @@ export default function PatientSessions() {
     }
 };
 
-
-
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleButtonClick = () => {
-    setIsModalOpen(true); // Show the modal when button is clicked
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Close the modal
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const updatedFormData = { ...formData, [name]: value };
@@ -88,36 +85,35 @@ export default function PatientSessions() {
 
   return (
     <div className="relative">
-      <div className="flex justify-center">
+      <div>
         <h1>{patientName}'s Sessions</h1>
       </div>
-      <div className="flex gap-10 items-center">
+      <div className="flex flex-row gap-10 items-center">
         {sessions.map((session) => (
-          <CardDefault
-            key={session.session_id}
-            sessionNumber={session.session_id}
-            patientName={patientName}
-            session_date={session.session_date}
-            sessionTime={session.session_time}
-            sessionType={session.session_type}
-            session_description={session.session_description}
-          />
+          <div key={session.session_id} onClick={() => handleCardClick(session)}>
+            <CardDefault
+              sessionNumber={session.session_id}
+              session_date={session.session_date}
+              session_time={session.session_time}
+              session_description={session.session_description}
+              session_title={session.session_title}
+            />
+          </div>
         ))}
-        
+
         <button
           type="button"
           className="bg-thePointRed rounded-full w-10 h-10 text-white focus:ring-2 focus:outline-none focus:ring-amber-200 flex items-center justify-center transform active:scale-x-100 transition-transform hover:-translate-y-1 hover:drop-shadow-xl duration-300"
-          onClick={handleButtonClick}
+          onClick={() => setIsModalOpen(true)}
         >
           <img src="/src/images/Addicon.png" alt="Add" className="w-6 h-6" />
         </button>
 
-        {/* Modal */}
+        {/* Modal for Adding a New Session */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/2 max-w-md">
               <h2 className="text-xl font-bold mb-4">New Session</h2>
-
               <div className="grid md:gap-7 rounded-md py-2">
                 <div className="relative z-0 w-full group">
                   <label htmlFor="session_title">Session Title</label>
@@ -161,24 +157,46 @@ export default function PatientSessions() {
                     onChange={handleInputChange}
                   />
                 </div>
-                <input id="session_time" name="session_time" value={formData.session_time}type="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" onChange={handleInputChange} />
+                <input
+                  id="session_time"
+                  name="session_time"
+                  value={formData.session_time}
+                  type="time"
+                  className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  min="09:00"
+                  max="18:00"
+                  onChange={handleInputChange}
+                />
               </div>
 
               <div className="flex gap-5">
-                            <button onClick={uploadDocument}
-                              type="submit"
-                              className="bg-thePointRed text-white rounded px-4 py-2 my-3"
-                            >
-                              Save
-                            </button>
-                            <button
-                              type="button"
-                              className="bg-thePointRed text-white rounded px-4 py-2 my-3"
-                              onClick={handleCloseModal}
-                            >
-                              Close
-                            </button>
+                <button onClick={uploadDocument} type="submit" className="bg-thePointRed text-white rounded px-4 py-2 my-3">
+                  Save
+                </button>
+                <button type="button" className="bg-thePointRed text-white rounded px-4 py-2 my-3" onClick={handleCloseModal}>
+                  Close
+                </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal for Session Details */}
+        {isDetailsModalOpen && selectedSession && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-1/2 max-w-md">
+              <h2 className="text-xl font-bold mb-4">Session {selectedSession.session_id} Details</h2>
+              <p><strong>Title:</strong> {selectedSession.session_title}</p>
+              <p><strong>Description:</strong> {selectedSession.session_description}</p>
+              <p><strong>Date:</strong> {selectedSession.session_date}</p>
+              <p><strong>Time:</strong> {selectedSession.session_time}</p>
+              <button
+                type="button"
+                className="bg-thePointRed text-white rounded px-4 py-2 my-3"
+                onClick={handleCloseDetailsModal}
+              >
+                Close
+              </button>
             </div>
           </div>
         )}
