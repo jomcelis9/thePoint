@@ -32,38 +32,35 @@ router.put('/session/:id', async (req, res) => {
     const sessionData = req.body;
 
     const query = `UPDATE session SET  
-        session_description=?, 
-        patient_id=?, 
-        therapist_id=?, 
-        appoint_id=?, 
-        session_date=?, 
-        session_title=?, 
-        session_time=? 
-        WHERE session_id=?`;
+        session_description = $1, 
+        session_date = '2024-11-13', 
+        session_title = $2, 
+        session_time = $3 
+        WHERE session_id = $4 
+        AND patient_id = $5`; // Updated to use $1, $2, etc.
 
     try {
         // Assuming you have a database connection method
-        const result = await db.query(query, [
-            sessionData.session_description,
-            sessionData.patient_id,
-            sessionData.therapist_id,
-            sessionData.appoint_id,
-            sessionData.session_date,
-            sessionData.session_title,
-            sessionData.session_time,
-            id // Use id in the query parameters
+        const result = await pool.query(query, [
+            sessionData.session_description, // $1
+            sessionData.session_title,       // $3
+            sessionData.session_time,        // $4
+            id,                               // $5
+            sessionData.patient_id           // $6
         ]);
 
-        if (result.affectedRows > 0) {
+        if (result.rowCount > 0) { // Use rowCount for PostgreSQL
             res.status(200).json({ message: 'Session updated successfully.' });
         } else {
-            res.status(404).json({ message: 'Session not found.' });
+            res.status(404).json({ message: 'Session not found or patient ID does not match.' });
         }
     } catch (error) {
         console.error('Error updating session:', error);
         res.status(500).json({ message: 'An error occurred while updating the session.' });
     }
 });
+
+
   
 // update table
 
