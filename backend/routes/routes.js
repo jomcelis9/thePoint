@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const  performQuery  = require('../index.js');
 const { Pool } = require('pg')
 
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'postgres',
-    password: 'geraldcool12',
+    password: '123',
     port: 5432,
 
 });
