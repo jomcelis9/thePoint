@@ -6,7 +6,6 @@ export default function PaymentPage({ patientId, patientNumber }) {
     const [accountName, setAccountName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [referenceNumber, setReferenceNumber] = useState('');
-    /* const [downpayAmount] = useState(25000); // Set the downpayment amount in cents */
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
@@ -73,7 +72,6 @@ export default function PaymentPage({ patientId, patientNumber }) {
 
                     <div className="grid grid-cols-2 gap-1 border-2 rounded-xl">
                         <div className="border rounded-xl my-10 mx-5 p-6 bg-white shadow-lg">
-                            {/* Additional content can go here */}
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 mx-5 my-10 border rounded-xl shadow-md bg-white">
                             <h1 className="flex justify-center gap-5 text-xl mb-4 text-thePointRed bg-transparent drop-shadow-md">Enter Downpayment Details</h1>
