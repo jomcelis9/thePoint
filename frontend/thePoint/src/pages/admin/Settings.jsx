@@ -1,12 +1,14 @@
 import { useState } from "react";
-import Table from "../../../components/table"; // Ensure correct import path
+import Table from "../../../components/table"; 
 import TableBody from "../../../components/ui/TableBody";
 
 export default function Settings() {
     const [userData, setUserData] = useState([
-        { id: 1, username: 'user1', password: 'password1' },
-        { id: 2, username: 'user2', password: 'password2' },
-        { id: 3, username: 'user3', password: 'password3' },
+        { id: 1, username: 'Japmar solante', password: '123123' },
+        { id: 2, username: 'Japmar123', password: '123123' },
+        { id: 3, username: 'Japmar solante', password: '123123' },
+        { id: 4, username: 'Japmar solante', password: '123123' },
+        { id: 5, username: 'Japmar solante', password: '123123' },
     ]);
 
     const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
@@ -60,6 +62,7 @@ export default function Settings() {
                     <thead>
                         <tr>
                             <th className="border px-4 py-2">ID</th>
+                            <th className="border px-4 py-2">Therapist</th>
                             <th className="border px-4 py-2">User</th>
                             <th className="border px-4 py-2">Password</th>
                         </tr>
@@ -69,6 +72,7 @@ export default function Settings() {
                             <tr key={user.id} onClick={() => handleRowSelect(user)} className="hover:bg-gray-100 cursor-pointer">
                                 <td className="border px-4 py-2">{user.id}</td>
                                 <td className="border px-4 py-2">{user.username}</td>
+                                <td className="border px-4 py-2">{user.username}</td>
                                 <td className="border px-4 py-2">**********</td>
                             </tr>
                         ))}
@@ -77,6 +81,15 @@ export default function Settings() {
             </div>
 
             <div className="fixed bottom-8 right-8 flex space-x-4 z-10">
+                <button
+                    id="Addbtn"
+                    type="button"
+                    onClick={handleEditClick}
+                    className="bg-gradient-to-r from-thePointPink to-thePointRed text-white py-2 px-4 active:bg-primary-600 focus:outline-none focus:ring focus:ring-amber-200 rounded-lg hover:drop-shadow-xl"
+                    disabled={!selectedUser}
+                >
+                    Add
+                </button>
                 <button
                     id="Editbtn"
                     type="button"

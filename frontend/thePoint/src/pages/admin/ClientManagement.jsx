@@ -4,6 +4,7 @@ import axios from "axios"; // Import axios
 import Table from "../../../components/table";
 import TableBody from "../../../components/ui/TableBody";
 
+
 export default function ClientManagement() {
     const { open } = useOutletContext();
     
