@@ -23,8 +23,7 @@ export default function Settings() {
         <div className="flex items-center justify-center h-screen p-6">
             <div
                 className="bg-white shadow-lg rounded-lg p-8 w-full h-full max-w-6xl"
-                style={{ position: 'relative' }}
-            >
+                style={{ position: 'relative' }}>
                 <h1 className="text-4xl font-sans font-bold text-gray-800 mb-8 mt-4">Settings</h1>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
