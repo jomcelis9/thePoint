@@ -12,7 +12,7 @@ export default function TherapistLayout() {
   ];
 
   return (
-    <div className="flex">
+    <div className="">
       {/* Sidebar */}
       <aside
         className="fixed top-0 left-0 h-screen transition-transform -translate-x-full sm:translate-x-0"
