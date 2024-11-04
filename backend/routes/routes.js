@@ -82,6 +82,34 @@ router.post('/appointments', async (req, res) => {
 
 // ================ NEW: POST  ROUTE ================ POSTS TO APPOINTMENT TABLE
 
+router.post('/session', async (req, res) => {
+    const {
+        session_description, session_title, session_date,
+        session_time
+    } = req.body;
+
+    const query = `
+        INSERT INTO session 
+        (session_description, session_title, session_date,
+        session_time) 
+        VALUES 
+        ($1, $2, $3, $4);
+    `;
+
+    const values = [
+        session_description, session_title, session_date,
+        session_time
+    ];
+
+    try {
+        const result = await pool.query(query, values);
+        res.json({ message: 'Insert successful', data: result });
+    } catch (error) {
+        console.log('Error executing query:', error.message);  // Log the specific error message
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+});
+
 
 // ================ NEW: DELETE  ROUTE ================
 

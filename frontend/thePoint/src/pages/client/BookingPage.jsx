@@ -154,7 +154,6 @@ export default function BookingPage() {
                             <input id="time" name="time" value={formData.time}type="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" onChange={handleInputChange} />
                         </div>
 
-
                          <div>
                             <p className="italic text-sm/[20px] pt-4">
                                 For clients aged 18 and below, please select "Yes" if they will be accompanied by a parent or relative. If "No" pls input your emergency contact details.
