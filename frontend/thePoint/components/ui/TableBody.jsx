@@ -165,11 +165,6 @@ export default function TableBodyTherapist(
     return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
   });
 
-  const onRowClick = (row) => {
-    setSelectedRowData(row);
-    setIsModalOpen(true);
-  };
-
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedRowData(null);
