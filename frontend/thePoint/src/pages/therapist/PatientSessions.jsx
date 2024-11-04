@@ -124,7 +124,7 @@ const handleUpdateSession = async () => {
       <div>
         <h1>{patientName}'s Sessions</h1>
       </div>
-      <div className="flex flex-row gap-10 items-center">
+      <div className="grid grid-cols-3 gap-10 items-center">
         {sessions.map((session) => (
           <div key={session.session_id} onClick={() => handleCardClick(session)}>
             <CardDefault
