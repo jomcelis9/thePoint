@@ -8,7 +8,7 @@ export default function TableBody(
     column1,column2,column3,column4,
     column5,column6,actionable,
     headerOne,headerTwo,headerThree,headerFour,
-    headerFive,headerSix,headerSeven,onRowClick
+    headerFive,headerSix,headerSeven
 
   }){
 
@@ -20,6 +20,8 @@ export default function TableBody(
     const [isDate, setIsDate ] = useState(false);
     const [isAction, setIsAction ] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedRowData, setSelectedRowData] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const table = fetchDataQuery;
 
@@ -152,6 +154,16 @@ export default function TableBody(
     const rowValues = [column1, column2, column3, column4, column5, column6].map(col => row[col]?.toString().toLowerCase() || "");
     return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
   });
+
+  const onRowClick = (row) => {
+    setSelectedRowData(row);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedRowData(null);
+  };
     
    return (
     <>
@@ -207,7 +219,7 @@ export default function TableBody(
 
           return (
             <tr key={index}
-            onClick={() => onRowClick(row)}
+            onDoubleClick={() => onRowClick(row)}
             className="cursor-pointer hover:bg-gray-100">
               <th scope="col" className="p-4">
                 <div className="flex items-center">
@@ -285,6 +297,25 @@ export default function TableBody(
           );
         })}
       </tbody>
+      {isModalOpen && selectedRowData && (
+        <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <div className="bg-white p-6 rounded shadow-lg w-96">
+            <h2 className="text-3xl font-bold mb-4 text-black">Client Details</h2>
+            <p className="text-black text-lg">ID: {selectedRowData.client_id || selectedRowData.appoint_id}</p>
+            <p className="text-black text-lg">Name: {selectedRowData.name || selectedRowData.patient_name}</p>
+            <p className="text-black text-lg">Contact: {selectedRowData.contact || selectedRowData.contact_number}</p>
+            <p className="text-black text-lg">Time: {selectedRowData.time}</p>
+            <p className="text-black text-lg">Date: {selectedRowData.appoint_date}</p>
+            <p className="text-black text-lg mb-4">Status: {selectedRowData.appointment_status}</p>
+            <button
+              className="bg-gradient-to-r from-thePointRed to-thePointPink w-full text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center transform active:scale-x-100 transition-transform transition ease-in delay-100 hover:-translate-y-1 hover:drop-shadow-xl duration-300"
+              onClick={closeModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
       </div>
 
     </>
