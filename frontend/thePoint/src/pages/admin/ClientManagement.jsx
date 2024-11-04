@@ -3,6 +3,7 @@ import { useState } from "react";
 import Table from "../../../components/table";
 import TableBody from "../../../components/ui/TableBody";
 
+
 export default function ClientManagement() {
     const { open } = useOutletContext();
     const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
