@@ -8,7 +8,7 @@ export default function TableBody(
     column1,column2,column3,column4,
     column5,column6,actionable,
     headerOne,headerTwo,headerThree,headerFour,
-    headerFive,headerSix,headerSeven
+    headerFive,headerSix,headerSeven,therapist
 
   }){
 
@@ -228,10 +228,6 @@ export default function TableBody(
     setData(sortedData);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
-  
-  
-  
-
   
    return (
     <>

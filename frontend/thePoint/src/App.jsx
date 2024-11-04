@@ -21,7 +21,7 @@ import AccountDetails from './pages/client/AccountDetails';
 import PendingPage from './pages/client/PendingPage';
 import TherapistLayout from '../src/therapistLayout'
 import Session from  './pages/therapist/session';
-
+import PatientSessions from './pages/therapist/PatientSessions';
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -52,6 +52,7 @@ function App() {
 
       <Route path="therapist" element={<TherapistLayout/>}>
         <Route path = 'session' element={<Session />}/>
+        <Route path = 'session/patientSessions' element = {<PatientSessions/>}/>
       </Route>
       
         <Route path="/login" element={<LoginPage />} />
