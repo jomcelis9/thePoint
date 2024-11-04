@@ -106,7 +106,7 @@ router.delete('/:table/:columnId', async (req,res) => {
 
 
 // ================ NEW: FETCH  ROUTE ================ FETCHES PATIENT ID FROM SESSIONS
-router.get("/session/patientSessions/:patient_id", async (req, res) => {
+router.get("/patients/patientSessions/:patient_id", async (req, res) => {
     const { patient_id } = req.params;
     const sessionQuery = `SELECT * FROM session WHERE patient_id = $1`
     const patientQuery = `SELECT patient_name FROM patient WHERE patient_id = $1`

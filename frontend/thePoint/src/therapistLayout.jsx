@@ -4,7 +4,7 @@ import { Link, Outlet } from "react-router-dom";
 export default function TherapistLayout() {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Session", src: "house-solid", onClick: "session" },
+    { title: "Session", src: "house-solid", onClick: "patients" },
     { title: "View Appointments", src: "appointment", onClick: "view" },
     { title: "Reports and Data", src: "chart-simple-solid-white", onClick: "report" },
     { title: "Client Management", src: "person-solid-white", onClick: "clientManagement" },
