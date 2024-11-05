@@ -225,7 +225,7 @@ export default function TableBody(
             id="table-search"
             value={searchTerm} // Bind search term to input value
             onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
-            className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block pt-2 ps-10 text-sm text-black border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400    dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search for items"
           />
         </div>
@@ -278,38 +278,38 @@ export default function TableBody(
                 </div>
               </th>
               
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" className="px-6 py-4 text-black font-medium whitespace-nowrap">
                 {columnOne}
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-black whitespace-nowrap ">
                 {columnTwo}
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-black whitespace-nowrap   ">
                 {columnThree}
               </th>
 
               {isDate && (
-                <th className="size-0 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th className="size-0 px-6 py-4 font-medium text-black whitespace-nowrap   ">
                   {convertDate(columnFour)}
                 </th>
               )}
 
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-black whitespace-nowrap   ">
                 {columnFive} 
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-black whitespace-nowrap   ">
                 {columnSix}
               </th>
 
           {/* Actionable BUttons */}
                 {isAction && (
-                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
+                <th className="px-6 py-4 font-medium text-black whitespace-nowrap    gap-2">
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
                     onClick={(e) => updateOnClick(e, "appointments", columnOne, statusOne)}
                     type="button"
-                    className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-white font-bold rounded-full text-sm text-center ">
+                    className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-black font-bold rounded-full text-sm text-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
                     <path d="M 25 2 C 12.317 2 2 12.317 2 25 C 2 37.683 12.317 48 25 48 C 37.683 48 48 37.683 48 25 C 48 20.44 46.660281 16.189328 44.363281 12.611328 L 42.994141 14.228516 C 44.889141 17.382516 46 21.06 46 25 C 46 36.579 36.579 46 25 46 C 13.421 46 4 36.579 4 25 C 4 13.421 13.421 4 25 4 C 30.443 4 35.393906 6.0997656 39.128906 9.5097656 L 40.4375 7.9648438 C 36.3525 4.2598437 30.935 2 25 2 z M 43.236328 7.7539062 L 23.914062 30.554688 L 15.78125 22.96875 L 14.417969 24.431641 L 24.083984 33.447266 L 44.763672 9.046875 L 43.236328 7.7539062 z"></path>
                     </svg>
