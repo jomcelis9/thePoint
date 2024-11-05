@@ -173,7 +173,7 @@ router.delete('/:table/:columnId', async (req,res) => {
 router.get("/patients/patientSessions/:patient_id", async (req, res) => {
     const { patient_id } = req.params;
     const sessionQuery = `SELECT * FROM session WHERE patient_id = $1`
-    const patientQuery = `SELECT patient_name FROM patient WHERE patient_id = $1 AND appointment_status = 'CONFIRM'`
+    const patientQuery = `SELECT patient_name FROM patient WHERE patient_id = $1`
     try {
     console.log("Patient Id:  ",patient_id)
 
