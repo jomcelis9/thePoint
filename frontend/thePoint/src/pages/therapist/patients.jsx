@@ -39,13 +39,12 @@ export default function Session() {
             btnName1="Confirm" 
             btnName2="Reject"
             fetchDataQuery="patient"
-            column1="session_id"  
-            column2="patient_name"
-            column3="appoint_id"  
+            // column1="session_id"  
+            column1="patient_name"
+            column2="appoint_id"  
             actionable={false}
-            headerOne="ID"
-            headerTwo="Patient Name"
-            headerThree="Appointment Number"
+            headerOne="Patient Name"
+            headerTwo="Appointment Number"
             onRowClick={handleRowClick} 
             id={"patient_id"}// Pass the handleRowClick function to TableBody
           />

@@ -5,10 +5,10 @@ export default function TherapistLayout() {
   const [open, setOpen] = useState(true);
   const Menus = [
     { title: "Session", src: "house-solid", onClick: "patients" },
-    { title: "View Appointments", src: "appointment", onClick: "view" },
-    { title: "Reports and Data", src: "chart-simple-solid-white", onClick: "report" },
-    { title: "Client Management", src: "person-solid-white", onClick: "clientManagement" },
-    { title: "Settings", src: "gear-solid-white", onClick: "settings" },
+    // { title: "View Appointments", src: "appointment", onClick: "view" },
+    // { title: "Reports and Data", src: "chart-simple-solid-white", onClick: "report" },
+    // { title: "Client Management", src: "person-solid-white", onClick: "clientManagement" },
+    // { title: "Settings", src: "gear-solid-white", onClick: "settings" },
   ];
 
   return (
