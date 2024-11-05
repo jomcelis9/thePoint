@@ -4,7 +4,7 @@ import React from "react";
 const NewClient = () => {
     return (
         <div className="flex flex-col items-center p-4">
-            <h2 className="text-4xl font-bold mb-8 text-gray-900 mt-10">New Client</h2>
+            <h2 className="text-4xl font-bold mb-8 text-gray-900 mt-10">New Patient</h2>
             <div>
             <form className="mx-auto p-6 border rounded-xl shadow-md shadow-white bg-white m-10 w-[1000px]">
 

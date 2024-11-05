@@ -25,7 +25,7 @@ export default {
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    import('flowbite/plugin')
   ],
 }
 
