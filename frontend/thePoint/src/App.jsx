@@ -26,7 +26,7 @@ import TherapistLayout from '../src/therapistLayout'
 import Patients from  './pages/therapist/patients';
 import PatientSessions from './pages/therapist/PatientSessions';
 
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = "http://localhost:5001";
 
 function App() {
 
