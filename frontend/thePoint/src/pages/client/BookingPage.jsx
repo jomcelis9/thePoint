@@ -134,7 +134,8 @@ export default function BookingPage() {
                             </div>
                         </div>
 
-                        <div className="relative z-0 w-full group">
+                    <div>
+                    <div className="relative z-0 w-full group">
                             <label>Type of Therapy</label>
                             <select name="appoint_type" value={formData.appoint_type} className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none" onChange={handleInputChange}>
                                 <option value="">Select Type of Therapy</option>
@@ -197,6 +198,8 @@ export default function BookingPage() {
                                 Clear
                             </button>
                         </div>
+                    </div>    
+                        
                     </form>
                             <div className="flex justify-center mb-5">
                                 <button

@@ -19,6 +19,9 @@ import ForgotPassword from './pages/client/ForgotPasswordPage';
 import ResetPasswordPage from './pages/client/ResetPasswordPage';
 import AccountDetails from './pages/client/AccountDetails';
 import PendingPage from './pages/client/PendingPage';
+import BookChoice from './pages/client/BookChoice'; 
+import NewClient from './pages/client/NewClient'; 
+import ExistingPatient from './pages/client/ExistingPatient'
 import TherapistLayout from '../src/therapistLayout'
 import Patients from  './pages/therapist/patients';
 import PatientSessions from './pages/therapist/PatientSessions';
@@ -38,7 +41,11 @@ function App() {
         <Route path="/contact" element={<ContactPage/>}/>
         <Route path="/accountdetails" element={<AccountDetails/>}/>
         <Route path="/pending" element={<PendingPage />} />
-       
+        <Route path="/bookchoice" element={<BookChoice />} />
+        <Route path='/newclient' element={<NewClient />} />
+        <Route path='/bookPatient' element={<ExistingPatient/>}></Route>
+
+
       </Route>
 
       <Route path="admin" element={<AdminLayout/>}>

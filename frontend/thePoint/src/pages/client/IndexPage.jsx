@@ -30,7 +30,7 @@ export default function IndexPage() {
                         Embrace a Healthier, Happier You with Our Personalized Therapy Services, Designed to Support Your Unique Needs Every Step of the Way.
                     </p>
 
-                    <Link to={'/booking'}>
+                    <Link to={'/bookchoice'}>
                         <button
                             type="button"
                             className="bg-thePointRed hover:bg-thePointRedDark text-white focus:ring-2 focus:outline-none focus:ring-purple-300 font-medium rounded-2xl text-lg px-8 py-3 text-center transition-all duration-300 animate-pulse"
