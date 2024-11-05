@@ -19,6 +19,8 @@ import ForgotPassword from './pages/client/ForgotPasswordPage';
 import ResetPasswordPage from './pages/client/ResetPasswordPage';
 import AccountDetails from './pages/client/AccountDetails';
 import PendingPage from './pages/client/PendingPage';
+import BookChoice from './pages/client/BookChoice'; 
+import NewClient from './pages/client/NewClient'; 
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -35,7 +37,9 @@ function App() {
         <Route path="/contact" element={<ContactPage/>}/>
         <Route path="/accountdetails" element={<AccountDetails/>}/>
         <Route path="/pending" element={<PendingPage />} />
-       
+        <Route path="/bookchoice" element={<BookChoice />} />
+        <Route path='/newclient' element={<NewClient />} />
+
       </Route>
 
       <Route path="admin" element={<AdminLayout/>}>
