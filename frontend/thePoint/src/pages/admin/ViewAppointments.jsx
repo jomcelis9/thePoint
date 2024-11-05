@@ -36,7 +36,7 @@ export default function ViewAppointments() {
           column6 ={"appointment_status"}  
           actionable = {true}
           headerOne = {"ID"}
-          headerTwo = {"Name"}
+          headerTwo = {"Name"}boo
           headerThree = {"Time"}
           headerFour = {"Date"}
           headerFive = {"Contact Number"}

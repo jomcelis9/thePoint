@@ -21,7 +21,7 @@ import AccountDetails from './pages/client/AccountDetails';
 import PendingPage from './pages/client/PendingPage';
 import BookChoice from './pages/client/BookChoice'; 
 import NewClient from './pages/client/NewClient'; 
-
+import ExistingPatient from './pages/client/ExistingPatient'
 axios.defaults.baseURL = "http://localhost:4000";
 
 function App() {
@@ -39,6 +39,8 @@ function App() {
         <Route path="/pending" element={<PendingPage />} />
         <Route path="/bookchoice" element={<BookChoice />} />
         <Route path='/newclient' element={<NewClient />} />
+        <Route path='/bookPatient' element={<ExistingPatient/>}></Route>
+
 
       </Route>
 
