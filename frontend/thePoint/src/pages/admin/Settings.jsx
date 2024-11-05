@@ -55,30 +55,43 @@ export default function Settings() {
     };
 
     return (
-        <div className="p-4 transition-all duration-300 mt-20 mb-10 border">
-            <h2 className="text-4xl font-bold mb-8 text-gray-900">Account Details</h2>
-            <div className="overflow-auto max-h-[500px] mb-4">
-                <Table>
-                    <thead>
-                        <tr>
-                            <th className="border px-4 py-2">ID</th>
-                            <th className="border px-4 py-2">Therapist</th>
-                            <th className="border px-4 py-2">User</th>
-                            <th className="border px-4 py-2">Password</th>
-                        </tr>
-                    </thead>
-                    <TableBody>
-                        {userData.map((user) => (
-                            <tr key={user.id} onClick={() => handleRowSelect(user)} className="hover:bg-gray-100 cursor-pointer">
-                                <td className="border px-4 py-2">{user.id}</td>
-                                <td className="border px-4 py-2">{user.username}</td>
-                                <td className="border px-4 py-2">{user.username}</td>
-                                <td className="border px-4 py-2">**********</td>
-                            </tr>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+        <div className="flex items-center justify-center h-screen p-6">
+            <div
+                className="bg-white shadow-lg rounded-lg p-8 w-full h-full max-w-6xl"
+                style={{ position: 'relative' }}
+            >
+                <h1 className="text-4xl font-sans font-bold text-gray-800 mb-8 mt-4">Settings</h1>
+
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="border rounded-md" style={{ ...boxStyles, padding: '0.5rem' }}>
+                        <label className="text-gray-500 text-sm">First Name</label>
+                        <p className="text-xl font-bold ml-2">Jhun Mar</p>
+                    </div>
+                    <div className="border rounded-md" style={{ ...boxStyles, padding: '0.5rem' }}>
+                        <label className="text-gray-500 text-sm">Last Name</label>
+                        <p className="text-xl font-bold ml-2">Dolorito</p>
+                    </div>
+                    <div className="border rounded-md" style={{ ...boxStyles, padding: '0.5rem' }}>
+                        <label className="text-gray-500 text-sm">Email</label>
+                        <p className="text-xl font-bold ml-2">jmardolorito@pogi.com</p>
+                    </div>
+                    <div className="border rounded-md" style={{ ...boxStyles, padding: '0.5rem' }}>
+                        <label className="text-gray-500 text-sm">Contact No.</label>
+                        <p className="text-xl font-bold ml-2">09912872387</p>
+                    </div>
+                    <div className="border rounded-md" style={{ ...boxStyles, padding: '0.5rem' }}>
+                        <label className="text-gray-500 text-sm">Address</label>
+                        <p className="text-xl font-bold ml-2">Matina Crossing, Davao City</p>
+                    </div>
+                    <div className="border rounded-md" style={{ ...boxStyles, padding: '0.5rem' }}>
+                        <label className="text-gray-500 text-sm">Birthdate</label>
+                        <p className="text-xl font-bold ml-2">September 25, 2024</p>
+                    </div>
+                    <div className="border rounded-md" style={{ ...boxStyles, padding: '0.5rem' }}>
+                        <label className="text-gray-500 text-sm">Password</label>
+                        <p className="text-xl font-bold ml-2">**********</p>
+                    </div>
+                </div>
 
             <div className="fixed bottom-8 right-8 flex space-x-4 z-10">
                 <button
