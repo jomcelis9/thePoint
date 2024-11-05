@@ -20,15 +20,20 @@ export default function TableBody(
     const [isDate, setIsDate ] = useState(false);
     const [isAction, setIsAction ] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [statusSortOrder, setStatusSortOrder] = useState("normal");
     const [selectedRowData, setSelectedRowData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+    const [isStatusOpen, setIsStatusOpen] = useState(false);
     const [modalData, setModalData] = useState({
-      column2: "",
-      column3: "",
-      column4: "",
-      column5: "",
-      column6: "",
+      id: "",
+      name: "", 
+      contact: "",
+      time: "",
+      appoint_date: "",
+      appointment_status: "",
+      therapist: "", 
     });
 
     const table = fetchDataQuery;
@@ -36,7 +41,7 @@ export default function TableBody(
     useEffect(() =>{
         fetchData(table)
     },[]);
-    
+
 
     useEffect(() => {
       // Check if columnFour is null or undefined in any of the rows, and update isDate accordingly
@@ -128,6 +133,18 @@ export default function TableBody(
         }
     };
 
+    const updateOnClick2 = async (e, table, appointmentId, status) => {
+      try {
+          console.group(appointmentId)
+          setIsStatusOpen(true);
+          await updateData(table, appointmentId, status); // update the data
+          fetchData('views_pending_appointments'); // re-fetch the data to update the table
+      } catch (error) {
+          console.log('Error updating data: ', error);
+          setError('Error updating data');
+      }
+  };
+
         // Function to send a PUT request to update data
     const updateData = async (table, appointmentId, status) => {
         try {
@@ -163,9 +180,84 @@ export default function TableBody(
     return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
   });
 
+  const handleSort = () => {
+    const sortedData = [...data].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a[column1] > b[column1] ? 1 : -1;
+      } else {
+        return a[column1] < b[column1] ? 1 : -1;
+      }
+    });
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByName = () => {
+    const sortedData = [...data].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a[column2].localeCompare(b[column2]);
+      } else {
+        return b[column2].localeCompare(a[column2]);
+      }
+    });
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByStatus = () => {
+    const customOrder = ["confirmed", "reject", "pending"];
+    
+    const sortedData = [...data].sort((a, b) => {
+      const statusA = a[column6];
+      const statusB = b[column6];
+  
+      if (sortOrder === 'asc') {
+        return customOrder.indexOf(statusA) - customOrder.indexOf(statusB);
+      } else {
+        return customOrder.indexOf(statusB) - customOrder.indexOf(statusA);
+      }
+    });
+  
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const handleSortByTime = () => {
+    const sortedData = [...data].sort((a, b) => {
+      const timeA = a[column3];
+      const timeB = b[column3];
+  
+      if (sortOrder === 'asc') {
+        return timeA.localeCompare(timeB);
+      } else {
+        return timeB.localeCompare(timeA); 
+      }
+    });
+  
+    setData(sortedData);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
   const onRowClick = (row) => {
-    setSelectedRowData(row);
+    setSelectedRowData({});
+    setModalData({
+      id: row.client_id || row.appoint_id,
+      name: row.name || row.patient_name,
+      contact: row.contact || row.contact_number,
+      time: row.time,
+      appoint_date: row.appoint_date,
+      appointment_status: row.appointment_status,
+      therapist: row.therapist,
+    });
     setIsModalOpen(true);
+  };
+
+  const saveNewData = () => {
+    setSelectedRowData((prevData) => ({
+      ...prevData,
+      ...modalData,
+    }));
+    setIsConfirmationOpen(true);
   };
 
   const closeModal = () => {
@@ -173,16 +265,12 @@ export default function TableBody(
     setSelectedRowData(null);
   };
 
-  const handleRowEdit = (rowData) => {
-    setModalData({
-      column2: rowData.column2,
-      column3: rowData.column3,
-      column4: rowData.column4,
-      column5: rowData.column5,
-      column6: rowData.column6,
-    });
+  const handleRowSelect = (rowData) => {
+    console.log("Row Selected:", rowData); // Log the row data
+    setSelectedRowData(rowData);
     setIsModalOpen(true);
   };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -192,21 +280,42 @@ export default function TableBody(
     }));
   };  
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
+  const handleUpdate = async () => {
+    if (!selectedRowData || !selectedRowData.id) {
+        console.error("No selected row data or ID available.");
+        return; 
+    }
+
+    const appointmentStatus = modalData.appointment_status || 'pending';
+    
+    console.log("Appointment Status:", appointmentStatus);
+    console.log("URL:", `http://127.0.0.1:5001/${table}/${selectedRowData.id}/${appointmentStatus}`);
+    console.log("Data being sent:", selectedRowData);
+
     try {
-      await axios.put(`http://127.0.0.1:5001/${table}/${selectedRowData.id}`, modalData);
-      fetchDataQuery();
-      setIsModalOpen(false);
+        // Send the update request
+        const response = await axios.put(`http://127.0.0.1:5001/${table}/${modalData.id}/${appointmentStatus}`);
+        console.log('Response:', response.data);
+        
+        // Update the selectedRowData with the new status if needed
+        setSelectedRowData(prevData => ({
+            ...prevData,
+            appointment_status: appointmentStatus // or the new status based on your logic
+        }));
+
+        // Fetch updated data and close modals
+        fetchDataQuery(); 
+        setIsModalOpen(false); 
+        setIsConfirmationOpen(false); 
     } catch (error) {
-      console.error("Error updating data:", error);
+        console.error("Error updating data:", error);
     }
   };
 
-  const handleSaveChanges = () => {
-    setIsConfirmationOpen(false);
-    setIsModalOpen(false); 
-    fetchData(); 
+  const handleConfirmButtonClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation(); 
+    setIsStatusOpen(true);
   };
     
    return (
@@ -263,7 +372,7 @@ export default function TableBody(
 
           return (
             <tr key={index}
-            onDoubleClick={() => onRowClick(row)}
+            onDoubleClick={() => onRowClick(row) && handleRowSelect(row)}
             className="cursor-pointer hover:bg-gray-100">
               <th scope="col" className="p-4">
                 <div className="flex items-center">
@@ -307,7 +416,7 @@ export default function TableBody(
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusOne)}
+                    onClick={(e) => { updateOnClick2(e, "appointments", columnOne, statusOne);}}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-white font-bold rounded-full text-sm text-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -346,13 +455,13 @@ export default function TableBody(
         <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
           <div className="bg-white p-6 rounded shadow-lg w-96">
             <h2 className="text-3xl font-bold mb-4 text-black">Client Details</h2>
-            <p className="text-black text-lg"><strong>ID:</strong> {selectedRowData.client_id || selectedRowData.appoint_id}</p>
+            <p className="text-black text-lg"><strong>ID:</strong> {modalData.id}</p>
             <div className="mt-2">
               <label className="block mb-1 text-lg font-bold text-black">Name:</label>
                 <input
                     type="text"
                     name="name"
-                    value={selectedRowData.name || selectedRowData.patient_name}
+                    value={modalData.name}
                     onChange={handleInputChange}
                     className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
                 />
@@ -362,7 +471,7 @@ export default function TableBody(
                 <input
                     type="text"
                     name="contact"
-                    value={selectedRowData.contact || selectedRowData.contact_number}
+                    value={modalData.contact}
                     onChange={handleInputChange}
                     className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
                 />
@@ -373,8 +482,8 @@ export default function TableBody(
                     <label className="block mb-1 text-lg font-bold text-black">Time:</label>
                     <input
                       type="text"
-                      name="contact"
-                      value={selectedRowData.time}
+                      name="time"
+                      value={modalData.time}
                       onChange={handleInputChange}
                       className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
                     />
@@ -383,8 +492,8 @@ export default function TableBody(
                     <label className="block mb-1 text-lg font-bold text-black">Date:</label>
                     <input
                       type="text"
-                      name="contact"
-                      value={selectedRowData.appoint_date}
+                      name="date"
+                      value={modalData.appoint_date}
                       onChange={handleInputChange}
                       className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
                     />
@@ -393,35 +502,17 @@ export default function TableBody(
                     <label className="block mb-1 text-lg font-bold text-black">Status:</label>
                     <input
                       type="text"
-                      name="contact"
-                      value={selectedRowData.appointment_status}
+                      name="status"
+                      value={modalData.appointment_status}
                       onChange={handleInputChange}
                       className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
                     />
                   </div>
-                  {selectedRowData.appointment_status === 'confirmed' && (
-                    <div className="mt-4">
-                      <label className="block mb-1 text-lg font-bold text-black">Select Therapist:</label>
-                      <select
-                        name="option"
-                        onChange={handleInputChange}
-                        className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
-                      >
-                        <option value="">-- Choose a Therapist --</option>
-                        <option value="option1">Jonathan Rey B. Rebong</option>
-                        <option value="option1">Mitchelle James Advincula</option>
-                        <option value="option1">Jana Joyce T. Castillo</option>
-                        <option value="option1">Paula Salomia</option>
-                        <option value="option1">Aileen (to follow apelido hehehe)</option>
-                        <option value="option1">Christine Gella</option>
-                      </select>
-                    </div>
-                  )}
                 </>
               )}
             <div className="flex justify-end mx-8 space-x-4 mt-4">
               <button
-                onClick={() => setIsConfirmationOpen(true)}
+                onClick={saveNewData}
                 className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
               >
                 Save Changes 
@@ -436,29 +527,62 @@ export default function TableBody(
           </div>
         </div>
       )}
-      
+
       {isConfirmationOpen && (
-        <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-          <div className="bg-white p-6 rounded shadow-lg w-96">
-            <h2 className="text-3xl font-bold mb-1 text-black">Confirm Changes</h2>
-            <p className="text-black text-base mb-4">Are you sure you want to save these changes?</p>
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={handleSaveChanges} // Implement this function to save changes
-                className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
-              >
-                Yes, Save
-              </button>
-              <button
-                onClick={() => setIsConfirmationOpen(false)} // Close confirmation modal
-                className="bg-gray-300 text-lg text-black font-medium rounded-lg text-sm px-5 py-2.5"
-              >
-                Cancel
-              </button>
-            </div>
+          <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+              <div className="bg-white p-6 rounded shadow-lg w-96">
+                <h2 className="text-3xl font-bold mb-1 text-black">Confirm Changes</h2>
+                <p className="text-black text-base mb-4">Are you sure you want to save these changes?</p>
+                <div className="flex justify-end space-x-4">
+                  <button
+                      onClick={handleUpdate} 
+                      className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+                  >
+                      Yes, Save
+                  </button>
+                  <button
+                      onClick={() => setIsConfirmationOpen(false)} 
+                      className="bg-gray-300 text-lg text-black font-medium rounded-lg text-sm px-5 py-2.5"
+                  >
+                      Cancel
+                  </button>
+                </div>
+              </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {isStatusOpen && (
+                <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                    <div className="bg-white rounded-lg p-6 w-96">
+                        <h2 className="text-2xl font-semibold mb-4 text-black">Assign a Therapist</h2>
+                        <div className="mt-4">
+                          <label className="block mb-1 text-lg font-bold text-black">Select Therapist:</label>
+                          <select
+                            readOnly
+                            name="option"
+                            onChange={handleInputChange}
+                            className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                          >
+                            <option value="">-- Choose a Therapist --</option>
+                            <option value="option1">Jonathan Rey B. Rebong</option>
+                            <option value="option1">Mitchelle James Advincula</option>
+                            <option value="option1">Jana Joyce T. Castillo</option>
+                            <option value="option1">Paula Salomia</option>
+                            <option value="option1">Aileen (to follow apelido hehehe)</option>
+                            <option value="option1">Christine Gella</option>
+                          </select>
+                        </div>
+                        <div className="flex justify-end mt-4">
+                          <button
+                              onClick={() => {setIsStatusOpen(false); window.location.reload(false)}}
+                              className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+                             >
+                              Save
+                          </button>
+                        </div>
+                    </div>
+                </div>
+            )}
       </div>
     </>
 );
