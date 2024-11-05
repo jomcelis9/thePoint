@@ -7,7 +7,6 @@ import TableBody from "../../../components/ui/TableBody";
 
 export default function ClientManagement() {
     const { open } = useOutletContext();
-<<<<<<<<< Temporary merge branch 1
     const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
     const [isClientModalOpen, setIsClientModalOpen] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -72,9 +71,6 @@ export default function ClientManagement() {
     };
     
 
-=========
-    
->>>>>>>>> Temporary merge branch 2
     return (
         <div className={`p-4 transition-all duration-300 ${open ? "ml-0" : "ml-20"} mt-20 mb-10 border`}>
             <h2 className="text-4xl font-bold mb-8 text-gray-900">List of Clients</h2>
@@ -98,7 +94,7 @@ export default function ClientManagement() {
                 </Table>
             </div>
 
-<<<<<<<<< Temporary merge branch 1
+
             <div className="fixed bottom-8 right-8 flex space-x-4 z-10">
                 <button
                     id="Removebtn"
@@ -181,9 +177,7 @@ export default function ClientManagement() {
                     </div>
                 </div>
             )}
-=========
+
               </div>
->>>>>>>>> Temporary merge branch 2
-        </div>
     );
 }

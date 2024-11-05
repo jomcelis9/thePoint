@@ -55,13 +55,11 @@ export default function Settings() {
     };
 
     return (
-<<<<<<<<< Temporary merge branch 1
-        <div className="flex items-center justify-center h-screen p-6">
+
             <div
                 className="bg-white shadow-lg rounded-lg p-8 w-full h-full max-w-6xl"
                 style={{ position: 'relative' }}>
                 <h1 className="text-4xl font-sans font-bold text-gray-800 mb-8 mt-4">Settings</h1>
-=========
         <div className="p-4 transition-all duration-300 mt-20 mb-10 border">
             <h2 className="text-4xl font-bold mb-8 text-gray-900">Account Details</h2>
             <div className="overflow-auto max-h-[500px] mb-4">
@@ -86,7 +84,7 @@ export default function Settings() {
                     </TableBody>
                 </Table>
             </div>
->>>>>>>>> Temporary merge branch 2
+
 
             <div className="fixed bottom-8 right-8 flex space-x-4 z-10">
                 <button
@@ -176,6 +174,7 @@ export default function Settings() {
                     </div>
                 </div>
             )}
+        </div>
         </div>
     );
 }
