@@ -30,11 +30,11 @@ router.get('/:table', async (req, res) =>{
 
 // update table
 
-router.put('/:table/:appointmentId/:values', async (req, res) => {
+router.put('/:table/:appointmentId/:values/:column', async (req, res) => {
   const values = req.params.values
   const table = req.params.table;
   const appointmentId = req.params.appointmentId
-  const col = "appointment_status";  // Column to update
+  const col = req.params.column;  // Column to update
   // const name = "Creepers";  // New value to set
   const query = `UPDATE ${table} SET ${col} = '${values}' WHERE appoint_id = ${appointmentId}`;
   

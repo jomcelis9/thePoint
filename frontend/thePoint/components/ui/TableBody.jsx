@@ -147,8 +147,9 @@ export default function TableBody(
 
         // Function to send a PUT request to update data
     const updateData = async (table, appointmentId, status) => {
+      const columnName = "appointment_status"
         try {
-            const response = await axios.put(`http://127.0.0.1:5001/${table}/${appointmentId}/${status}`, { status });
+            const response = await axios.put(`http://127.0.0.1:5001/${table}/${appointmentId}/${status}/${columnName}`, { status });
             console.log('Data updated:', response.data);
         } catch (error) {
             console.log('Error updating data', error);
@@ -247,7 +248,6 @@ export default function TableBody(
       time: row.time,
       appoint_date: row.appoint_date,
       appointment_status: row.appointment_status,
-      therapist: row.therapist,
     });
     setIsModalOpen(true);
   };
@@ -281,41 +281,31 @@ export default function TableBody(
   };  
 
   const handleUpdate = async () => {
-    if (!selectedRowData || !selectedRowData.id) {
-        console.error("No selected row data or ID available.");
-        return; 
-    }
-
-    const appointmentStatus = modalData.appointment_status || 'pending';
-    
-    console.log("Appointment Status:", appointmentStatus);
-    console.log("URL:", `http://127.0.0.1:5001/${table}/${selectedRowData.id}/${appointmentStatus}`);
-    console.log("Data being sent:", selectedRowData);
+    const updatedModalData = { ...modalData, 
+      name: document.querySelector('[name="name"]').value,
+      contact: document.querySelector('[name="contact"]').value,
+      time: document.querySelector('[name="time"]').value,
+      appoint_date: document.querySelector('[name="date"]').value,
+    };
+  
+    setModalData(updatedModalData); // Update modalData state with new values
+  
+    const columnName = Object.keys(updatedModalData).find(key => updatedModalData[key] !== selectedRowData[key]);
+    const newValue = updatedModalData[columnName]; 
+  
+    console.log("Column being updated:", columnName);
+    console.log("New value:", newValue);
+    console.log("Data being sent:", selectedRowData);  
 
     try {
-        // Send the update request
-        const response = await axios.put(`http://127.0.0.1:5001/${table}/${modalData.id}/${appointmentStatus}`);
+        const response = await axios.put(`http://127.0.0.1:5001/${table}/${modalData.id}/${newValue}/${columnName}`);
         console.log('Response:', response.data);
-        
-        // Update the selectedRowData with the new status if needed
-        setSelectedRowData(prevData => ({
-            ...prevData,
-            appointment_status: appointmentStatus // or the new status based on your logic
-        }));
-
-        // Fetch updated data and close modals
         fetchDataQuery(); 
         setIsModalOpen(false); 
         setIsConfirmationOpen(false); 
     } catch (error) {
         console.error("Error updating data:", error);
     }
-  };
-
-  const handleConfirmButtonClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation(); 
-    setIsStatusOpen(true);
   };
     
    return (
