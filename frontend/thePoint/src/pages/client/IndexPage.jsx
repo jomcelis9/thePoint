@@ -1,17 +1,20 @@
 import { Link } from "react-router-dom";
 import React from 'react';
+import tourVideo from '../../Videos/Tour.mp4'
 
 export default function IndexPage() {
     return (
         <div id="Home" className="px-0 overflow-x-hidden">
             {/* Main Background Section */}
-            <div className="relative flex justify-center items-center h-screen w-screen overflow-x-hidden"
-                style={{
-                    backgroundImage: `url('/src/images/sample2.jpg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                }}
-            >
+            <div className="relative flex justify-center items-center h-screen w-screen overflow-x-hidden">
+            <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                className="absolute inset-0 w-full h-full object-cover" 
+                src={tourVideo} // Use the imported video variable here
+            ></video>
                 <div className="absolute inset-0 bg-black opacity-50"></div>
 
                 <div className="relative z-10 flex flex-col items-start px-4 md:px-32">
