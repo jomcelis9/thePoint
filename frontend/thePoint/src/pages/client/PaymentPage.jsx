@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function PaymentPage() {
     const [accountName, setAccountName] = useState("");
@@ -8,6 +9,34 @@ export default function PaymentPage() {
     const [payAmount, setAmount] = useState("");
     const [file, setFile] = useState(null);
     const navigate = useNavigate(); // Initialize useNavigate
+
+    const location = useLocation();
+    const patientAppointmentDetail = location.state || {}; // Access the passed data
+    console.log("FORM DATA OUTSIDE:  ", patientAppointmentDetail);
+
+    const uploadDocument = async (e) => {
+        e.preventDefault();
+        try {
+            console.log("FORM DATA: " , patientAppointmentDetail)
+            const response = await fetch(`http://127.0.0.1:5001/appointments`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(patientAppointmentDetail)
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+                //navigate("/payment"); // Navigate to the payment page after successful submission
+            } else {
+                console.error("Failed to insert data");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -124,7 +153,7 @@ export default function PaymentPage() {
                                     </label>
                                 </div>
 
-                            <button type="submit" className="block mx-auto mt-5 text-white bg-thePointRed hover:bg-thePointRed rounded-lg px-4 py-2 transition duration-300">Submit</button>
+                            <button onClick={uploadDocument} className="block mx-auto mt-5 text-white bg-thePointRed hover:bg-thePointRed rounded-lg px-4 py-2 transition duration-300">Submit</button>
                         </form>
                     </div>
                 </div>

@@ -21,7 +21,7 @@ import AccountDetails from './pages/client/AccountDetails';
 import PendingPage from './pages/client/PendingPage';
 import BookChoice from './pages/client/BookChoice'; 
 import NewClient from './pages/client/NewClient'; 
-import ExistingPatient from './pages/client/ExistingPatient'
+import ExistingPatient from './pages/client/ExistingPatient';
 import TherapistLayout from '../src/therapistLayout'
 import Patients from  './pages/therapist/patients';
 import PatientSessions from './pages/therapist/PatientSessions';

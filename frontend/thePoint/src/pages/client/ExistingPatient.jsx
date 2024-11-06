@@ -147,7 +147,7 @@ export default function ConfirmPage() {
                             </select>
 
                             {/* Display selected patient details */}
-                            {(
+                            {patientAppointmentDetail &&(
                                 <div className="border p-3 rounded-lg">
                                     <label className="block mb-2 text-sm font-medium text-gray-900">Name:</label>
                                     <div className="flex justify-between mb-2">
@@ -198,13 +198,19 @@ export default function ConfirmPage() {
                 </div>
 
                 <div className="flex justify-center mt-6">
-                    <Link to={"/confirm"} state={patientAppointmentDetail}>
+                    <Link to={"/payment"} state={patientAppointmentDetail}>
                         <button
                             type="submit"
                             className="text-white bg-thePointRed rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
                         >
                             Proceed to payment
                         </button>
+
+                        {/* <button
+                            onClick={console.log("on submit", patientAppointmentDetail)}
+                        >
+                            test
+                        </button> */}
                     </Link>
                 </div>
             </div>
