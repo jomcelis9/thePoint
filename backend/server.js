@@ -6,27 +6,25 @@ const authRoutes = require('./routes/authRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const { register, login, authenticateToken } = require('./controllers/auth');
 const routes = require('./routes/routes.js');
-const paymentRoute = require('./routes/payment');
+//const paymentRoute = require('./routes/payment');
+const checkoutRoutes = require('./routes/checkout'); 
 const pool = require('./db'); 
 dotenv.config();
 
 const app = express();
 
-
 app.use(express.json());
-
 
 app.use(cors({
     origin: 'http://localhost:5173', 
     credentials: true
 }));
 
-
 app.use(routes);
 app.use('/routes/auth', authRoutes);
 app.use('/routes/appointments', appointmentRoutes);
-app.use('/routes/payment', paymentRoute);
-
+//app.use('/routes/payment', paymentRoute);
+app.use('/routes', checkoutRoutes);
 
 const performQuery = async (query, values) => {
     try {
@@ -37,7 +35,6 @@ const performQuery = async (query, values) => {
         throw err;
     }
 };
-
 
 const refreshApi = async () => {
     try {
@@ -57,12 +54,11 @@ app.get('/routes/userData', authenticateToken, async (req, res) => {
     } catch (err) {
       res.status(500).json({ error: "Server error" });
     }
-  });
+});
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
 
 module.exports = { pool };

@@ -30,48 +30,39 @@ async function register(req, res) {
 }
 
 const login = async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      // Check if the user exists in the database
-      const user = await pool.query('SELECT * FROM users WHERE email = $1', [email.trim()]);
-      console.log('User from DB:', user.rows); // Log the user data from DB
-  
-      if (user.rows.length === 0) {
-        return res.status(401).json({ message: 'Invalid credentials' });
-      }
-  
-      const foundUser = user.rows[0];
-      // Check the password for both regular and admin users
-      const validPassword = await bcrypt.compare(password.trim(), foundUser.password);
-      console.log('Password valid:', validPassword); // Log the result
-  
-      if (!validPassword) {
-        return res.status(401).json({ message: 'Invalid credentials' });
-      }
-  
-      // Generate a token based on whether the user is an admin or not
-      const token = jwt.sign(
-        { userId: foundUser.user_id, isAdmin: foundUser.is_admin },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
-  
-      res.json({
-        token,
-        user: {
-          email: foundUser.email,
-          isAdmin: foundUser.is_admin,
-          redirect: foundUser.is_admin ? '/admin/dashboard' : '/booking',
-        },
-      });
-    } catch (err) {
-      console.error("Error during login:", err);
-      res.status(500).json({ error: 'Server error', details: err.message });
+  const { email, password } = req.body;
+
+  try {
+    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email.trim()]);
+    if (user.rows.length === 0) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
-  };
-  
-  
+
+    const foundUser = user.rows[0];
+    const validPassword = await bcrypt.compare(password.trim(), foundUser.password);
+    if (!validPassword) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign(
+      { userId: foundUser.user_id, isAdmin: foundUser.is_admin },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.json({
+      token,
+      user: {
+        email: foundUser.email,
+        isAdmin: foundUser.is_admin,
+        redirect: foundUser.is_admin ? '/admin/dashboard' : '/booking',
+      },
+    });
+  } catch (err) {
+    console.error("Error during login:", err);
+    res.status(500).json({ error: 'Server error', details: err.message });
+  }
+};
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
@@ -87,4 +78,18 @@ function authenticateToken(req, res, next) {
   });
 }
 
-module.exports = { register, login, authenticateToken };
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.status(401).json({ error: "Token missing" });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) return res.status(403).json({ error: "Token invalid" });
+      req.userId = decoded.userId;
+      req.isAdmin = decoded.isAdmin;
+      next();
+  });
+};
+
+module.exports = { register, login, authenticateToken, verifyToken };

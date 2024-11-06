@@ -1,77 +1,75 @@
-const express = require('express');
+/* const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 const db = require('../db');
 
-const PAYMONGO_SECRET_KEY = 'sk_test_VGoRbb5odY4Ma6Q9BRHZxJjC';
-
+// Load PAYMONGO_SECRET_KEY from environment variables for security
+const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY || 'sk_test_VGoRbb5odY4Ma6Q9BRHZxJjC';
 
 router.post('/create-payment', async (req, res) => {
     console.log("Received payment request:", req.body);
     try {
-        const { amount, paymentMethod, patientId, patientNumber, accountName, accountNumber, referenceNumber } = req.body;
+        const { amount, patientId, patientNumber, accountName } = req.body;
 
-        
         const testPatientId = '9999'; 
         const effectivePatientId = patientId || testPatientId;
 
-        if (paymentMethod !== 'gcash') {
-            return res.status(400).json({ error: 'Only GCASH payments are allowed.' });
-        }
-
+        // Create a Link request to PayMongo
         const response = await axios.post(
-            'https://api.paymongo.com/v1/payment_intents',
+            'https://api.paymongo.com/v1/links',
             {
                 data: {
                     attributes: {
-                        amount: amount,
-                        payment_method_allowed: ['gcash'],
-                        currency: 'PHP',
+                        amount: amount, // in centavos (e.g., 25000 for PHP 250.00)
+                        description: 'Downpayment for patient',
                     },
                 },
             },
             {
                 headers: {
-                    Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+                    Authorization: `Bearer ${PAYMONGO_SECRET_KEY}`, // Update to Bearer token
                     'Content-Type': 'application/json',
                 },
             }
         );
 
-        console.log('Payment response:', response.data);
+        console.log('Link creation response:', response.data);
 
-       
-        if (response.data.data.attributes.status === 'awaiting_payment_method') {
-           
-            const downpaymentResult = await db.query(`
-                INSERT INTO downpayment (downpay_amount, patient_id, patient_number)
-                VALUES ($1, $2, $3) RETURNING dowpay_id`,
-                [amount, effectivePatientId, patientNumber]
-            );
+        const checkoutUrl = response.data.data.attributes.checkout_url;
 
-            const downpayId = downpaymentResult.rows[0].dowpay_id;
+        // Save payment details in your database if needed
+        const downpaymentResult = await db.query(`
+            INSERT INTO downpayment (downpay_amount, patient_id, patient_number)
+            VALUES ($1, $2, $3) RETURNING dowpay_id`,
+            [amount, effectivePatientId, patientNumber]
+        );
 
-            
-            const paymentResult = await db.query(`
-                INSERT INTO payment (payment_amount, payment_name, patient_id, downpay_id, downpay_amount)
-                VALUES ($1, $2, $3, $4, $5) RETURNING payment_id`,
-                [amount, accountName, effectivePatientId, downpayId, amount]
-            );
+        const downpayId = downpaymentResult.rows[0].dowpay_id;
 
-            
-            res.status(201).json({
-                message: 'Payment processed successfully',
-                paymentId: paymentResult.rows[0].payment_id,
-                downpayId: downpayId
-            });
-        } else {
-            res.status(400).json({ error: 'Payment not completed. Status: ' + response.data.data.attributes.status });
-        }
+        const paymentResult = await db.query(`
+            INSERT INTO payment (payment_amount, payment_name, patient_id, downpay_id, downpay_amount)
+            VALUES ($1, $2, $3, $4, $5) RETURNING payment_id`,
+            [amount, accountName, effectivePatientId, downpayId, amount]
+        );
+
+        res.status(201).json({
+            message: 'Payment link created successfully',
+            checkoutUrl: checkoutUrl,  
+            paymentId: paymentResult.rows[0].payment_id,
+            downpayId: downpayId,
+        });
     } catch (error) {
-        console.error('Error creating payment:', error.response?.data || error.message);
-        res.status(500).send(error.response?.data || 'Payment creation failed');
+        console.error('Error creating payment link:', {
+            message: error.message,
+            response: error.response?.data,
+            status: error.response?.status
+        });
+        res.status(500).json({
+            message: 'Payment link creation failed',
+            error: error.response?.data || error.message,
+        });
     }
 });
 
-
 module.exports = router;
+ */
