@@ -10,7 +10,13 @@ export default function ConfirmPage() {
 
     const [patientDetail, setPatientDetail] = useState({
         patient_name: "",
-        patient_age: ""
+        patient_age: "",
+        patient_id: "",
+        therapy_type: "", 
+        preferred_time: "",
+        preferred_date: "",
+        guardian_name: "",
+        guardian_contact: ""
     });
 
     const [patients, setPatients] = useState([]);
@@ -30,33 +36,108 @@ export default function ConfirmPage() {
 
     // Handle change for accompanied radio buttons
     const handleAccompaniedChange = (e) => {
-        setShowGuardianForm(e.target.value === "no");
+        const isAccompanied = e.target.value === "yes";
+    
+        if (isAccompanied) {
+            setPatientDetail((prevDetail) => ({
+                ...prevDetail,
+                guardian_contact: "",
+                guardian_name: ""
+            }));
+        } else {
+            console.log("Guardian details are required for unaccompanied patients.");
+        }
+    
+        setShowGuardianForm(!isAccompanied);
     };
+    
 
     // Handle change for guardian form inputs
+// Updated handleInputChange function to handle fields in patientDetail
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
-
-    // Handle patient selection by patient_id
-    const handlePatientChange = (e) => {
-        const selectedPatient = patients.find(patient => patient.patient_id === parseInt(e.target.value, 10));
-        if (selectedPatient) {
-            setPatientDetail({
-                patient_name: selectedPatient.patient_name,
-                patient_age: selectedPatient.patient_age
-            });
+        
+        // Check if the input name is part of the patientDetail state
+        if (name === "guardian_name" || name === "guardian_contact") {
+            setPatientDetail((prevDetail) => ({
+                ...prevDetail,
+                [name]: value,
+            }));
         } else {
-            setPatientDetail({
-                patient_name: "",
-                patient_age: ""
-            });
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value,
+            }));
         }
     };
+
+
+    // Handle patient selection by patient_id and therapy type
+// Handle patient selection by patient_id and various input changes
+const handlePatientChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "patient") {
+        const selectedPatient = patients.find(patient => patient.patient_id === parseInt(value, 10));
+        if (selectedPatient) {
+            setPatientDetail(prevDetail => ({
+                ...prevDetail,
+                patient_name: selectedPatient.patient_name,
+                patient_age: selectedPatient.patient_age,
+                patient_id: selectedPatient.patient_id,
+                appoint_type: selectedPatient.appoint_type,
+                preferred_time: selectedPatient.preferred_time,
+                preferred_date: selectedPatient.preferred_date,
+                guardian_name: selectedPatient.guardian_name,
+                guardian_contact: selectedPatient.guardian_contact
+            }));
+        } else {
+            setPatientDetail(prevDetail => ({
+                ...prevDetail,
+                patient_name: "",
+                patient_age: "",
+                patient_id: "",
+                appoint_type: "",
+                preferred_time: "",
+                preferred_date: "",
+                guardian_name: "",
+                guardian_contact: ""
+            }));
+        }
+    } else if (name === "therapyType") {
+        // Update therapy type in patientDetail
+        setPatientDetail(prevDetail => ({
+            ...prevDetail,
+            therapy_type: value
+        }));
+    } else if (name === "date") {
+        // Update preferred date in patientDetail
+        setPatientDetail(prevDetail => ({
+            ...prevDetail,
+            preferred_date: value
+        }));
+    } else if (name === "time") {
+        // Update preferred time in patientDetail
+        setPatientDetail(prevDetail => ({
+            ...prevDetail,
+            preferred_time: value
+        }));
+    } else if (name === "guardian_name") {
+        // Update preferred time in patientDetail
+        setPatientDetail(prevDetail => ({
+            ...prevDetail,
+            guardian_name: value
+        }));
+    } else if (name === "guardian_contact") {
+        // Update preferred time in patientDetail
+        setPatientDetail(prevDetail => ({
+            ...prevDetail,
+            guardian_contact: value
+        }));
+    }
+
+};
+
 
     return (
         <div className="pt-24 flex gap-5 justify-center min-h-screen">
@@ -90,12 +171,26 @@ export default function ConfirmPage() {
                                     <label className="block mb-2 text-sm font-medium text-gray-900">Age</label>
                                     <div className="flex justify-between mt-2">
                                         <div>{patientDetail.patient_age}</div>
+                                        <div>{patientDetail.patient_id}</div>
+                                        <div>{patientDetail.appoint_type}</div>
+
+
+                                    </div>
+                                    <div>
+                                        <label className="block mb-2 text-sm font-medium text-gray-900">Therapy Type</label>
+                                        <div>{patientDetail.therapy_type}</div>
+                                        <div>{patientDetail.preferred_time}</div> 
+                                        <div>{patientDetail.preferred_date}</div>
+                                        <div>{patientDetail.guardian_contact}</div>
+                                        <div>{patientDetail.guardian_name}</div> 
+
+
                                     </div>
                                 </div>
                             )}
 
                             {/* Therapy type and appointment details */}
-                            <select name="therapyType" className="mt-4 shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none">
+                            <select onChange={handlePatientChange} name="therapyType" className="mt-4 shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none">
                                 <option value="">Select Type of Therapy</option>
                                 <option value="occupational">Occupational Therapy</option>
                                 <option value="sped">SPED Program</option>
@@ -104,12 +199,12 @@ export default function ConfirmPage() {
 
                             <div className="w-full mt-4">
                                 <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900">Preferred Date:</label>
-                                <input id="date" name="date" type="date" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+                                <input onChange={handlePatientChange} id="date" name="date" type="date" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
                             </div>
 
                             <div className="w-full mt-4">
                                 <label htmlFor="time" className="block mb-2 text-sm font-medium text-gray-900">Preferred Time:</label>
-                                <input id="time" name="time" type="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" />
+                                <input onChange={handlePatientChange} id="time" name="time" type="time" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="09:00" max="18:00" />
                             </div>
                         </div>
 
@@ -136,21 +231,25 @@ export default function ConfirmPage() {
                     >
                         Proceed to payment
                     </button>
+
+                    <button onClick={console.log(patientDetail)}>
+                        Test
+                    </button>
                 </div>
             </div>
 
             {/* Conditional Guardian Form */}
             {showGuardianForm && (
                 <div className="mt-4">
-                    <h2 className="text-lg font-semibold">Emergency Contact Details</h2>
+                    <h2 className="text-lg font-semibold">Gauardian Details</h2>
                     <div className="grid md:gap-7 rounded-md py-2">
                         <div className="relative z-0 w-full group">
-                            <label htmlFor="guardianName">Full Name</label>
+                            <label htmlFor="guardianName">Guardian's Name</label>
                             <input
-                                id="guardianName"
-                                name="guardianName"
+                                id="guardian_name"
+                                name="guardian_name"
                                 type="text"
-                                value={formData.guardianName}
+                                value={patientDetail.guardian_name}
                                 required
                                 className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                 placeholder="Maria Dela Cruz"
@@ -158,15 +257,17 @@ export default function ConfirmPage() {
                             />
                         </div>
                         <div className="relative z-0 w-full group">
-                            <label htmlFor="guardianContact">Emergency Contact Number</label>
+                            <label htmlFor="guardianContact">Contact Number</label>
                             <input
-                                id="guardianContact"
-                                name="guardianContact"
+                                id="guardian_contact"
+                                name="guardian_contact"
                                 type="text"
-                                value={formData.guardianContact}
+                                value={patientDetail.guardian_contact}
                                 required
                                 maxLength="11"
-                                className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                className="shadow-md rounded-lg w-full 
+                                text-gray-800 text-sm border-b border-gray-300 f
+                                ocus:border-thePointPink px-2 py-3 outline-none"
                                 placeholder="ex. 09123456789"
                                 onKeyPress={(e) => { if (!/[0-9]/.test(e.key)) e.preventDefault(); }}
                                 onChange={handleInputChange}
