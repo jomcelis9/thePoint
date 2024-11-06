@@ -1,13 +1,39 @@
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import axios from 'axios';
 
 export default function ConfirmPage() {
     const location = useLocation();
-    const formData = location.state || {}; // Access the passed data
-    console.log(formData);
+    const patientAppointmentDetail = location.state || {}; // Access the passed data
+    console.log("FORM DATA OUTSIDE:  ", patientAppointmentDetail);
 
     // Extract guardian details
-    const { accompanied, guardianName, guardianContact } = formData;
+    const { accompanied, guardian_name, guardian_contact } = patientAppointmentDetail;
+
+    const uploadDocument = async (e) => {
+        e.preventDefault();
+        try {
+            console.log("FORM DATA: " , patientAppointmentDetail)
+            const response = await fetch(`http://127.0.0.1:5001/appointments`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(patientAppointmentDetail)
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+                //navigate("/payment"); // Navigate to the payment page after successful submission
+            } else {
+                console.error("Failed to insert data");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
 
     return (
         <div className="relative">
@@ -53,56 +79,40 @@ export default function ConfirmPage() {
                             <h3 className="text-sm text-black">Client #1</h3>
                             <div className="flex justify-items-stretch gap-5">
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                        value={formData.firstName || ""} readOnly
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={patientAppointmentDetail.patient_name} readOnly
                                     />
                                     <p>
                                         <i>First Name</i>
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                        value={formData.lastName || ""} readOnly
-                                    />
-                                    <p>
-                                        <i>Last Name</i>
-                                    </p>
-                                </div>
-                                <div>
-                                    <input type="text" className="bshadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                        value={formData.contactNumber || ""} readOnly
-                                    />
-                                    <p>
-                                        <i>Contact Number</i>
-                                    </p>
-                                </div>
-                                <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                        value={formData.age || ""} readOnly
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={patientAppointmentDetail.patient_age} readOnly
                                     />
                                     <p>
                                         <i>Age:</i>
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                        value={formData.therapyType || ""} readOnly
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={patientAppointmentDetail.therapy_type} readOnly
                                     />
                                     <p>
                                         <i>Therapy Type</i>
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                        value={formData.date || ""} readOnly
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={patientAppointmentDetail.preferred_date} readOnly
                                     />
                                     <p>
                                         <i>Preferred Date</i>
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                        value={formData.time || ""} readOnly
+                                    <input disabled type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
+                                        value={patientAppointmentDetail.preferred_time} readOnly
                                     />
                                     <p>
                                         <i>Preferred Time</i>
@@ -117,7 +127,7 @@ export default function ConfirmPage() {
                                     <div className="flex justify-items-stretch gap-5">
                                         <div>
                                             <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                                value={guardianName || ""} readOnly
+                                                value={guardian_name || ""} readOnly
                                             />
                                             <p>
                                                 <i>Full Name</i>
@@ -125,7 +135,7 @@ export default function ConfirmPage() {
                                         </div>
                                         <div>
                                             <input type="text" className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
-                                                value={guardianContact || ""} readOnly
+                                                value={guardian_contact || ""} readOnly
                                             />
                                             <p>
                                                 <i>Contact</i>
@@ -138,7 +148,7 @@ export default function ConfirmPage() {
                     </div>
                     <div className="flex mt-7 justify-center">
                             <Link to="/payment">
-                                <button className="bg-thePointRed text-white rounded-lg px-4 py-2 hover:bg-thePointPink transition-all duration-300">
+                                <button onClick={"uploadDocument"} className="bg-thePointRed text-white rounded-lg px-4 py-2 hover:bg-thePointPink transition-all duration-300">
                                     Confirm
                                 </button>
                             </Link>

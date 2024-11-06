@@ -30,7 +30,7 @@ export default function LoginPage() {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        window.location.href = '/booking'; // if login successful, goes to bookingpage
+        window.location.href = '/'; // if login successful, goes to bookingpage
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }
