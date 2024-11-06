@@ -287,7 +287,7 @@ export default function TableBodyTherapist(
       <div className="flex">
         <div className="relative mt-1">
               <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 text-gray-500  :text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                   </svg>
               </div>
@@ -296,7 +296,7 @@ export default function TableBodyTherapist(
             id="table-search"
             value={searchTerm} // Bind search term to input value
             onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
-            className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500  :bg-gray-700  :border-gray-600  :placeholder-gray-400  :text-white  :focus:ring-blue-500  :focus:border-blue-500"
             placeholder="Search for items"
           />
         </div>
@@ -336,46 +336,46 @@ export default function TableBodyTherapist(
           return (
             <tr key={row[id]}
             onClick={() => onRowClick(row)}
-            className="cursor-pointer hover:bg-gray-100">
-              <th scope="col" className="p-4">
+            className="cursor-pointer text-black hover:bg-gray-100">
+              <th scope="col" className="p-4 text-black">
                 <div className="flex items-center">
                   <input
                     id={`checkbox`}
                     type="checkbox"
                     checked={selectedRows.includes(columnOne)}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  :focus:ring-blue-600  :ring-offset-gray-800  :focus:ring-offset-gray-800 focus:ring-2  :bg-gray-700  :border-gray-600"
                     onChange={() => handleCheckboxChange(columnOne)}
                   />
                   <label htmlFor={`checkbox-${index}`} className="sr-only">checkbox</label>
                 </div>
               </th>
               
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  :text-white">
                 {columnOne}
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  :text-white">
                 {columnTwo}
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  :text-white">
                 {columnThree}
               </th>
 
               {isDate && (
-                <th className="size-0 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th className="size-0 px-6 py-4 font-medium text-gray-900 whitespace-nowrap  :text-white">
                   {convertDate(columnFour)}
                 </th>
               )}
 
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                 {columnFive} 
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  :text-white">
                 {columnSix}
               </th>
 
           {/* Actionable BUttons */}
                 {isAction && (
-                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
+                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  :text-white gap-2">
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button

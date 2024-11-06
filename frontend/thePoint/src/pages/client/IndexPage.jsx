@@ -2,19 +2,19 @@ import { Link } from "react-router-dom";
 import React from 'react';
 import tourVideo from '../../Videos/Tour.mp4'
 
-export default function IndexPage() {
+export default function IndexPage(user) {
+
+    console.log
     return (
         <div id="Home" className="px-0 overflow-x-hidden">
             {/* Main Background Section */}
-            <div className="relative flex justify-center items-center h-screen w-screen overflow-x-hidden">
-            <video 
-                autoPlay 
-                loop 
-                muted 
-                playsInline 
-                className="absolute inset-0 w-full h-full object-cover" 
-                src={tourVideo} // Use the imported video variable here
-            ></video>
+            <div className="relative flex justify-center items-center h-screen w-screen overflow-x-hidden"
+                style={{
+                    backgroundImage: `url('/src/images/sample2.jpg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}
+            >
                 <div className="absolute inset-0 bg-black opacity-50"></div>
 
                 <div className="relative z-10 flex flex-col items-start px-4 md:px-32">
@@ -36,7 +36,9 @@ export default function IndexPage() {
                     <Link to={'/bookchoice'}>
                         <button
                             type="button"
-                            className="bg-thePointRed hover:bg-thePointRedDark text-white focus:ring-2 focus:outline-none focus:ring-purple-300 font-medium rounded-2xl text-lg px-8 py-3 text-center transition-all duration-300 animate-pulse"
+                            className="bg-thePointRed hover:bg-thePointRedDark 
+                            text-white focus:ring-2 focus:outline-none focus:ring-purple-300 
+                            font-medium rounded-2xl text-lg px-8 py-3 text-center transition-all duration-300 animate-pulse"
                             style={{ marginLeft: '-550px', marginTop: '13px' }}
                         >
                             Book Now
@@ -48,7 +50,8 @@ export default function IndexPage() {
             {/* About Section */}
             <main>
                 <section id="about" className="about max-w-7xl mx-auto py-20 px-4">
-                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">About The Point</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">About The Point {user.email}</h2>
+
                     <div className="md:flex md:items-center md:space-x-8">
                         <div className="relative md:w-1/2 flex justify-center mb-8 md:mb-0">
                             <div className="relative rounded-lg overflow-hidden shadow-md">

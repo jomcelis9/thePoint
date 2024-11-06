@@ -67,6 +67,15 @@ const refreshApi = async () => {
     }
 };
 
+pool.query(`select * from appointments`,(err,res)=>{
+    if(!err){
+        console.log(res.rows);
+    }else{
+        console.log(err.message);
+    }
+    pool.end;
+})
+
 // Call refreshApi if needed
 // refreshApi();
 
@@ -75,3 +84,5 @@ const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+
