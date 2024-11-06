@@ -1,12 +1,20 @@
 // src/NewClient.js
-import React from "react";
+import React, { useState } from "react";
 
 const NewClient = () => {
+
+    // const [patientDetail,setPatientDetail] = useState({
+    //     patient_name: "",
+    //     patient_age: "",
+    //     patient_contact: ""
+
+    // })
+
     return (
         <div className="flex flex-col items-center p-4">
             <h2 className="text-4xl font-bold mb-8 text-gray-900 mt-10">New Patient</h2>
             <div>
-            <form className="mx-auto p-6 border rounded-xl shadow-md shadow-white bg-white m-10 w-[1000px]">
+            <form onSubmit={""} className="mx-auto p-6 border rounded-xl shadow-md shadow-white bg-white m-10 w-[1000px]">
 
                     <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md">Enter Patient Details</h1>
 
@@ -30,8 +38,9 @@ const NewClient = () => {
                 </form>
                 <div className="flex flex-col items-center justify-center h-[100px] mb-1">
                     <button
+                        onClick={""}
                         id="NewPatientBtn" 
-                        type="button"
+                        type="submit"
                         className="w-48 bg-gradient-to-r from-thePointPink to-thePointRed text-white py-2 active:bg-primary-600 focus:outline-none focus:ring focus:ring-amber-200 rounded-lg mb-10"
                      >
                     SAVE PATIENT
