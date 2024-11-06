@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import {Link} from "react-router-dom"
 export default function ConfirmPage() {
     const [showGuardianForm, setShowGuardianForm] = useState(false);
     const [formData, setFormData] = useState({
@@ -8,7 +8,7 @@ export default function ConfirmPage() {
         guardianContact: ""
     });
 
-    const [patientDetail, setPatientDetail] = useState({
+    const [patientAppointmentDetail, setpatientAppointmentDetail] = useState({
         patient_name: "",
         patient_age: "",
         patient_id: "",
@@ -39,7 +39,7 @@ export default function ConfirmPage() {
         const isAccompanied = e.target.value === "yes";
     
         if (isAccompanied) {
-            setPatientDetail((prevDetail) => ({
+            setpatientAppointmentDetail((prevDetail) => ({
                 ...prevDetail,
                 guardian_contact: "",
                 guardian_name: ""
@@ -53,13 +53,13 @@ export default function ConfirmPage() {
     
 
     // Handle change for guardian form inputs
-// Updated handleInputChange function to handle fields in patientDetail
+// Updated handleInputChange function to handle fields in patientAppointmentDetail
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         
-        // Check if the input name is part of the patientDetail state
+        // Check if the input name is part of the patientAppointmentDetail state
         if (name === "guardian_name" || name === "guardian_contact") {
-            setPatientDetail((prevDetail) => ({
+            setpatientAppointmentDetail((prevDetail) => ({
                 ...prevDetail,
                 [name]: value,
             }));
@@ -80,7 +80,7 @@ const handlePatientChange = (e) => {
     if (name === "patient") {
         const selectedPatient = patients.find(patient => patient.patient_id === parseInt(value, 10));
         if (selectedPatient) {
-            setPatientDetail(prevDetail => ({
+            setpatientAppointmentDetail(prevDetail => ({
                 ...prevDetail,
                 patient_name: selectedPatient.patient_name,
                 patient_age: selectedPatient.patient_age,
@@ -92,7 +92,7 @@ const handlePatientChange = (e) => {
                 guardian_contact: selectedPatient.guardian_contact
             }));
         } else {
-            setPatientDetail(prevDetail => ({
+            setpatientAppointmentDetail(prevDetail => ({
                 ...prevDetail,
                 patient_name: "",
                 patient_age: "",
@@ -105,32 +105,32 @@ const handlePatientChange = (e) => {
             }));
         }
     } else if (name === "therapyType") {
-        // Update therapy type in patientDetail
-        setPatientDetail(prevDetail => ({
+        // Update therapy type in patientAppointmentDetail
+        setpatientAppointmentDetail(prevDetail => ({
             ...prevDetail,
             therapy_type: value
         }));
     } else if (name === "date") {
-        // Update preferred date in patientDetail
-        setPatientDetail(prevDetail => ({
+        // Update preferred date in patientAppointmentDetail
+        setpatientAppointmentDetail(prevDetail => ({
             ...prevDetail,
             preferred_date: value
         }));
     } else if (name === "time") {
-        // Update preferred time in patientDetail
-        setPatientDetail(prevDetail => ({
+        // Update preferred time in patientAppointmentDetail
+        setpatientAppointmentDetail(prevDetail => ({
             ...prevDetail,
             preferred_time: value
         }));
     } else if (name === "guardian_name") {
-        // Update preferred time in patientDetail
-        setPatientDetail(prevDetail => ({
+        // Update preferred time in patientAppointmentDetail
+        setpatientAppointmentDetail(prevDetail => ({
             ...prevDetail,
             guardian_name: value
         }));
     } else if (name === "guardian_contact") {
-        // Update preferred time in patientDetail
-        setPatientDetail(prevDetail => ({
+        // Update preferred time in patientAppointmentDetail
+        setpatientAppointmentDetail(prevDetail => ({
             ...prevDetail,
             guardian_contact: value
         }));
@@ -161,30 +161,16 @@ const handlePatientChange = (e) => {
                             </select>
 
                             {/* Display selected patient details */}
-                            {patientDetail.patient_name && (
+                            {patientAppointmentDetail.patient_name && (
                                 <div className="border p-3 rounded-lg">
                                     <label className="block mb-2 text-sm font-medium text-gray-900">Name</label>
                                     <div className="flex justify-between mb-2">
-                                        <div>{patientDetail.patient_name}</div> 
+                                        <div>{patientAppointmentDetail.patient_name}</div> 
                                     </div>
 
                                     <label className="block mb-2 text-sm font-medium text-gray-900">Age</label>
                                     <div className="flex justify-between mt-2">
-                                        <div>{patientDetail.patient_age}</div>
-                                        <div>{patientDetail.patient_id}</div>
-                                        <div>{patientDetail.appoint_type}</div>
-
-
-                                    </div>
-                                    <div>
-                                        <label className="block mb-2 text-sm font-medium text-gray-900">Therapy Type</label>
-                                        <div>{patientDetail.therapy_type}</div>
-                                        <div>{patientDetail.preferred_time}</div> 
-                                        <div>{patientDetail.preferred_date}</div>
-                                        <div>{patientDetail.guardian_contact}</div>
-                                        <div>{patientDetail.guardian_name}</div> 
-
-
+                                        <div>{patientAppointmentDetail.patient_age}</div>
                                     </div>
                                 </div>
                             )}
@@ -192,9 +178,9 @@ const handlePatientChange = (e) => {
                             {/* Therapy type and appointment details */}
                             <select onChange={handlePatientChange} name="therapyType" className="mt-4 shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none">
                                 <option value="">Select Type of Therapy</option>
-                                <option value="occupational">Occupational Therapy</option>
-                                <option value="sped">SPED Program</option>
-                                <option value="physical">Intensive Physical Therapy</option>
+                                <option value="Occupational Therapy">Occupational Therapy</option>
+                                <option value="SPED">SPED Program</option>
+                                <option value="Intensive Physical Therapy">Intensive Physical Therapy</option>
                             </select>
 
                             <div className="w-full mt-4">
@@ -225,14 +211,17 @@ const handlePatientChange = (e) => {
 
                 {/* Submit button */}
                 <div className="flex justify-center mt-6">
-                    <button
-                        type="submit"
-                        className="text-white bg-thePointRed rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                    >
-                        Proceed to payment
-                    </button>
+                    <Link to={"/confirm"} state={patientAppointmentDetail}>
+                        <button
+                            type="submit"
+                            className="text-white bg-thePointRed rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                        >
+                            Proceed to payment
+                        </button>
+                    </Link>
 
-                    <button onClick={console.log(patientDetail)}>
+
+                    <button onClick={console.log(patientAppointmentDetail)}>
                         Test
                     </button>
                 </div>
@@ -249,7 +238,7 @@ const handlePatientChange = (e) => {
                                 id="guardian_name"
                                 name="guardian_name"
                                 type="text"
-                                value={patientDetail.guardian_name}
+                                value={patientAppointmentDetail.guardian_name}
                                 required
                                 className="shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                                 placeholder="Maria Dela Cruz"
@@ -262,7 +251,7 @@ const handlePatientChange = (e) => {
                                 id="guardian_contact"
                                 name="guardian_contact"
                                 type="text"
-                                value={patientDetail.guardian_contact}
+                                value={patientAppointmentDetail.guardian_contact}
                                 required
                                 maxLength="11"
                                 className="shadow-md rounded-lg w-full 
