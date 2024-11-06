@@ -13,7 +13,8 @@ export default function ConfirmPage() {
         preferred_date: "",
         guardian_name: "",
         guardian_contact: "",
-        accompanied:""
+        accompanied:"",
+        booking_date:""
     });
 
     const [patients, setPatients] = useState([]);
@@ -37,11 +38,17 @@ export default function ConfirmPage() {
                 setShowGuardianForm(true); 
             }
         }
+
+        console.log("Current Date: ", currentDate())
         
         fetchPatients();
     }, []);
 
-    
+    function currentDate() {
+        const today = new Date();
+        const formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        return formattedDate
+    }
 
     // Save data to localStorage whenever patientAppointmentDetail changes
     useEffect(() => {
@@ -78,6 +85,8 @@ export default function ConfirmPage() {
         if (name === "patient") {
             const selectedPatient = patients.find(patient => patient.patient_id === parseInt(value, 10));
             if (selectedPatient) {
+                currentDate();
+                console.log("Current Date: ", currentDate)
                 setpatientAppointmentDetail(prevDetail => ({
                     ...prevDetail,
                     patient_name: selectedPatient.patient_name,
@@ -87,7 +96,8 @@ export default function ConfirmPage() {
                     preferred_time: selectedPatient.preferred_time,
                     preferred_date: selectedPatient.preferred_date,
                     guardian_name: selectedPatient.guardian_name,
-                    guardian_contact: selectedPatient.guardian_contact
+                    guardian_contact: selectedPatient.guardian_contact,
+                    booking_date: currentDate()
                 }));
             } else {
                 setpatientAppointmentDetail(prevDetail => ({
@@ -99,7 +109,8 @@ export default function ConfirmPage() {
                     preferred_time: "",
                     preferred_date: "",
                     guardian_name: "",
-                    guardian_contact: ""
+                    guardian_contact: "",
+                    booking_date: ""
                 }));
             }
         } else if (name === "therapyType") {
@@ -201,7 +212,9 @@ export default function ConfirmPage() {
                     <Link to={"/payment"} state={patientAppointmentDetail}>
                         <button
                             type="submit"
-                            className="text-white bg-thePointRed rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                            className="text-white bg-thePointRed 
+                            rounded-lg text-sm w-full sm:w-auto px-5 
+                            py-2.5 text-center"
                         >
                             Proceed to payment
                         </button>

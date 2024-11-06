@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { Pool } = require('pg')
 
+
+
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -85,33 +87,52 @@ router.put('/:table/:appointmentId/:values', async (req, res) => {
 
 // ================ NEW: POST  ROUTE ================ POSTS TO APPOINTMENT TABLE
 
+
 router.post('/appointments', async (req, res) => {
     const {
         preferred_date, therapy_type, preferred_time,
-        guardian_contact, guardian_name, patient_id
+        guardian_contact, guardian_name, patient_id, booking_date
     } = req.body;
 
-    const query = `
+    const insertIntoAppointments = `
         INSERT INTO appointments 
         (preferred_date, therapy_type, preferred_time, 
-        guardian_contact, guardian_name, patient_id) 
+        guardian_contact, guardian_name) 
         VALUES 
-        ($1, $2, $3, $4, $5);
+        ($1, $2, $3, $4, $5) RETURNING appoint_id;
     `;
 
-    const values = [
+    const appointmentValues = [
         preferred_date, therapy_type, preferred_time,
-        guardian_contact, guardian_name, patient_id
+        guardian_contact, guardian_name,
     ];
 
+    const insertIntoPatientAppointments = `
+        INSERT INTO patient_appointments 
+        (patient_id, appoint_id, booking_date)
+        VALUES
+        ($1, $2, $3);
+    `;
+
     try {
-        const result = await pool.query(query, values);
-        res.json({ message: 'Insert successful', data: result });
+        // Step 1: Insert into appointments and get appoint_id
+        const appointmentResult = await pool.query(insertIntoAppointments, appointmentValues);
+        const appoint_id = appointmentResult.rows[0].appoint_id;  // Retrieve appoint_id
+
+        // Step 2: Insert into patient_appointments using the retrieved appoint_id
+        const patientAppointmentsValues = [
+            patient_id, appoint_id, booking_date
+        ];
+        
+        await pool.query(insertIntoPatientAppointments, patientAppointmentsValues);
+
+        res.json({ message: 'Insert successful', appoint_id: appoint_id });
     } catch (error) {
-        console.log('Error executing query:', error.message);  // Log the specific error message
+        console.log('Error executing query:', error.message);
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 });
+
 
 // ================ NEW: POST  ROUTE ================ POSTS TO APPOINTMENT TABLE
 
