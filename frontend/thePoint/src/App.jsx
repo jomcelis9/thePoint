@@ -35,7 +35,7 @@ function App() {
 
       <Route path="/" element={<Layout />}>
         <Route index element={<IndexPage />} />
-        <Route path="/booking" element={<BookingPage />}/>
+        {/* <Route path="/booking" element={<BookingPage />}/> */}
         <Route path="/payment" element={<PaymentPage/>}/>
         <Route path="/confirm" element={<ConfirmPage/>}/>
         <Route path="/contact" element={<ContactPage/>}/>
@@ -44,8 +44,6 @@ function App() {
         <Route path="/bookchoice" element={<BookChoice />} />
         <Route path='/newclient' element={<NewClient />} />
         <Route path='/bookPatient' element={<ExistingPatient/>}></Route>
-
-
       </Route>
 
       <Route path="admin" element={<AdminLayout/>}>

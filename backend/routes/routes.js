@@ -87,23 +87,21 @@ router.put('/:table/:appointmentId/:values', async (req, res) => {
 
 router.post('/appointments', async (req, res) => {
     const {
-        appoint_date, appoint_type, time,
-        patient_name, patient_age,
-        contact_number, guardian_contact, guardian_name,
+        preferred_date, therapy_type, preferred_time,
+        guardian_contact, guardian_name,
     } = req.body;
 
     const query = `
         INSERT INTO appointments 
-        (appoint_date, appoint_type, time, patient_name, 
-        patient_age, contact_number, guardian_contact, guardian_name) 
+        (preferred_date, therapy_type, preferred_time, 
+        guardian_contact, guardian_name) 
         VALUES 
-        ($1, $2, $3, $4, $5, $6, $7, $8);
+        ($1, $2, $3, $4, $5);
     `;
 
     const values = [
-        appoint_date, appoint_type, time,
-        patient_name, patient_age, 
-        contact_number, guardian_contact, guardian_name,
+        preferred_date, therapy_type, preferred_time,
+        guardian_contact, guardian_name,
     ];
 
     try {

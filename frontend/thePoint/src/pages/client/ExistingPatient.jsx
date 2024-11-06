@@ -1,22 +1,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
+
 export default function ConfirmPage() {
     const [showGuardianForm, setShowGuardianForm] = useState(false);
-    const [formData, setFormData] = useState({
-        guardianName: "",
-        guardianContact: ""
-    });
-
     const [patientAppointmentDetail, setpatientAppointmentDetail] = useState({
         patient_name: "",
         patient_age: "",
         patient_id: "",
-        therapy_type: "", 
+        therapy_type: "",
         preferred_time: "",
         preferred_date: "",
         guardian_name: "",
-        guardian_contact: ""
+        guardian_contact: "",
+        accompanied:""
     });
 
     const [patients, setPatients] = useState([]);
@@ -30,121 +27,110 @@ export default function ConfirmPage() {
                 console.error("Failed to fetch patients:", error);
             }
         }
+
+        // Retrieve saved data from localStorage
+        const savedFormData = localStorage.getItem("patientAppointmentDetail");
+        if (savedFormData) {
+            const parsedData = JSON.parse(savedFormData);
+            setpatientAppointmentDetail(parsedData);
+            if (parsedData.accompanied === "no") {
+                setShowGuardianForm(true); 
+            }
+        }
         
         fetchPatients();
     }, []);
 
+    
+
+    // Save data to localStorage whenever patientAppointmentDetail changes
+    useEffect(() => {
+        localStorage.setItem("patientAppointmentDetail", JSON.stringify(patientAppointmentDetail));
+    }, [patientAppointmentDetail]);
+
     // Handle change for accompanied radio buttons
     const handleAccompaniedChange = (e) => {
-        const isAccompanied = e.target.value === "yes";
-    
-        if (isAccompanied) {
-            setpatientAppointmentDetail((prevDetail) => ({
-                ...prevDetail,
-                guardian_contact: "",
-                guardian_name: ""
-            }));
-        } else {
-            console.log("Guardian details are required for unaccompanied patients.");
-        }
-    
+        const value = e.target.value;
+        const isAccompanied = value === "yes";
+        
+        setpatientAppointmentDetail((prevDetail) => ({
+            ...prevDetail,
+            accompanied: value,
+            guardian_name: isAccompanied ? "" : prevDetail.guardian_name,
+            guardian_contact: isAccompanied ? "" : prevDetail.guardian_contact
+        }));
         setShowGuardianForm(!isAccompanied);
     };
-    
 
-    // Handle change for guardian form inputs
-// Updated handleInputChange function to handle fields in patientAppointmentDetail
+    // Handle change for inputs
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        
-        // Check if the input name is part of the patientAppointmentDetail state
-        if (name === "guardian_name" || name === "guardian_contact") {
-            setpatientAppointmentDetail((prevDetail) => ({
+        setpatientAppointmentDetail((prevDetail) => ({
+            ...prevDetail,
+            [name]: value,
+        }));
+    };
+
+    // Handle patient selection by patient_id and various input changes
+    const handlePatientChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === "patient") {
+            const selectedPatient = patients.find(patient => patient.patient_id === parseInt(value, 10));
+            if (selectedPatient) {
+                setpatientAppointmentDetail(prevDetail => ({
+                    ...prevDetail,
+                    patient_name: selectedPatient.patient_name,
+                    patient_age: selectedPatient.patient_age,
+                    patient_id: selectedPatient.patient_id,
+                    appoint_type: selectedPatient.appoint_type,
+                    preferred_time: selectedPatient.preferred_time,
+                    preferred_date: selectedPatient.preferred_date,
+                    guardian_name: selectedPatient.guardian_name,
+                    guardian_contact: selectedPatient.guardian_contact
+                }));
+            } else {
+                setpatientAppointmentDetail(prevDetail => ({
+                    ...prevDetail,
+                    patient_name: "",
+                    patient_age: "",
+                    patient_id: "",
+                    appoint_type: "",
+                    preferred_time: "",
+                    preferred_date: "",
+                    guardian_name: "",
+                    guardian_contact: ""
+                }));
+            }
+        } else if (name === "therapyType") {
+            setpatientAppointmentDetail(prevDetail => ({
                 ...prevDetail,
-                [name]: value,
+                therapy_type: value
             }));
-        } else {
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: value,
+        } else if (name === "date") {
+            setpatientAppointmentDetail(prevDetail => ({
+                ...prevDetail,
+                preferred_date: value
+            }));
+        } else if (name === "time") {
+            setpatientAppointmentDetail(prevDetail => ({
+                ...prevDetail,
+                preferred_time: value
+            }));
+        } else if (name === "guardian_name" || name === "guardian_contact") {
+            setpatientAppointmentDetail(prevDetail => ({
+                ...prevDetail,
+                [name]: value
             }));
         }
     };
-
-
-    // Handle patient selection by patient_id and therapy type
-// Handle patient selection by patient_id and various input changes
-const handlePatientChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "patient") {
-        const selectedPatient = patients.find(patient => patient.patient_id === parseInt(value, 10));
-        if (selectedPatient) {
-            setpatientAppointmentDetail(prevDetail => ({
-                ...prevDetail,
-                patient_name: selectedPatient.patient_name,
-                patient_age: selectedPatient.patient_age,
-                patient_id: selectedPatient.patient_id,
-                appoint_type: selectedPatient.appoint_type,
-                preferred_time: selectedPatient.preferred_time,
-                preferred_date: selectedPatient.preferred_date,
-                guardian_name: selectedPatient.guardian_name,
-                guardian_contact: selectedPatient.guardian_contact
-            }));
-        } else {
-            setpatientAppointmentDetail(prevDetail => ({
-                ...prevDetail,
-                patient_name: "",
-                patient_age: "",
-                patient_id: "",
-                appoint_type: "",
-                preferred_time: "",
-                preferred_date: "",
-                guardian_name: "",
-                guardian_contact: ""
-            }));
-        }
-    } else if (name === "therapyType") {
-        // Update therapy type in patientAppointmentDetail
-        setpatientAppointmentDetail(prevDetail => ({
-            ...prevDetail,
-            therapy_type: value
-        }));
-    } else if (name === "date") {
-        // Update preferred date in patientAppointmentDetail
-        setpatientAppointmentDetail(prevDetail => ({
-            ...prevDetail,
-            preferred_date: value
-        }));
-    } else if (name === "time") {
-        // Update preferred time in patientAppointmentDetail
-        setpatientAppointmentDetail(prevDetail => ({
-            ...prevDetail,
-            preferred_time: value
-        }));
-    } else if (name === "guardian_name") {
-        // Update preferred time in patientAppointmentDetail
-        setpatientAppointmentDetail(prevDetail => ({
-            ...prevDetail,
-            guardian_name: value
-        }));
-    } else if (name === "guardian_contact") {
-        // Update preferred time in patientAppointmentDetail
-        setpatientAppointmentDetail(prevDetail => ({
-            ...prevDetail,
-            guardian_contact: value
-        }));
-    }
-
-};
-
 
     return (
         <div className="pt-24 flex gap-5 justify-center min-h-screen">
             <div className="w-full max-w-md">
                 <h1 className="text-center mb-6">Book Existing Patient</h1>
                 <div>
-                    <form className="bg-white p-6 rounded-lg shadow-md w-full">
+                <form className="bg-white p-6 rounded-lg shadow-md w-full">
                         <div className="mb-5">
                             {/* Patient selection */}
                             <select
@@ -161,14 +147,16 @@ const handlePatientChange = (e) => {
                             </select>
 
                             {/* Display selected patient details */}
-                            {patientAppointmentDetail.patient_name && (
+                            {(
                                 <div className="border p-3 rounded-lg">
-                                    <label className="block mb-2 text-sm font-medium text-gray-900">Name</label>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900">Name:</label>
                                     <div className="flex justify-between mb-2">
-                                        <div>{patientAppointmentDetail.patient_name}</div> 
+                                        <div>
+                                            {patientAppointmentDetail.patient_name}
+                                        </div> 
                                     </div>
-
-                                    <label className="block mb-2 text-sm font-medium text-gray-900">Age</label>
+ 
+                                    <label className="block mb-2 text-sm font-medium text-gray-900">Age:</label>
                                     <div className="flex justify-between mt-2">
                                         <div>{patientAppointmentDetail.patient_age}</div>
                                     </div>
@@ -200,16 +188,15 @@ const handlePatientChange = (e) => {
                         </div>
                         <div className="flex items-center mt-2">
                             <label className="mr-2">
-                                <input type="radio" name="accompanied" value="yes" onChange={handleAccompaniedChange} /> Yes
+                                <input type="radio" name="accompanied" checked={setpatientAppointmentDetail.accompanied === "yes"} value="yes" onChange={handleAccompaniedChange} /> Yes
                             </label>
                             <label className="ml-4">
-                                <input type="radio" name="accompanied" value="no" onChange={handleAccompaniedChange} /> No
+                                <input type="radio" name="accompanied" checked={setpatientAppointmentDetail.accompanied === "no"}  value="no" onChange={handleAccompaniedChange} /> No
                             </label>
                         </div>
                     </form>
                 </div>
 
-                {/* Submit button */}
                 <div className="flex justify-center mt-6">
                     <Link to={"/confirm"} state={patientAppointmentDetail}>
                         <button
@@ -219,11 +206,6 @@ const handlePatientChange = (e) => {
                             Proceed to payment
                         </button>
                     </Link>
-
-
-                    <button onClick={console.log(patientAppointmentDetail)}>
-                        Test
-                    </button>
                 </div>
             </div>
 
