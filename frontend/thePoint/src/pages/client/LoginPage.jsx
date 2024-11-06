@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import videoBg from '../../Videos/videoLogo.mp4'
+import videoBg from '../../Videos/videoLogo.mp4';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,13 +12,14 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
 
-    //checking if there are values on email and password textbox
+    // checking if there are values on email and password textbox
     if (!email || !password) {
       setError('Please enter both email and password');
       setLoading(false);
       return;
     }
-//fetching data by direct URL
+
+    // fetching data by direct URL
     try {
       const response = await fetch('http://localhost:5001/routes/auth/login', {
         method: 'POST',
@@ -34,15 +35,12 @@ export default function LoginPage() {
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }
-      //error handling
     } catch (err) {
       console.error('Error during login:', err);
       setError('Server error. Please try again later.');
     } finally {
-       setLoading(false);
-
+      setLoading(false);
     }
-
   };
 
   return (
@@ -57,7 +55,6 @@ export default function LoginPage() {
               <div className="mb-12">
                 <h3 className="text-gray-800 text-3xl font-bold">Sign in</h3>
                 <p className="text-sm mt-4 text-gray-800">
-                 
                   <Link to={"/register"}>
                     <span className="text-thePointRed font-semibold hover:underline ml-1 whitespace-nowrap">Register here</span>
                   </Link>
@@ -76,7 +73,6 @@ export default function LoginPage() {
                     className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                     placeholder="Enter email"
                   />
-                  {/* SVG icon */}
                 </div>
               </div>
 
@@ -92,7 +88,6 @@ export default function LoginPage() {
                     className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                     placeholder="Enter password"
                   />
-                  {/* SVG icon */}
                 </div>
               </div>
 
@@ -113,9 +108,15 @@ export default function LoginPage() {
                   {loading ? 'Signing in...' : 'Sign in'}
                 </button>
               </div>
-
-              {/* Social media buttons... */}
             </form>
+          </div>
+
+          {/* Video section */}
+          <div className="w-full h-full object-cover">
+            <video autoPlay loop muted className="w-full h-full object-cover ">
+              <source src={videoBg} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
