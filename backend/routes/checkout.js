@@ -1,7 +1,6 @@
 const express = require('express');
-const Paymongo = require('paymongo');
-const axios = require('axios'); 
-const { verifyToken } = require('../controllers/auth'); 
+const axios = require('axios');
+
 
 const router = express.Router();
 router.use(express.json());
@@ -11,12 +10,13 @@ const secretKey = process.env.PAYMONGO_SECRET_KEY;
 router.post('/checkout', async (req, res) => {
     console.log("Checkout route reached:");
 
-    const { name, email, phone, amount, description } = req.body;
+    const { name, email, phone, amount, description, date } = req.body;
 
     try {
+       
         const options = {
             method: 'POST',
-            url: 'https://api.paymongo.com/v1/checkout_sessions',
+            url: 'https://api.paymongo.com/v1/links',
             headers: {
                 accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -25,32 +25,21 @@ router.post('/checkout', async (req, res) => {
             data: {
                 data: {
                     attributes: {
-                        billing: { name, email, phone },
-                        send_email_receipt: false,
-                        show_description: true,
-                        show_line_items: true,
-                        payment_method_types: ['gcash', 'card', 'paymaya', 'qrph'],
-                        description: 'Reservation',
-                        line_items: [
-                            {
-                                currency: 'PHP',
-                                amount: amount, // Amount in centavos
-                                quantity: 1,
-                                name: 'Downpayment'
-                            }
-                        ]
-                    }
-                }
-            }
+                        amount: amount, // Amount in centavos
+                        description: description,
+                        remarks: 'Downpayment for reservation',
+                    },
+                },
+            },
         };
 
-        
         const response = await axios(options);
-
-        res.status(200).json({ checkoutUrl: response.data.data.attributes.checkout_url });
+        const checkoutUrl = response.data.data.attributes.checkout_url;
+        
+        res.status(200).json({ checkoutUrl });
     } catch (error) {
-        console.error("Error creating checkout session:", error.response ? error.response.data : error.message);
-        res.status(500).json({ error: 'Failed to create checkout session', details: error.message });
+        console.error("Error creating payment link:", error.response ? error.response.data : error.message);
+        res.status(500).json({ error: 'Failed to create payment link', details: error.message });
     }
 });
 

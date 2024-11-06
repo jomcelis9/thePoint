@@ -29,11 +29,12 @@ export default function PaymentPage() {
                     name,
                     email,
                     description: "Payment for appointment",
+                    date: selectedDate.toISOString(), 
                 }),
             });
     
             if (!response.ok) {
-                const errorText = await response.text();  // Log the actual response text for debugging
+                const errorText = await response.text();
                 console.error("Error from server:", errorText);
                 alert("Failed to create payment link. Server responded with an error.");
                 return;
@@ -52,7 +53,6 @@ export default function PaymentPage() {
             setLoading(false);
         }
     };
-    
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
