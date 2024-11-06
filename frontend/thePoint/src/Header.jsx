@@ -8,8 +8,6 @@ export default function Header() {
   const sidebarRef = useRef(null);
   const lastScrollY = useRef(0);
 
-  
-
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
   const handleLogout = () => {

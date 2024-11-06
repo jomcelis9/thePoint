@@ -346,7 +346,7 @@ export default function TableBody(
         <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
           <div className="bg-white p-6 rounded shadow-lg w-96">
             <h2 className="text-3xl font-bold mb-4 text-black">Client Details</h2>
-            <p className="text-black text-lg"><strong>ID:</strong> {selectedRowData.client_id || selectedRowData.appoint_id}</p>
+            <p className="text-black text-lg"><strong>ID:</strong> {selectedRowData.therapist_id || selectedRowData.appoint_id}</p>
             <div className="mt-2">
               <label className="block mb-1 text-lg font-bold text-black">Name:</label>
                 <input
