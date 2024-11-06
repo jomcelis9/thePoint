@@ -307,7 +307,7 @@ export default function TableBody(
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusOne)}
+                    onClick={(e) => updateOnClick(e, "patient_appointments", columnOne, statusOne)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-black font-bold rounded-full text-sm text-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -316,7 +316,7 @@ export default function TableBody(
                     {/* {btnName1} */}
                   </button>
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusTwo)}
+                    onClick={(e) => updateOnClick(e, "patient_appointments", columnOne, statusTwo)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -326,7 +326,7 @@ export default function TableBody(
                   </button>
 
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusThree)}
+                    onClick={(e) => updateOnClick(e, "patient_appointments", columnOne, statusThree)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center"
                   >
@@ -367,7 +367,7 @@ export default function TableBody(
                     className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
                 />
               </div>
-              {fetchDataQuery === 'appointments' && ( 
+              {fetchDataQuery === 'patient_appointments' && ( 
                 <>
                   <div className="mt-2">
                     <label className="block mb-1 text-lg font-bold text-black">Time:</label>
@@ -394,12 +394,12 @@ export default function TableBody(
                     <input
                       type="text"
                       name="contact"
-                      value={selectedRowData.appointment_status}
+                      value={selectedRowData.booking_status}
                       onChange={handleInputChange}
                       className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
                     />
                   </div>
-                  {selectedRowData.appointment_status === 'confirmed' && (
+                  {selectedRowData.booking_status === 'confirmed' && (
                     <div className="mt-4">
                       <label className="block mb-1 text-lg font-bold text-black">Select Therapist:</label>
                       <select

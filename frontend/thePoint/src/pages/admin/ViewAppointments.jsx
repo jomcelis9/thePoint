@@ -27,19 +27,21 @@ export default function ViewAppointments() {
           statusThree = {statusPending}
           btnName1 = {"Confirm"} 
           btnName2 = {"Reject"}
-          fetchDataQuery = {"appointments"}
+          fetchDataQuery = {"views_patients_appointments"}
           column1 = {"appoint_id"}  
           column2 = {"patient_name"} 
-          column3 = {"time"}
-          column4 = {"appoint_date"}     
-          column5 = {"appointment_status"}
+          column3 = {"preferred_time"}
+          column4 = {"preferred_date"}     
+          column5 = {"booking_status"}
+          column6= {"booking_date"}
           actionable = {true}
           headerOne = {"ID"}
           headerTwo = {"Name"}boo
           headerThree = {"Time"}
           headerFour = {"Date"}
           headerFive = {"Status"}
-          headerSix = {"Action"}
+          headerSix = {"Date Booked"}
+          headerSeven= {"Action"}
           id={"appoint_id"}
           />
         </Table>

@@ -2,15 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { Pool } = require('pg')
 
-
-
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'postgres',
     password: '123',
     port: 5432,
-
 });
 
 // Read table
@@ -26,7 +23,6 @@ router.get('/:table', async (req, res) =>{
         res.json(result.rows)
     }catch{
     }
-
 });
 
 router.put('/session/:id', async (req, res) => {
@@ -61,8 +57,6 @@ router.put('/session/:id', async (req, res) => {
         res.status(500).json({ message: 'An error occurred while updating the session.' });
     }
 });
-
-
   
 // update table
 
@@ -70,7 +64,7 @@ router.put('/:table/:appointmentId/:values', async (req, res) => {
   const values = req.params.values
   const table = req.params.table;
   const appointmentId = req.params.appointmentId
-  const col = "appointment_status";  // Column to update
+  const col = "status";  // Column to update
   // const name = "Creepers";  // New value to set
   const query = `UPDATE ${table} SET ${col} = '${values}' WHERE appoint_id = ${appointmentId}`;
   
