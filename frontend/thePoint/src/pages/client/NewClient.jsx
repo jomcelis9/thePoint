@@ -38,11 +38,11 @@ const NewClient = () => {
     
     return (
         <div className="flex flex-col items-center p-4">
-            <h2 className="text-4xl font-bold mb-8 text-gray-900 mt-10">New Client</h2>
+            <h2 className="text-4xl font-bold mb-8 text-gray-900 mt-20">New Client</h2>
             <div>
             <form onSubmit={handleSubmit} className="mx-auto p-6 border rounded-xl shadow-md shadow-white bg-white m-10 w-[1000px]">
 
-                    <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md">Enter Patient Details</h1>
+                    <h1 className="flex justify-center gap-5 text-2xl mb-4 text-thePointRed bg-transparent drop-shadow-md">Enter Client Details</h1>
 
                     <div className="grid md:grid-cols-2 md:gap-7 rounded-md py-2">
                         <div className="relative z-0 w-full group">
