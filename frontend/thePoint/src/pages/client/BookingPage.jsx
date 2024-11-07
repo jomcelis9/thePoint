@@ -79,7 +79,6 @@ export default function BookingPage() {
         
          return(
                 <div className="relative">
-                Booking Page
 
                 <div className="flex justify-center mt-36">
                     <div className="mx-auto px-6 ">
