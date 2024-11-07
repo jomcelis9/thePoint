@@ -30,7 +30,7 @@ const pool = new Pool({
 
 pool.connect();
 
-const PORT = 5002;
+const PORT = 5001;
 
 app.listen(PORT,()=>{
     console.log(`Server running on port server.js ${PORT}`)
