@@ -22,15 +22,15 @@ app.use(routes);
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'postgres2',
+    database: 'postgres',
     password: '123',
-    port: 5433,
+    port: 5432,
 
 });
 
 pool.connect();
 
-const PORT = 5002;
+const PORT = 5001;
 
 app.listen(PORT,()=>{
     console.log(`Server running on port server.js ${PORT}`)
