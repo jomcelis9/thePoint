@@ -15,15 +15,15 @@ app.use(routes);
 // });
 
 // app.post('/register',(req,res) => {
-//     const {name, lastName ,email, password} = req.body;
-//     res.json({name, lastName ,email, password});
+//     const {name, lastname ,email, password} = req.body;
+//     res.json({name, lastname ,email, password});
 // });
 
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'postgres',
-    password: '123',
+    database: 'thePoint',
+    password: 'admin123',
     port: 5432,
 
 });
