@@ -13,17 +13,32 @@ export default function AdminLayout() {
 
   return (
     <div className="flex">
+      {/* Hamburger Menu Icon for Mobile */}
+      <button
+        className="absolute top-4 left-4 z-10 sm:hidden text-black"
+        onClick={() => setOpen(!open)}
+        aria-label="Toggle Sidebar"
+      >
+        {open ? (
+          <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3zm6.41-7L12 9.59l2.59-2.59L16 6l-4 4-4-4z" />
+          </svg>
+        )}
+      </button>
+
       {/* Sidebar */}
       <aside
-        className="fixed top-0 left-0 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className={`fixed top-0 left-0 h-screen transition-transform duration-300 ease-in-out ${open ? "translate-x-0" : "-translate-x-full sm:translate-x-0"}`}
         aria-label="Sidebar"
       >
-        <div
-          className={`${open ? "w-60" : "w-24"} flex-shrink-0 duration-300 h-screen bg-gradient-to-r from-thePointRed to-thePointPink relative p-5 pt-7`}
-        >
+        <div className={`${open ? "w-60" : "w-24"} flex-shrink-0 duration-300 h-screen bg-gradient-to-r from-thePointRed to-thePointPink relative p-5 pt-7`}>
           <svg
             id="foldmenu"
-            className={`absolute cursor-pointer ${!open && "rotate-[180deg]"}`}
+            className={`absolute cursor-pointer ${!open && "rotate-180"}`}
             xmlns="http://www.w3.org/2000/svg"
             height="20"
             width="20"
@@ -43,7 +58,7 @@ export default function AdminLayout() {
                 key={index}
                 className={`text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 my-10 relative flex-shrink-0 hover:drop-shadow-white ${
                   menu.gap ? "mt-9" : "mt-2"
-                } flex-shrink-0`}
+                }`}
               >
                 <img className="w-8 h-8 flex-shrink-0" src={`./src/images/admin/${menu.src}.svg`} alt={menu.title} />
                 <span className={`${!open && "hidden"} origin-left duration-200`}>{menu.title}</span>
@@ -57,7 +72,7 @@ export default function AdminLayout() {
       </aside>
 
       {/* Main content */}
-      <div className={`ml-0 mr-4 ${open ? "ml-64" : "ml-24"} transition-all duration-300 w-full`}>
+      <div className={`ml-0 mr-4 transition-all duration-300 w-full ${open ? "ml-60" : "ml-24"}`}>
         <Outlet context={{ open }} />
       </div>
     </div>

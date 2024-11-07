@@ -21,15 +21,27 @@ export default function TableBody(
     const [isAction, setIsAction ] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOrder, setSortOrder] = useState('asc');
-    const [statusSortOrder, setStatusSortOrder] = useState("normal"); // Possible values: "normal", "confirmed-first", "rejected-first"
-
+    const [statusSortOrder, setStatusSortOrder] = useState("normal");
+    const [selectedRowData, setSelectedRowData] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+    const [isStatusOpen, setIsStatusOpen] = useState(false);
+    const [modalData, setModalData] = useState({
+      id: "",
+      name: "", 
+      contact: "",
+      time: "",
+      appoint_date: "",
+      appointment_status: "",
+      therapist: "", 
+    });
 
     const table = fetchDataQuery;
 
     useEffect(() =>{
         fetchData(table)
     },[]);
-    
+
 
     useEffect(() => {
       // Check if columnFour is null or undefined in any of the rows, and update isDate accordingly
@@ -113,7 +125,7 @@ export default function TableBody(
         try {
             console.group(appointmentId)
             await updateData(table, appointmentId, status); // update the data
-            fetchData('views_pending_appointments'); // re-fetch the data to update the table
+            fetchData('views_patients_appointments'); // re-fetch the data to update the table
             window.location.reload(false)
         } catch (error) {
             console.log('Error updating data: ', error);
@@ -121,8 +133,21 @@ export default function TableBody(
         }
     };
 
+    const updateOnClick2 = async (e, table, appointmentId, status) => {
+      try {
+          console.group(appointmentId)
+          setIsStatusOpen(true);
+          await updateData(table, appointmentId, status); // update the data
+          fetchData('views_patients_appointments'); // re-fetch the data to update the table
+      } catch (error) {
+          console.log('Error updating data: ', error);
+          setError('Error updating data');
+      }
+  };
+
         // Function to send a PUT request to update data
     const updateData = async (table, appointmentId, status) => {
+      const columnName = "appointment_status"
         try {
             const response = await axios.put(`http://127.0.0.1:5001/${table}/${appointmentId}/${status}`, { status });
             console.log('Data updated:', response.data);
@@ -150,6 +175,7 @@ export default function TableBody(
       }
     };
 
+      // Filtered data based on the search term
   const filteredData = data.filter(row => {
     const rowValues = [column1, column2, column3, column4, column5, column6].map(col => row[col]?.toString().toLowerCase() || "");
     return rowValues.some(value => value.includes(searchTerm.toLowerCase()));
@@ -175,22 +201,6 @@ export default function TableBody(
         return b[column2].localeCompare(a[column2]);
       }
     });
-    setData(sortedData);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
-
-  const handleSortByDate = () => {
-    const sortedData = [...data].sort((a, b) => {
-      const dateA = new Date(a[column4]); // Parse date from string
-      const dateB = new Date(b[column4]);
-  
-      if (sortOrder === 'asc') {
-        return dateA - dateB;
-      } else {
-        return dateB - dateA;
-      }
-    });
-  
     setData(sortedData);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
@@ -228,11 +238,76 @@ export default function TableBody(
     setData(sortedData);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
-  
-  
-  
 
+  const onRowClick = (row) => {
+    setSelectedRowData({});
+    setModalData({
+      id: row.client_id || row.appoint_id,
+      name: row.name || row.patient_name,
+      contact: row.contact || row.contact_number,
+      time: row.time,
+      appoint_date: row.appoint_date,
+      appointment_status: row.appointment_status,
+    });
+    setIsModalOpen(true);
+  };
+
+  const saveNewData = () => {
+    setSelectedRowData((prevData) => ({
+      ...prevData,
+      ...modalData,
+    }));
+    setIsConfirmationOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedRowData(null);
+  };
+
+  const handleRowSelect = (rowData) => {
+    console.log("Row Selected:", rowData); // Log the row data
+    setSelectedRowData(rowData);
+    setIsModalOpen(true);
+  };
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setModalData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };  
+
+  const handleUpdate = async () => {
+    const updatedModalData = { ...modalData, 
+      name: document.querySelector('[name="name"]').value,
+      contact: document.querySelector('[name="contact"]').value,
+      time: document.querySelector('[name="time"]').value,
+      appoint_date: document.querySelector('[name="date"]').value,
+    };
   
+    setModalData(updatedModalData); // Update modalData state with new values
+  
+    const columnName = Object.keys(updatedModalData).find(key => updatedModalData[key] !== selectedRowData[key]);
+    const newValue = updatedModalData[columnName]; 
+  
+    console.log("Column being updated:", columnName);
+    console.log("New value:", newValue);
+    console.log("Data being sent:", selectedRowData);  
+
+    try {
+        const response = await axios.put(`http://127.0.0.1:5001/${table}/${modalData.id}/${newValue}/${columnName}`);
+        console.log('Response:', response.data);
+        fetchDataQuery(); 
+        setIsModalOpen(false); 
+        setIsConfirmationOpen(false); 
+    } catch (error) {
+        console.error("Error updating data:", error);
+    }
+  };
+    
    return (
     <>
     <div>
@@ -240,7 +315,7 @@ export default function TableBody(
       <div className="flex">
         <div className="relative mt-1">
               <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 text-gray-500   :text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                   </svg>
               </div>
@@ -249,7 +324,7 @@ export default function TableBody(
             id="table-search"
             value={searchTerm} // Bind search term to input value
             onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
-            className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500   :bg-gray-700   :border-gray-600   :placeholder-gray-400   :text-white   :focus:ring-blue-500   :focus:border-blue-500"
             placeholder="Search for items"
           />
         </div>
@@ -263,16 +338,15 @@ export default function TableBody(
                 </svg>            
         </button>
       </div>
-<HeaderRow
-  header1={<button onClick={handleSort}> {headerOne} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header2={<button onClick={handleSortByName}> {headerTwo} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header3={<button onClick={handleSortByTime}> {headerThree} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header4={<button onClick={handleSortByDate}> {headerFour} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header5={headerFive}
-  header6={<button onClick={handleSortByStatus}> {headerSix} {sortOrder === 'asc' ? '↑' : '↓'}</button>}
-  header7={headerSeven}
-/>
-
+        <HeaderRow
+          header1 = {headerOne}
+          header2 = {headerTwo}
+          header3 = {headerThree}
+          header4 = {headerFour}
+          header5 = {headerFive}
+          header6 = {headerSix}
+          header7 = {headerSeven}
+        /> 
       <tbody>
       <div className="flex justify-end">
         </div>
@@ -287,50 +361,52 @@ export default function TableBody(
           const columnSix =row[column6];
 
           return (
-            <tr key={index}>
+            <tr key={index}
+            onDoubleClick={() => onRowClick(row) && handleRowSelect(row)}
+            className="cursor-pointer hover:bg-gray-100">
               <th scope="col" className="p-4">
                 <div className="flex items-center">
                   <input
                     id={`checkbox`}
                     type="checkbox"
                     checked={selectedRows.includes(columnOne)}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500   :focus:ring-blue-600   :ring-offset-gray-800   :focus:ring-offset-gray-800 focus:ring-2   :bg-gray-700   :border-gray-600"
                     onChange={() => handleCheckboxChange(columnOne)}
                   />
                   <label htmlFor={`checkbox-${index}`} className="sr-only">checkbox</label>
                 </div>
               </th>
               
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap   :text-white">
                 {columnOne}
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap   :text-white">
                 {columnTwo}
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap   :text-white">
                 {columnThree}
               </th>
 
               {isDate && (
-                <th className="size-0 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th className="size-0 px-6 py-4 font-medium text-gray-900 whitespace-nowrap   :text-white">
                   {convertDate(columnFour)}
                 </th>
               )}
 
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap   :text-white">
                 {columnFive} 
               </th>
-              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap   :text-white">
                 {columnSix}
               </th>
 
           {/* Actionable BUttons */}
                 {isAction && (
-                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white gap-2">
+                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap   :text-white gap-2">
                 <div className="flex justify-center gap-5 items-center">
                   {/* confirm */}
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusOne)}
+                    onClick={(e) => { updateOnClick2(e, "patient_appointments", columnOne, statusOne);}}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 text-white font-bold rounded-full text-sm text-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -339,7 +415,7 @@ export default function TableBody(
                     {/* {btnName1} */}
                   </button>
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusTwo)}
+                    onClick={(e) => updateOnClick(e, "patient_appointments", columnOne, statusTwo)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -349,7 +425,7 @@ export default function TableBody(
                   </button>
 
                   <button
-                    onClick={(e) => updateOnClick(e, "appointments", columnOne, statusThree)}
+                    onClick={(e) => updateOnClick(e, "patient_appointments", columnOne, statusThree)}
                     type="button"
                     className="transform active:scale-x-100 transition-transform transition ease-in-out delay-150 hover:-translate-y-1 duration-300 bg-transparent text-black font-bold rounded-full text-sm text-center"
                   >
@@ -364,8 +440,140 @@ export default function TableBody(
           );
         })}
       </tbody>
-      </div>
 
+      {isModalOpen && selectedRowData && (
+        <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <div className="bg-white p-6 rounded shadow-lg w-96">
+            <h2 className="text-3xl font-bold mb-4 text-black">Client Details</h2>
+            <p className="text-black text-lg"><strong>ID:</strong> {modalData.id}</p>
+            <div className="mt-2">
+              <label className="block mb-1 text-lg font-bold text-black">Name:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={modalData.name}
+                    onChange={handleInputChange}
+                    className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                />
+              </div>
+              <div className="mt-2">
+              <label className="block mb-1 text-lg font-bold text-black">Contact:</label>
+                <input
+                    type="text"
+                    name="contact"
+                    value={modalData.contact}
+                    onChange={handleInputChange}
+                    className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                />
+              </div>
+              {fetchDataQuery === 'patient_appointments' && ( 
+                <>
+                  <div className="mt-2">
+                    <label className="block mb-1 text-lg font-bold text-black">Time:</label>
+                    <input
+                      type="text"
+                      name="time"
+                      value={modalData.time}
+                      onChange={handleInputChange}
+                      className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <label className="block mb-1 text-lg font-bold text-black">Date:</label>
+                    <input
+                      type="text"
+                      name="date"
+                      value={modalData.appoint_date}
+                      onChange={handleInputChange}
+                      className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <label className="block mb-1 text-lg font-bold text-black">Status:</label>
+                    <input
+                      type="text"
+                      name="status"
+                      value={modalData.appointment_status}
+                      onChange={handleInputChange}
+                      className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                    />
+                  </div>
+                </>
+              )}
+            <div className="flex justify-end mx-8 space-x-4 mt-4">
+              <button
+                onClick={saveNewData}
+                className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+              >
+                Save Changes 
+              </button>
+              <button
+                className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isConfirmationOpen && (
+          <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+              <div className="bg-white p-6 rounded shadow-lg w-96">
+                <h2 className="text-3xl font-bold mb-1 text-black">Confirm Changes</h2>
+                <p className="text-black text-base mb-4">Are you sure you want to save these changes?</p>
+                <div className="flex justify-end space-x-4">
+                  <button
+                      onClick={handleUpdate} 
+                      className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+                  >
+                      Yes, Save
+                  </button>
+                  <button
+                      onClick={() => setIsConfirmationOpen(false)} 
+                      className="bg-gray-300 text-lg text-black font-medium rounded-lg text-sm px-5 py-2.5"
+                  >
+                      Cancel
+                  </button>
+                </div>
+              </div>
+          </div>
+        )}
+
+        {isStatusOpen &&  (
+                <div className="fixed inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                    <div className="bg-white rounded-lg p-6 w-96">
+                        <h2 className="text-2xl font-semibold mb-4 text-black">Assign a Therapist</h2>
+                        <div className="mt-4">
+                          <label className="block mb-1 text-lg font-bold text-black">Select Therapist:</label>
+                          <select
+                            readOnly
+                            name="option"
+                            onChange={handleInputChange}
+                            className="mt-1 block text-black text-lg w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:outline-none focus:ring-thePointPink focus:border-thePointPink sm:text-sm"
+                          >
+                            <option value="">-- Choose a Therapist --</option>
+                            <option value="option1">Jonathan Rey B. Rebong</option>
+                            <option value="option1">Mitchelle James Advincula</option>
+                            <option value="option1">Jana Joyce T. Castillo</option>
+                            <option value="option1">Paula Salomia</option>
+                            <option value="option1">Aileen (to follow apelido hehehe)</option>
+                            <option value="option1">Christine Gella</option>
+                          </select>
+                        </div>
+                        <div className="flex justify-end mt-4">
+                          <button
+                              onClick={() => {setIsStatusOpen(false); window.location.reload(false)}}
+                              className="bg-gradient-to-r from-thePointRed to-thePointPink text-lg text-white bg-primary-600 focus:ring-2 focus:outline-none focus:ring-amber-200 font-medium rounded-lg text-sm px-5 py-2.5 transform active:scale-x-100 transition ease-in duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+                             >
+                              Save
+                          </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+      </div>
     </>
 );
 }
