@@ -175,7 +175,7 @@ export default function Header() {
             <Link to="/contact" className="header-link hover:text-gray-400 focus:outline-none">
               Contact
             </Link>
-            <Link to="/booking" className="header-link hover:text-gray-400 focus:outline-none">
+            <Link to="/bookchoice" className="header-link hover:text-gray-400 focus:outline-none">
               Book
             </Link>
 
