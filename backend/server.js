@@ -4,47 +4,28 @@ const cors = require('cors');
 const { Pool } = require('pg');
 const authRoutes = require('./routes/authRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const { register, login, authenticateToken } = require('./controllers/auth');
 const routes = require('./routes/routes.js');
+//const paymentRoute = require('./routes/payment');
+const checkoutRoutes = require('./routes/checkout'); 
+const pool = require('./db'); 
 dotenv.config();
 
 const app = express();
 
-// Middleware
 app.use(express.json());
+
 app.use(cors({
     origin: '*', // Ensure it matches the React app's port
     credentials: true
 }));
 
-// Database configuration
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'postgres',
-    password: '123',
-    port: 5432,
-});
+app.use(routes);
+app.use('/routes/auth', authRoutes);
+app.use('/routes/appointments', appointmentRoutes);
+//app.use('/routes/payment', paymentRoute);
+app.use('/routes', checkoutRoutes);
 
-// Test the database connection
-pool.connect(err => {
-    if (err) {
-        console.error('Error connecting to the database:', err);
-    } else {
-        console.log('Connected to the database');
-    }
-});
-
-// Test route
-app.get('/test', (req, res) => {
-    res.send('API is working');
-});
-
-// Mount routes
-app.use(routes); // General routes
-app.use('/routes/auth', authRoutes); // Auth routes
-app.use('/routes/appointments', appointmentRoutes); // Appointment routes
-
-// Example query function
 const performQuery = async (query, values) => {
     try {
         const result = await pool.query(query, values);
@@ -55,7 +36,6 @@ const performQuery = async (query, values) => {
     }
 };
 
-// Optional: Refresh API function
 const refreshApi = async () => {
     try {
         await performQuery('SELECT * FROM views_rejected_appointments');
@@ -76,13 +56,27 @@ pool.query(`select * from appointments`,(err,res)=>{
     pool.end;
 })
 
-// Call refreshApi if needed
-// refreshApi();
+pool.query(`select * from appointments`,(err,res)=>{
+    if(!err){
+        console.log(res.rows);
+    }else{
+        console.log(err.message);
+    }
+    pool.end;
+})
 
-// Start the server
+app.get('/routes/userData', authenticateToken, async (req, res) => {
+    try {
+      const userData = await pool.query('SELECT * FROM users WHERE user_id = $1', [req.userId]);
+      res.json(userData.rows[0]);
+    } catch (err) {
+      res.status(500).json({ error: "Server error" });
+    }
+});
+
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-
+module.exports = { pool };
