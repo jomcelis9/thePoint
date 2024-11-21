@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: 'http://localhost:5173', 
+    origin: '*', // Ensure it matches the React app's port
     credentials: true
 }));
 
@@ -46,6 +46,24 @@ const refreshApi = async () => {
         console.error("Error fetching data:", error);
     }
 };
+
+pool.query(`select * from appointments`,(err,res)=>{
+    if(!err){
+        console.log(res.rows);
+    }else{
+        console.log(err.message);
+    }
+    pool.end;
+})
+
+pool.query(`select * from appointments`,(err,res)=>{
+    if(!err){
+        console.log(res.rows);
+    }else{
+        console.log(err.message);
+    }
+    pool.end;
+})
 
 app.get('/routes/userData', authenticateToken, async (req, res) => {
     try {

@@ -36,7 +36,9 @@ export default function LoginPage() {
       // Check response status
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        navigate(data.user.redirect); 
+        window.location.href = '/'; 
+        // navigate(data.user.redirect); 
+        // if login successful, goes to bookingpage
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }

@@ -1,17 +1,28 @@
 import { Link } from "react-router-dom";
-import React from 'react';
+import tourVideo from '../../Videos/Tour.mp4'
+import React, { useState } from 'react';
 
-export default function IndexPage() {
+export default function IndexPage(user) {
+    const [isGalleryVisible, setGalleryVisible] = useState(false);
+
+    const toggleGallery = () => {
+        setGalleryVisible(!isGalleryVisible);
+    };
+
+    console.log
     return (
         <div id="Home" className="px-0 overflow-x-hidden">
             {/* Main Background Section */}
             <div className="relative flex justify-center items-center h-screen w-screen overflow-x-hidden"
-                style={{
-                    backgroundImage: `url('/src/images/sample2.jpg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                }}
             >
+                <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                className="absolute inset-0 w-full h-full object-cover" 
+                src={tourVideo} // Use the imported video variable here
+            ></video>
                 <div className="absolute inset-0 bg-black opacity-50"></div>
 
                 <div className="relative z-10 flex flex-col items-start px-4 md:px-32">
@@ -30,10 +41,12 @@ export default function IndexPage() {
                         Embrace a Healthier, Happier You with Our Personalized Therapy Services, Designed to Support Your Unique Needs Every Step of the Way.
                     </p>
 
-                    <Link to={'/booking'}>
+                    <Link to={'/bookchoice'}>
                         <button
                             type="button"
-                            className="bg-thePointRed hover:bg-thePointRedDark text-white focus:ring-2 focus:outline-none focus:ring-purple-300 font-medium rounded-2xl text-lg px-8 py-3 text-center transition-all duration-300 animate-pulse"
+                            className="bg-thePointRed hover:bg-thePointRedDark 
+                            text-white focus:ring-2 focus:outline-none focus:ring-purple-300 
+                            font-medium rounded-2xl text-lg px-8 py-3 text-center transition-all duration-300 animate-pulse"
                             style={{ marginLeft: '-550px', marginTop: '13px' }}
                         >
                             Book Now
@@ -45,7 +58,8 @@ export default function IndexPage() {
             {/* About Section */}
             <main>
                 <section id="about" className="about max-w-7xl mx-auto py-20 px-4">
-                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">About The Point</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">About The Point {user.email}</h2>
+
                     <div className="md:flex md:items-center md:space-x-8">
                         <div className="relative md:w-1/2 flex justify-center mb-8 md:mb-0">
                             <div className="relative rounded-lg overflow-hidden shadow-md">
@@ -97,7 +111,7 @@ export default function IndexPage() {
                                 </p>
                             </div>
                         </div>
-
+                
                         {/* Service Expansion */}
                         <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg">
                             <div className="h-96 w-full">
@@ -136,24 +150,126 @@ export default function IndexPage() {
                     </div>
                 </section>
 
-                <section id="about" className="about max-w-7xl mx-auto py-20 px-4">
-                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">Our Location</h2>
-                    <div className="md:flex md:items-center md:space-x-8">
-                        <div className="md:w-1/2 flex justify-center mb-8 md:mb-0">
-                            <div className="rounded-[20px] overflow-hidden">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.871626054488!2d121.01907677497366!3d14.414238889864862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd8e34bb4cf139%3A0xe9c0b2c212bc89fd!2sLos%20Ba%C3%B1os%20Laguna!5e0!3m2!1sen!2sph!4v1688612101653!5m2!1sen!2sph"
-                                    width="100%"
-                                    height="400"
-                                    style={{ border: 0 }}
-                                    allowFullScreen=""
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                    title="Google Map"
+                <div>
+            {/* Gallery Button */}
+            <div className="text-center py-4">
+                <button
+                    onClick={toggleGallery}
+                    className="bg-thePointRed hover:bg-thePointRedDark text-white font-medium rounded-full py-2 px-4 text-xl transition-all duration-300"
+                >
+                    {isGalleryVisible ? 'View Less' : 'View More'}{' '}
+                    <span className={`transform ${isGalleryVisible ? 'rotate-180' : 'rotate-0'} transition-all duration-300`}>
+                        ▼
+                    </span>
+                </button>
+            </div>
+
+            {/* Gallery Section */}
+            {isGalleryVisible && (
+                <section className="gallery max-w-8xl mx-auto py-16 px-4">
+                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">Gallery</h2>
+                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 justify-items-center">
+                        {/* Image 1 */}
+                        <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg">
+                            <div className="h-96 w-full">
+                                <img
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                    src="/src/images/History.jpg"
+                                    alt="Gallery Image 1"
                                 />
                             </div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                        </div>
+
+                        {/* Image 2 */}
+                        <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg">
+                            <div className="h-96 w-full">
+                                <img
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                    src="/src/images/History.jpg"
+                                    alt="Gallery Image 2"
+                                />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                        </div>
+
+                        {/* Image 3 */}
+                        <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg">
+                            <div className="h-96 w-full">
+                                <img
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                    src="/src/images/History.jpg"
+                                    alt="Gallery Image 3"
+                                />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                        </div>
+
+                        {/* Image 4 */}
+                        <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg">
+                            <div className="h-96 w-full">
+                                <img
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                    src="/src/images/History.jpg"
+                                    alt="Gallery Image 4"
+                                />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                        </div>
+
+                        {/* Image 5 */}
+                        <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg">
+                            <div className="h-96 w-full">
+                                <img
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                    src="/src/images/History.jpg"
+                                    alt="Gallery Image 5"
+                                />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+                        </div>
+
+                        {/* Image 6 */}
+                        <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-lg">
+                            <div className="h-96 w-full">
+                                <img
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
+                                    src="/src/images/History.jpg"
+                                    alt="Gallery Image 6"
+                                />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
                         </div>
                     </div>
+                </section>
+            )}
+        </div>
+
+                <section id="about" className="max-w-7xl mx-auto py-20 px-4">
+                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">Our Location</h2>
+                    <div className="md:flex md:items-center md:space-x-8">
+                        <div className="md:w-1/2 rounded-[20px] overflow-hidden w-full h-96 md:h-[500px]">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.3199326973763!2d125.07617524430502!3d6.994764509052299!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f8f9d3af1e21bb%3A0xe2e6d0c24cffe138!2sThe%20Point%20Special%20Needs%20Awareness!5e0!3m2!1sen!2sph!4v1730910582652!5m2!1sen!2sph"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen=""
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                title="Google Map"
+                            />
+                        </div>
+
+                        <div className="md:w-1/2 mt-0 md:mt-0">
+                            <p className="text-2xl text-gray-700 mb-4">
+                                We are located in 46 Riverpark Subdivision, Kidapawan City, 9400 Cotabato. Our center provides support, education, and awareness for people with special needs in the local community. We aim to create a more inclusive environment and offer resources to help individuals and families.
+                            </p>
+                                <p className="text-gray-900">
+                                Address: The Point Special Needs Awareness, 46 Riverpark Subdivision, Kidapawan City, 9400 Cotabato
+                             </p>
+                         </div>
+                     </div>
                 </section>
             </main>
         </div>
