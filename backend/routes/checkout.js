@@ -8,11 +8,16 @@ router.use(express.json());
 const secretKey = process.env.PAYMONGO_SECRET_KEY;
 
 router.post('/checkout', async (req, res) => {
-    console.log("Checkout route reached:");
+    console.log("Checkout route reached:", req.body);
 
-    const { name, email, phone, amount, description, date } = req.body;
 
     try {
+        const { amount, description } = req.body;  // Destructure amount and description from the request body
+        console.log("Amount:", amount, "Description:", description);  // Log amount and description
+
+        if (!amount || !description) {
+            throw new Error("Missing required fields: amount or description");
+        }
        
         const options = {
             method: 'POST',
@@ -25,8 +30,8 @@ router.post('/checkout', async (req, res) => {
             data: {
                 data: {
                     attributes: {
-                        amount: amount, // Amount in centavos
-                        description: description,
+                        amount: 25000, // Amount in centavos
+                        description,
                         remarks: 'Downpayment for reservation',
                     },
                 },
