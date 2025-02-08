@@ -56,15 +56,6 @@ pool.query(`select * from appointments`,(err,res)=>{
     pool.end;
 })
 
-pool.query(`select * from appointments`,(err,res)=>{
-    if(!err){
-        console.log(res.rows);
-    }else{
-        console.log(err.message);
-    }
-    pool.end;
-})
-
 app.get('/routes/userData', authenticateToken, async (req, res) => {
     try {
       const userData = await pool.query('SELECT * FROM users WHERE user_id = $1', [req.userId]);

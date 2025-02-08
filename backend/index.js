@@ -22,8 +22,8 @@ app.use(routes);
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'thePoint',
-    password: 'admin123',
+    database: 'the_point_db',
+    password: '123',
     port: 5432,
 
 });

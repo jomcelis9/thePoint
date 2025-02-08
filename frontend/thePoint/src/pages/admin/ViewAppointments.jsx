@@ -27,7 +27,7 @@ export default function ViewAppointments() {
           statusThree = {statusPending}
           btnName1 = {"Confirm"} 
           btnName2 = {"Reject"}
-          fetchDataQuery = {"views_patients_appointments"}
+          fetchDataQuery = {"appointments"}
           column1 = {"appoint_id"}  
           column2 = {"patient_name"} 
           column3 = {"preferred_time"}
