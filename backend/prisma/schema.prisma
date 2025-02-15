@@ -162,7 +162,7 @@ model user_contacts {s
   user_contact_id     BigInt  @id @default(autoincrement())
   user_id             BigInt
   user_email          String? @db.VarChar(50)
-  user_contact_number String? @db.VarChar(11)
+  user_contact_number String? @db.VarChar(255)
   users               users   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 }
 

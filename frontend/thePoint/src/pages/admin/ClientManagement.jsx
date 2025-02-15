@@ -21,8 +21,8 @@ export default function ClientManagement() {
                         btnName2={"Reject"}
                         fetchDataQuery={"users"}
                         column1={"user_id"}
-                        column2={"name"}
-                        column3={"email"}
+                        column2={"user_full_name"}
+                        column3={"user_contacts"}
                         column4={null}
                         headerOne={"Client ID"}
                         headerTwo={"Name"}
