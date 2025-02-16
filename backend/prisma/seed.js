@@ -20,6 +20,17 @@ const multipleUserContact = Array.from({ length: 10 }, () => ({
   user_contact_number: faker.string.numeric(11), // Limiting to 10 digits
 }));
 
+const staff = Array.from({ length: 10 }, () =>({
+  staff_name: faker.person.firstName(),
+  staff_birthdate: faker.date.birthdate(),
+}));
+
+
+const appointments = Array.from({ length: 10 }, () => ({
+  preferred_time: faker.date.soon(),
+  preferred_date: faker.date.soon(),
+}));
+
 async function main() {
 
   // deleteAllRecords('users');
@@ -28,7 +39,11 @@ async function main() {
 
   // Adds data to users Table
   // createMultipleRecords('users', multipleUserData);
-  createMultipleContacts();
+  // createMultipleContacts();
+
+  // createMultipleRecords('clinic_staff', staff);
+
+  createMultipleAppointments();
 }
 
 async function resetIncrement(){
@@ -40,6 +55,7 @@ async function deleteAllRecords(table){
   await prisma[table].deleteMany({});
 
 }
+
 async function createMultipleRecords(table, data){
   for( const row of data ){
     await prisma[table].create({
@@ -47,6 +63,7 @@ async function createMultipleRecords(table, data){
     });
   }
 }
+
 
 function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
@@ -76,6 +93,24 @@ async function createMultipleContacts() {
   }
 }
 
+async function createMultipleAppointments(){
+  // Get existing users
+  const users = await prisma.users.findMany();
+
+  const shuffledUsers = shuffleArray(users).slice(0, users.length);
+
+  for (let i = 0; i < shuffledUsers.length; i++){
+    await prisma.appointments.create({
+      data: {
+        preferred_time: appointments[i].preferred_time,
+        preferred_date: appointments[i].preferred_date,
+        users: {
+          connect: {user_id: shuffledUsers[i].user_id}
+        }
+      },
+    });
+  }
+}
 
 main()
   .catch(e => {

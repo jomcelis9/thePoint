@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  seed = "node prisma/seed.js"
+  seed     = "node prisma/seed.js"
 }
 
 datasource db {
@@ -15,20 +15,20 @@ model appointment_status {
 }
 
 model appointments {
-  appoint_id             BigInt                 @id @default(autoincrement())
-  preferred_time         DateTime?              @db.Time(6)
-  preferred_date         DateTime?              @db.Date
-  staff_id               BigInt?
-  appointment_status_id  BigInt?
-  final_date             DateTime?              @db.Date
-  final_time             DateTime?              @db.Time(6)
-  user_id                BigInt?                // Changed from Int? to BigInt?
-  appointment_status     appointment_status?    @relation(fields: [appointment_status_id], references: [appointment_status_id], onDelete: NoAction, onUpdate: NoAction)
-  clinic_staff           clinic_staff?          @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction)
-  users                  users?                 @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  patient_appointments   patient_appointments[]
-  recurring_instances    recurring_instances[]
-  session                session[]
+  appoint_id            BigInt                 @id @default(autoincrement())
+  preferred_time        DateTime?              @db.Time(6)
+  preferred_date        DateTime?              @db.Date
+  staff_id              BigInt?
+  appointment_status_id BigInt?
+  final_date            DateTime?              @db.Date
+  final_time            DateTime?              @db.Time(6)
+  user_id               BigInt?
+  appointment_status    appointment_status?    @relation(fields: [appointment_status_id], references: [appointment_status_id], onDelete: NoAction, onUpdate: NoAction)
+  clinic_staff          clinic_staff?          @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction)
+  users                 users?                 @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  patient_appointments  patient_appointments[]
+  recurring_instances   recurring_instances[]
+  session               session[]
 }
 
 model clinic_staff {
@@ -158,11 +158,11 @@ model type_of_payment {
   type_of_payment    String? @db.VarChar(30)
 }
 
-model user_contacts {s
+model user_contacts {
   user_contact_id     BigInt  @id @default(autoincrement())
   user_id             BigInt
   user_email          String? @db.VarChar(50)
-  user_contact_number String? @db.VarChar(255)
+  user_contact_number String? @db.VarChar(11)
   users               users   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -175,4 +175,3 @@ model users {
   patients       patients[]
   user_contacts  user_contacts[]
 }
-

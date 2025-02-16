@@ -19,13 +19,13 @@ export default function ClientManagement() {
                         statusThree={"statusPending"}
                         btnName1={"Confirm"}
                         btnName2={"Reject"}
-                        fetchDataQuery={"users"}
-                        column1={"user_id"}
-                        column2={"user_full_name"}
-                        column3={"user_contacts"}
+                        fetchDataQuery={"views_client"}
+                        column1={"user_full_name"}
+                        column2={"user_email"}
+                        column3={"user_contact_number"}
                         column4={null}
-                        headerOne={"Client ID"}
-                        headerTwo={"Name"}
+                        headerOne={"Name"}
+                        headerTwo={"Email"}
                         headerThree={"Contact Number"}
                     />
                 </Table>
