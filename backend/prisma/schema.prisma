@@ -19,10 +19,11 @@ model appointments {
   preferred_time        DateTime?              @db.Time(6)
   preferred_date        DateTime?              @db.Date
   staff_id              BigInt?
-  appointment_status_id BigInt?
+  appointment_status_id BigInt?                @default(1)
   final_date            DateTime?              @db.Date
   final_time            DateTime?              @db.Time(6)
   user_id               BigInt?
+  date_booked           DateTime?              @db.Date
   appointment_status    appointment_status?    @relation(fields: [appointment_status_id], references: [appointment_status_id], onDelete: NoAction, onUpdate: NoAction)
   clinic_staff          clinic_staff?          @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction)
   users                 users?                 @relation(fields: [user_id], references: [user_id], onDelete: Cascade)

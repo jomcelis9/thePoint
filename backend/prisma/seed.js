@@ -109,7 +109,7 @@ async function createMultipleAppointments(){
         }
       },
     });
-  }
+  } 
 }
 
 main()
