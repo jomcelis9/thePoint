@@ -69,7 +69,7 @@ const NewClient = () => {
                         type="submit"
                         className="w-48 bg-gradient-to-r from-thePointPink to-thePointRed text-white py-2 active:bg-primary-600 focus:outline-none focus:ring focus:ring-amber-200 rounded-lg mb-10"
                      >
-                    SAVE PATIENT
+                    SAVE CLIENT
                      </button>
                     <Link to="/bookchoice">
                         <button
