@@ -183,7 +183,7 @@ export default function PaymentPage() {
                     </div>
 
                     <button
-                        onClick={handlePay && uploadDocument}
+                        onClick={handlePay}
                         className="w-full mt-5 py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-thePointRed to-thePointPink hover:shadow-lg transition duration-200"
                         disabled={loading}
                     >
