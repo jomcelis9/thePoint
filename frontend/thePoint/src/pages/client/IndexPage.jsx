@@ -186,7 +186,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History.jpg"
+                                    src="/src/images/icon8.jpg"
                                     alt="Gallery Image 2"
                                 />
                             </div>
@@ -198,7 +198,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History.jpg"
+                                    src="/src/images/History3.jpg"
                                     alt="Gallery Image 3"
                                 />
                             </div>
@@ -210,7 +210,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History.jpg"
+                                    src="/src/images/icon 6.jpg"
                                     alt="Gallery Image 4"
                                 />
                             </div>
@@ -222,7 +222,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History.jpg"
+                                    src="/src/images/History5.jpg"
                                     alt="Gallery Image 5"
                                 />
                             </div>
@@ -234,7 +234,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History.jpg"
+                                    src="/src/images/History6.jpg"
                                     alt="Gallery Image 6"
                                 />
                             </div>
