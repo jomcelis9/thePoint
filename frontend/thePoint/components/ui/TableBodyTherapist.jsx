@@ -8,7 +8,7 @@ export default function TableBodyTherapist(
     column1,column2,column3,column4,
     column5,column6,actionable,
     headerOne,headerTwo,headerThree,headerFour,
-    headerFive,headerSix,headerSeven,onRowClick,therapist,id
+    headerFive,headerSix,headerSeven,onRowClick,therapist,id, appoint_id
 
   }){
 

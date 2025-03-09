@@ -120,11 +120,11 @@ const handleUpdateSession = async () => {
   }, []);
 
   return (
-    <div className="relative">
-      <div>
+    <div className="">
+      <div className="p-5">
         <h1>{patientName}'s Sessions</h1>
       </div>
-      <div className="grid grid-cols-3 gap-10 items-center">
+      <div className="grid grid-cols-3  items-center">
         {sessions.map((session) => (
           <div key={session.session_id} onClick={() => handleCardClick(session)}>
             <CardDefault
@@ -135,7 +135,7 @@ const handleUpdateSession = async () => {
               session_title={session.session_title}
             />
           </div>
-        ))};
+        ))}
 
         <button
           type="button"

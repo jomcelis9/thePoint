@@ -214,6 +214,25 @@ router.get('/patient', async (req, res) => {
     }
 });
 
+router.post('/patient', async (req, res) => {
+    const { patient_name, contact, patient_age } = req.body;
+
+    const query = `
+        INSERT INTO patient (patient_name, contact, patient_age)
+        VALUES ($1, $2, $3) RETURNING patient_id;
+    `;
+
+    try {
+        const result = await pool.query(query, [patient_name, contact, patient_age]);
+        const patient_id = result.rows[0].patient_id;
+
+        res.status(201).json({ message: 'Patient added successfully', patient_id });
+    } catch (error) {
+        console.error('Error adding patient:', error);
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+});
+
 module.exports = router;
 
 

@@ -44,7 +44,6 @@ export default function Session() {
             column2="appoint_id"  
             actionable={false}
             headerOne="Patient Name"
-            headerTwo="Appointment Number"
             onRowClick={handleRowClick} 
             id={"patient_id"}// Pass the handleRowClick function to TableBody
           />

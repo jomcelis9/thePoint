@@ -11,6 +11,7 @@ export default function AccountDetailsPage() {
     marginTop: '0.5rem',
     marginLeft: '1rem',
   };
+  //Account Details
 
   const handleEditClick = () => {
     setIsEditing(true);

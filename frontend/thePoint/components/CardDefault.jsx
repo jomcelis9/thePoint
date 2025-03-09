@@ -30,6 +30,8 @@ export function CardDefault({ sessionNumber, session_description, session_date, 
                   Date: <br />
                   {session_date}
               </Typography>
+
+              
           </CardBody>
       </Card>     
   );

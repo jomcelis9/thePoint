@@ -4,11 +4,11 @@ import { Link, Outlet } from "react-router-dom";
 export default function AdminLayout() {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Home", src: "house-solid", onClick: "dashboard" },
+    // { title: "Home", src: "house-solid", onClick: "dashboard" },
     { title: "View Appointments", src: "appointment", onClick: "view" },
-    { title: "Reports and Data", src: "chart-simple-solid-white", onClick: "report" },
-    { title: "Client Management", src: "person-solid-white", onClick: "clientManagement" },
-    { title: "Settings", src: "gear-solid-white", onClick: "settings" },
+    { title: "Clinic Staff", src: "chart-simple-solid-white", onClick: "report" },
+    // { title: "Client Management", src: "person-solid-white", onClick: "clientManagement" },
+    // { title: "Settings", src: "gear-solid-white", onClick: "settings" },
   ];
 
   return (

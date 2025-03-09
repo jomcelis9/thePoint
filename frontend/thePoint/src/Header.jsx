@@ -166,16 +166,16 @@ export default function Header() {
           aria-labelledby="hs-navbar-example-collapse"
         >
           <div className="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-            <Link to="/" className="header-link hover:text-gray-400 focus:outline-none">
-              Home
-            </Link>
+          <Link to="/" className="header-link hover:text-gray-400 focus:outline-none"onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            Home
+          </Link>
             <Link to="/" onClick={scrollToAbout} className="header-link hover:text-gray-400 focus:outline-none">
               About Us
             </Link>
             <Link to="/contact" className="header-link hover:text-gray-400 focus:outline-none">
               Contact
             </Link>
-            <Link to="/booking" className="header-link hover:text-gray-400 focus:outline-none">
+            <Link to="/bookchoice" className="header-link hover:text-gray-400 focus:outline-none">
               Book
             </Link>
 

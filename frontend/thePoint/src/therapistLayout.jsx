@@ -19,7 +19,7 @@ export default function TherapistLayout() {
         aria-label="Sidebar"
       >
         <div
-          className={`${open ? "w-60" : "w-24"} flex-shrink-0 duration-300 h-screen bg-gradient-to-r from-thePointRed to-thePointPink relative p-5 pt-7`}
+          className={`${open ? "w-60" : "w-24"} flex-shrink-0 duration-300 h-screen bg-gradient-to-r from-teal-500 to-teal-200 relative p-5 pt-7`}
         >
           <svg
             id="foldmenu"
@@ -34,7 +34,7 @@ export default function TherapistLayout() {
           </svg>
 
           <div className="origin-left">
-            <h1 className={`text-2xl mt-5 mx-3 text-white ${!open && "scale-0"}`}>Therapist The Point</h1>
+            <h1 className={`text-2xl mt-5 mx-3 text-white ${!open && "scale-0"}`}>Therapist View</h1>
           </div>
 
           <ul className="pt-6">

@@ -139,7 +139,7 @@ export default function ConfirmPage() {
     return (
         <div className="pt-24 flex gap-5 justify-center min-h-screen">
             <div className="w-full max-w-md">
-                <h1 className="text-center mb-6">Book Existing Patient</h1>
+                <h1 className="text-center mb-6">Book Existing Client</h1>
                 <div>
                 <form className="bg-white p-6 rounded-lg shadow-md w-full">
                         <div className="mb-5">
@@ -149,7 +149,7 @@ export default function ConfirmPage() {
                                 onChange={handlePatientChange}
                                 className="mb-4 shadow-md rounded-lg w-full text-gray-800 text-sm border-b border-gray-300 focus:border-thePointPink px-2 py-3 outline-none"
                             >
-                                <option value="">Select Patient</option>
+                                <option value="">Select Client</option>
                                 {patients.map((patient) => (
                                     <option key={patient.patient_id} value={patient.patient_id}>
                                         {patient.patient_name}
@@ -193,18 +193,22 @@ export default function ConfirmPage() {
                             </div>
                         </div>
 
-                        {/* Accompanied section */}
-                        <div className="mt-4">
-                            <p className="italic text-sm/[20px]">For clients aged 18 and below, please select "Yes" if they will be accompanied by a parent or relative. If "No" please input your emergency contact details.</p>
-                        </div>
-                        <div className="flex items-center mt-2">
-                            <label className="mr-2">
-                                <input type="radio" name="accompanied" checked={setpatientAppointmentDetail.accompanied === "yes"} value="yes" onChange={handleAccompaniedChange} /> Yes
-                            </label>
-                            <label className="ml-4">
-                                <input type="radio" name="accompanied" checked={setpatientAppointmentDetail.accompanied === "no"}  value="no" onChange={handleAccompaniedChange} /> No
-                            </label>
-                        </div>
+                            {/* Accompanied section */}
+                            <div className="mt-4">
+                                <p className="italic text-sm/[20px]">For clients aged 18 and below, please select "Yes" if they will be accompanied by a parent or relative. If "No" please input your emergency contact details.</p>
+                            </div>
+                            <div className="flex items-center mt-2">
+                                <label className="mr-2">
+                                <input type="radio" name="accompanied" value="yes" checked={patientAppointmentDetail.accompanied === "yes"} onChange={handleAccompaniedChange} 
+                                /> 
+                                Yes
+                                </label>
+                                <label className="ml-4">
+                                <input type="radio" name="accompanied" value="no" checked={patientAppointmentDetail.accompanied === "no"} onChange={handleAccompaniedChange} 
+                                /> 
+                                No
+                                </label>
+                            </div>
                     </form>
                 </div>
 
