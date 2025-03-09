@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import videoBg from '../../Videos/videoLogo.mp4';
+// import videoBg from '../../Videos/videoLogo.mp4';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
