@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import tourVideo from '../../Videos/Tour.mp4'
 import React, { useState } from 'react';
-
 export default function IndexPage(user) {
     const [isGalleryVisible, setGalleryVisible] = useState(false);
 
@@ -65,7 +64,7 @@ export default function IndexPage(user) {
                             <div className="relative rounded-lg overflow-hidden shadow-md">
                                 {/* Main Image */}
                                 <img 
-                                    src="/src/images/Sample.jpg" 
+                                    src="frontend/thePoint/images/sample2.jpg" 
                                     alt="About The Clinic" 
                                     style={{ width: '100%', height: 'auto', maxWidth: '600px' }} 
                                 />
@@ -99,7 +98,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/icon.jpg"
+                                    src="frontend/thePoint/images/icon.png"
                                     alt="History Image 1"
                                 />
                             </div>
@@ -117,7 +116,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History.jpg"
+                                    src="frontend/thePoint/images/History.jpg"
                                     alt="History Image 2"
                                 />
                             </div>
@@ -135,7 +134,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History4.jpg"
+                                    src="frontend/thePoint/images/History4.jpg"
                                     alt="History Image 2"
                                 />
                             </div>
@@ -174,7 +173,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History.jpg"
+                                    src="frontend/thePoint/images/History.jpg"
                                     alt="Gallery Image 1"
                                 />
                             </div>
@@ -186,7 +185,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/icon8.jpg"
+                                    src="frontend/thePoint/images/icon8.jpg"
                                     alt="Gallery Image 2"
                                 />
                             </div>
@@ -198,7 +197,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History3.jpg"
+                                    src="frontend/thePoint/images/History3.jpg"
                                     alt="Gallery Image 3"
                                 />
                             </div>
@@ -210,7 +209,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/icon 6.jpg"
+                                    src="frontend/thePoint/images/Icon 6.jpg"
                                     alt="Gallery Image 4"
                                 />
                             </div>
@@ -222,7 +221,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History5.jpg"
+                                    src="frontend/thePoint/images/History5.jpg"
                                     alt="Gallery Image 5"
                                 />
                             </div>
@@ -234,7 +233,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="/src/images/History6.jpg"
+                                    src="frontend/thePoint/images/History6.jpg"
                                     alt="Gallery Image 6"
                                 />
                             </div>
