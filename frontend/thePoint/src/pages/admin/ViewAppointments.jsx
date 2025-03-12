@@ -34,9 +34,11 @@ export default function ViewAppointments() {
           column4 = {"preferred_date"}     
           column5 = {"booking_status"}
           column6= {"booking_date"}
+          column7 ={"email"}
           actionable = {true}
           headerOne = {"ID"}
           headerTwo = {"Name"}boo
+          headerEight = {"email"}
           headerThree = {"Time"}
           headerFour = {"Date"}
           headerFive = {"Status"}

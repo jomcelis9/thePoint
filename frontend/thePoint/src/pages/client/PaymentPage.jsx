@@ -190,7 +190,7 @@ export default function PaymentPage() {
                         {loading ? "Processing..." : "Pay"}
                     </button>
 
-                    <button onClick={uploadDocument}> 
+                    <button className="text-white"onClick={uploadDocument}> 
                     TEST UPLOAD
                     </button>
                 </div>
