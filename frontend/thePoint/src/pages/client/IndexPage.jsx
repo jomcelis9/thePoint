@@ -64,7 +64,7 @@ export default function IndexPage(user) {
                             <div className="relative rounded-lg overflow-hidden shadow-md">
                                 {/* Main Image */}
                                 <img 
-                                    src="frontend/thePoint/images/sample2.jpg" 
+                                    src="https://imgur.com/VEo7qMK.jpg" 
                                     alt="About The Clinic" 
                                     style={{ width: '100%', height: 'auto', maxWidth: '600px' }} 
                                 />
@@ -98,7 +98,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/icon.png"
+                                    src="https://imgur.com/k5duTGP.png"
                                     alt="History Image 1"
                                 />
                             </div>
@@ -116,7 +116,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/History.jpg"
+                                    src="https://imgur.com/N54gbN9.jpg"
                                     alt="History Image 2"
                                 />
                             </div>
@@ -134,7 +134,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/History4.jpg"
+                                    src="https://imgur.com/qIB8IBB.jpg"
                                     alt="History Image 2"
                                 />
                             </div>
@@ -173,7 +173,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/History.jpg"
+                                    src="https://media.istockphoto.com/id/1400106238/photo/child-psychotherapy.jpg?s=612x612&w=0&k=20&c=1dcvLgqg5ckxSNLQ2FT82o_yKRReS5C_Qy1aGF77h8Y="
                                     alt="Gallery Image 1"
                                 />
                             </div>
@@ -185,7 +185,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/icon8.jpg"
+                                    src="https://media.istockphoto.com/id/1387958415/photo/assessment-of-kids-mental-development-professional-woman-psychologist-watching-little-boy.jpg?s=612x612&w=0&k=20&c=I6yp0JerQImRVaKeLmY58mnFG1tJ41SKzmzfaHXC6tk="
                                     alt="Gallery Image 2"
                                 />
                             </div>
@@ -197,7 +197,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/History3.jpg"
+                                    src="https://img.freepik.com/free-photo/kid-doing-occupational-therapy-session_23-2149091533.jpg?semt=ais_hybrid"
                                     alt="Gallery Image 3"
                                 />
                             </div>
@@ -209,7 +209,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/Icon 6.jpg"
+                                    src="https://bloomingwords.in/images/Special-Education-in-Delhi3.jpg"
                                     alt="Gallery Image 4"
                                 />
                             </div>
@@ -221,7 +221,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/History5.jpg"
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqtF8FIl3uGOp_LXpU6YwYp2iAfg_jt1fXgg&s"
                                     alt="Gallery Image 5"
                                 />
                             </div>
@@ -233,7 +233,7 @@ export default function IndexPage(user) {
                             <div className="h-96 w-full">
                                 <img
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                                    src="frontend/thePoint/images/History6.jpg"
+                                    src="https://www.understood.org/_next/image?url=https%3A%2F%2Fcdn-images.understood.org%2Fp0qf7j048i0q%2F6PmlFnyu98xQLILwtw07uS%2F594889168b76fba58fc1b8636ea381da%2FG607499308.png&w=3840&q=75&dpl=dpl_64R2spNwgW9B4EXiKNVgrZVFc1Dz"
                                     alt="Gallery Image 6"
                                 />
                             </div>

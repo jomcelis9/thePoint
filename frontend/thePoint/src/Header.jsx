@@ -110,7 +110,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="ml-6">
             <Link to={"/"}>
-              <img src="src/images/THE POINT LOGO tp 2.png" className="w-28 logo" alt="Logo" />
+              <img src="https://imgur.com/u0PL0MA.png" className="w-28 logo" alt="Logo" />
             </Link>
           </div>
           <div className="sm:hidden">
@@ -180,12 +180,6 @@ export default function Header() {
             </Link>
 
             {/* Profile Icon to Toggle Sidebar */}
-            <img
-              src="/src/images/icon.png"
-              className="w-9 mr-5 cursor-pointer icon"
-              alt="User Profile"
-              onClick={toggleSidebar}
-            />
           </div>
         </div>
       </nav>
