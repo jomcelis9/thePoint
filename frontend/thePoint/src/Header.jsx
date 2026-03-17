@@ -50,7 +50,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div>
+    <div className="font-sans">
       <style>
         {`
           .sidebar {
@@ -165,7 +165,7 @@ export default function Header() {
           className="inline-block align-middle"
           aria-labelledby="hs-navbar-example-collapse"
         >
-          <div className="flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+          <div className="font-sans mr-5 flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
           <Link to="/" className="header-link hover:text-gray-400 focus:outline-none"onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             Home
           </Link>

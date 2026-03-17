@@ -4,5 +4,15 @@
 html {
     scroll-behavior: smooth;
   }
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('src/assets/font/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('src/assets/font/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
   
   

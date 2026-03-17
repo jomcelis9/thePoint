@@ -12,7 +12,7 @@ export default function IndexPage(user) {
     return (
         <div id="Home" className="px-0 overflow-x-hidden">
             {/* Main Background Section */}
-            <div className="relative flex justify-center items-center h-screen w-screen overflow-x-hidden"
+            <div className="font-sans relative flex justify-center items-center h-screen w-screen overflow-x-hidden"
             >
                 <video 
                 autoPlay 
@@ -22,21 +22,21 @@ export default function IndexPage(user) {
                 className="absolute inset-0 w-full h-full object-cover" 
                 src={tourVideo} // Use the imported video variable here
             ></video>
-                <div className="absolute inset-0 bg-black opacity-50"></div>
+                <div className=" absolute inset-0 bg-black opacity-50"></div>
 
                 <div className="relative z-10 flex flex-col items-start px-4 md:px-32">
                     {/* Overlay Image */}
 
                     {/* Main Heading */}
-                    <h1 className="text-white font-bold" style={{ marginLeft: '-550px', fontSize: '4rem', marginBottom: '0.5rem', marginTop: '-50px' }}>
+                    <h1 className=" font-sans text-white font-bold" style={{ marginLeft: '-550px', fontSize: '4rem', marginBottom: '0.5rem', marginTop: '-50px' }}>
                         Your Healing Journey
                     </h1>
-                    <h2 className="text-white font-bold" style={{ marginLeft: '-550px', fontSize: '4rem', marginTop: '-30px' }}>
+                    <h1 className="text-white font-bold" style={{ marginLeft: '-550px', fontSize: '4rem', marginTop: '-30px' }}>
                         Starts Today
-                    </h2>
+                    </h1>
 
                     {/* Subheading Paragraph */}
-                    <p className="text-white font-normal italic text-lg md:text-1xl mb-30 md:mb-3 max-w-lg" style={{ marginLeft: '-550px', marginTop: '13px' }}>
+                    <p className="text-white font-mono font-normal text-lg md:text-1xl mb-30 md:mb-3 max-w-lg" style={{ marginLeft: '-550px', marginTop: '13px' }}>
                         Embrace a Healthier, Happier You with Our Personalized Therapy Services, Designed to Support Your Unique Needs Every Step of the Way.
                     </p>
 
