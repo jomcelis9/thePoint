@@ -16,9 +16,9 @@ export default function Header() {
   };
 
   const scrollToAbout = () => {
-    const aboutSection = document.getElementById('about');
+    const aboutSection = document.getElementById("about");
     if (aboutSection) {
-        aboutSection.scrollIntoView({ behavior: 'smooth' });
+      aboutSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -65,10 +65,9 @@ export default function Header() {
             visibility: visible;
           }
           .header-link {
-             color: rgb(169, 169, 169);
+            color: black;
             font-weight: bold;
             transition: color 0.3s ease, transform 0.3s ease;
-            text-shadow: 2px 2px px rgba(0, 0, 0, 0.5);
           }
           .header-link:hover {
             color: rgb(255, 0, 255); /* Header link hover color */
@@ -85,10 +84,9 @@ export default function Header() {
             transform: scale(1.1);
           }
           .header {
-            height: 60px; /* Reduced height */
-            background-color: rgba(196,196,196, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            height: 90px; /* Increased height */
+            background-color: white;
+            border-radius: 0; /* REMOVED ROUNDED CORNERS, NOW RECTANGLE */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             margin-top: 10px;
             transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition for visibility */
@@ -106,11 +104,19 @@ export default function Header() {
           }
         `}
       </style>
-      <nav className={`flex-no-wrap fixed max-w-[800rem] w-full mx-auto sm:flex sm:items-center sm:justify-between header ${!isHeaderVisible ? 'hidden' : ''}`}>
+      <nav
+        className={` z-50 flex-no-wrap fixed max-w-[800rem] w-full mx-auto sm:flex sm:items-center sm:justify-between header ${
+          !isHeaderVisible ? "hidden" : ""
+        }`}
+      >
         <div className="flex items-center justify-between">
           <div className="ml-6">
             <Link to={"/"}>
-              <img src="https://imgur.com/u0PL0MA.png" className="w-28 logo" alt="Logo" />
+              <img
+                src="https://imgur.com/u0PL0MA.png"
+                className="w-28 logo"
+                alt="Logo"
+              />
             </Link>
           </div>
           <div className="sm:hidden">
@@ -166,17 +172,31 @@ export default function Header() {
           className="inline-block align-middle"
           aria-labelledby="hs-navbar-example-collapse"
         >
-          <div className="font-sans mr-5 flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-          <Link to="/" className="header-link hover:text-gray-400 focus:outline-none"onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            Home
-          </Link>
-            <Link to="/" onClick={scrollToAbout} className="header-link hover:text-gray-400 focus:outline-none">
+          <div className="font-sans mr-7 flex flex-col gap-10 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+            <Link
+              to="/"
+              className="header-link hover:text-gray-400 focus:outline-none"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              Home
+            </Link>
+            <Link
+              to="/"
+              onClick={scrollToAbout}
+              className="header-link hover:text-gray-400 focus:outline-none"
+            >
               About Us
             </Link>
-            <Link to="/contact" className="header-link hover:text-gray-400 focus:outline-none">
+            <Link
+              to="/contact"
+              className="header-link hover:text-gray-400 focus:outline-none"
+            >
               Contact
             </Link>
-            <Link to="/bookchoice" className="header-link hover:text-gray-400 focus:outline-none">
+            <Link
+              to="/bookchoice"
+              className="header-link hover:text-gray-400 focus:outline-none"
+            >
               Book
             </Link>
 
@@ -191,27 +211,35 @@ export default function Header() {
         className={`fixed right-5 w-[300px] h-72 bg-white rounded-lg shadow-lg z-50 sidebar ${
           isSidebarOpen ? "open" : ""
         }`}
-        style={{ top: "80px" }}
+        style={{ top: "110px" }}
       >
-        <div className="flex flex-col items-start p-6"> {/* Increased padding for more space */}
+        <div className="flex flex-col items-start p-6">
+          {" "}
+          {/* Increased padding for more space */}
           <div className="flex items-center">
-            <img 
-              src="/src/images/icon.png" 
+            <img
+              src="/src/images/icon.png"
               className="w-12 h-12 mr-3" // Increased image size
-              alt="User Profile" 
+              alt="User Profile"
             />
-            <h2 className="text-gray-900 text-xl font-semibold">Jomari R. Luengas</h2> {/* Increased font size */}
+            <h2 className="text-gray-900 text-xl font-semibold">
+              Jomari R. Luengas
+            </h2>{" "}
+            {/* Increased font size */}
           </div>
           <hr className="w-full border-t border-black my-2" />
           <ul className="mt-4 w-full text-left">
             <li className="flex items-center justify-between text-gray-700 mb-2 sidebar-link">
               <span className="flex items-center">
-              <img 
-                  src="/src/images/Faccount.png" 
-                  alt="Profile Icon" 
+                <img
+                  src="/src/images/Faccount.png"
+                  alt="Profile Icon"
                   className="w-6 h-6 mr-2" // Increased icon size
                 />
-                <Link to="/accountdetails" className="text-lg">Account Details</Link> {/* Increased font size */}
+                <Link to="/accountdetails" className="text-lg">
+                  Account Details
+                </Link>{" "}
+                {/* Increased font size */}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -228,12 +256,15 @@ export default function Header() {
             </li>
             <li className="flex items-center justify-between text-gray-700 mb-2 sidebar-link">
               <span className="flex items-center">
-                <img 
-                  src="/src/images/Fstatus.png" 
-                  alt="Status Icon" 
+                <img
+                  src="/src/images/Fstatus.png"
+                  alt="Status Icon"
                   className="w-6 h-6 mr-2" // Increased icon size
                 />
-                <Link to="/booking-status" className="text-lg">Booking Status</Link> {/* Increased font size */}
+                <Link to="/booking-status" className="text-lg">
+                  Booking Status
+                </Link>{" "}
+                {/* Increased font size */}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -250,12 +281,15 @@ export default function Header() {
             </li>
             <li className="flex items-center justify-between text-gray-700 mb-2 sidebar-link">
               <span className="flex items-center">
-                <img 
-                  src="/src/images/Fcontacts.png" 
-                  alt="History Icon" 
+                <img
+                  src="/src/images/Fcontacts.png"
+                  alt="History Icon"
                   className="w-6 h-6 mr-2" // Increased icon size
                 />
-                <Link to="/contact" className="text-lg">Contact Us</Link> {/* Increased font size */}
+                <Link to="/contact" className="text-lg">
+                  Contact Us
+                </Link>{" "}
+                {/* Increased font size */}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -270,14 +304,20 @@ export default function Header() {
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </li>
-            <li className="flex items-center justify-between text-gray-700 mb-2 sidebar-link" onClick={handleLogout}>
+            <li
+              className="flex items-center justify-between text-gray-700 mb-2 sidebar-link"
+              onClick={handleLogout}
+            >
               <span className="flex items-center">
-                <img 
-                  src="/src/images/Flogout.png" 
-                  alt="Logout Icon" 
+                <img
+                  src="/src/images/Flogout.png"
+                  alt="Logout Icon"
                   className="w-6 h-6 mr-2" // Increased icon size
                 />
-                <Link to="/" className="text-lg">Logout</Link> {/* Increased font size */}
+                <Link to="/" className="text-lg">
+                  Logout
+                </Link>{" "}
+                {/* Increased font size */}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
